@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 connect();
 
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, 'public/static')));
+app.use(express.static(path.join(__dirname, 'public/')));
 app.use(express.json()); //json요청 파싱모듈
 app.use(express.urlencoded({extended: false})); //url쿼리요청 파싱
 
