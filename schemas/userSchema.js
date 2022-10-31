@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import customMoment from '../utils/custom-moment.js';
 
 const {Schema} = mongoose;
 const userSchema = new Schema(
@@ -36,16 +37,19 @@ const userSchema = new Schema(
             type: String,
             require: false,
         },
+        createdAt: {
+            type: Date,
+            default: customMoment.asiaSeoulTimeNow()
+        },
+        updatedAt: {
+            type: Date,
+            default: customMoment.asiaSeoulTimeNow()
+        },
     },
     {
-        timestamps: true,
         collection: 'user',
     }
 );
 const User = mongoose.model('User', userSchema);
 export {User};
-/**
- * ES6 문법
- * export 할 경우에는 import { 함수명 } from * 으로 사용
- * export default 하실 경우에는 import 함수명 from * 으로 사용
- */
+

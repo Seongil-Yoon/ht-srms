@@ -34,15 +34,12 @@
         }
     </script>
 
-    <form action="/signup" method="post" onsubmit="return PasswordCheck()">
+    <form action="/register" method="post" onsubmit="return PasswordCheck()">
         <label for="userName">이름</label>
         <input type="text" id="userName" name="userName" required>
 
         <label for="userId">아이디</label>
         <input type="text" id="userId" name="userId" required>
-        <span>
-            <%= message %>
-        </span>
 
         <label for="userPassword">비밀번호</label>
         <input type="text" id="userPassword" name="userPassword" required>
@@ -52,6 +49,7 @@
 
         <input type="submit" value="회원가입">
     </form>
+    
 </body>
 
 </html>

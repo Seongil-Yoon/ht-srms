@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
-import {customJwt} from '../../auth/auth-jwt.js';;
+import {customJwt} from '../../auth/auth-jwt.js';
 import {User} from '../../schemas/userSchema.js';
 
-const signUp = async (req, res) => {
+const register = async (req, res) => {
     const {userId, userName, userPassword} = req.body;
     const hashedPassword = await bcrypt.hash(userPassword, 10);
     try {
@@ -12,12 +12,11 @@ const signUp = async (req, res) => {
             userPassword: hashedPassword,
         });
         const token = customJwt.sign(user);
+        res.cookie('accessToken', token);
 
         res.status(200).send({
             ok: true,
-            data: {
-                token,
-            },
+            message: 'accessToken Created!',
         });
     } catch (err) {
         res.status(409).send({
@@ -27,4 +26,4 @@ const signUp = async (req, res) => {
     }
 };
 
-export {signUp};
+export {register};

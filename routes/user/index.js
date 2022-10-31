@@ -1,6 +1,6 @@
 import express from 'express';
 import {login} from './login.js';
-import {signUp} from './signUp.js';
+import {register} from './register.js';
 import {refresh} from './refresh.js';
 import {authJWT} from '../../utils/auth.js';
 
@@ -12,12 +12,13 @@ router
         res.render('user/login');
     })
     .post(login);
+    
 router
-    .route('/signup')
+    .route('/register')
     .get((req, res) => {
-        res.render('user/signup');
+        res.render('user/register');
     })
-    .post(signUp);
+    .post(register);
 
 router.post('/refresh', refresh);
 
