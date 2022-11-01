@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import {customJwt} from '../../auth/auth-jwt.js';
-import {convertCookieToObject} from '../../utils/cookie-util.js';
+import customJwt from './auth-jwt.js';
+import {convertCookieToObject} from './cookie-util.js';
 import cookieParser from 'cookie-parser';
 
 const refresh = async (req, res) => {

@@ -1,0 +1,40 @@
+input {
+    margin-bottom: 1rem;
+}
+
+form.loginForm {
+    display: flex;
+    flex-direction: column;
+    max-width: 38.2%;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 4em;
+    background-color: rgba(255, 249, 215, 0.8);
+
+}
+
+form.loginForm>img {
+    width: 70%;
+    margin: 0 auto;
+}
+
+form.loginForm>input.userPassword {
+    margin-bottom: 0;
+}
+
+form.loginForm>span {
+    /* display: none; */
+    visibility: hidden;
+    color: red;
+    font-size: medium;
+}
+
+form.loginForm>footer {
+    margin-top: 20px;
+}
+
+form.loginForm>footer>input {
+    width: 100%;
+    margin-bottom: 10px;
+
+}

@@ -13,7 +13,7 @@ const customJwt = {
         return jwt.sign(payload, process.env.JWT_SECRET, {
             // process.env.JWT_SECRET으로 sign하여 발급하고 return
             algorithm: 'HS256',
-            expiresIn: '10s',
+            expiresIn: '10m',
             issuer: 'kshired',
         });
     },
@@ -38,7 +38,7 @@ const customJwt = {
         return jwt.sign({}, process.env.JWT_SECRET, {
             // refresh token은 payload 없이 발급
             algorithm: 'HS256',
-            expiresIn: '5m',
+            expiresIn: '1h',
             issuer: 'kshired',
         });
     },
@@ -66,4 +66,4 @@ const customJwt = {
     },
 };
 
-export {customJwt};
+export default customJwt;
