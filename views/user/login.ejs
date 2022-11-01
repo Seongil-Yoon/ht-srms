@@ -14,18 +14,18 @@
     <%- include("../header.ejs") %>
 
     <section class="container">
-        <form action="/login" method="post" class="loginForm roundBox" id="js-loginForm">
+        <form action="/login" method="post" class="login-form roundBox" id="js-loginForm">
             <img src="/static/images/ht-SRMS square.png" alt="">
 
-            <label for="userId">사번</label>
-            <input type="text" id="js-userId" class="userId" name="userId" required>
+            <label for="js-userId">사번</label>
+            <input type="text" id="js-userId" class="user-id" name="userId" required autofocus>
 
-            <label for="userPassword">비밀번호</label>
-            <input type="password" id="js-userPassword" class="userPassword" name="userPassword" autocomplete="on" required>
+            <label for="js-userPassword">비밀번호</label>
+            <input type="password" id="js-userPassword" class="user-password" name="userPassword" autocomplete="on" required>
             <span>사번 혹은 비밀번호가 틀립니다</span>
             <footer>
                 <input type="submit" value="로그인">
-                <input type="button" value="회원가입">
+                <input type="button" value="회원가입" onClick="location.href='/register'">
             </footer>
         </form>
     </section>

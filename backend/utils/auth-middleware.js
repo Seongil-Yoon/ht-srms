@@ -7,18 +7,22 @@ import isEmptyObj from './isEmptyObj.js';
 
 const authJWT = (req, res, next) => {
     const tokenInCookie = convertCookieToObject(req.headers.cookie);
-    if(tokenInCookie !== undefined){
-        if (tokenInCookie.accessToken) {
-            const result = customJwt.verify(tokenInCookie.accessToken);
-            if (result.ok) {
-                req.userId = result.userId;
-                req.userRole = result.userRole;
-                next();
-            } else {
-                return res.redirect('/');
+    try {
+        if (tokenInCookie !== undefined) {
+            if (tokenInCookie.accessToken) {
+                const result = customJwt.verify(tokenInCookie.accessToken);
+                if (result.ok) {
+                    req.userId = result.userId;
+                    req.userRole = result.userRole;
+                    next();
+                } else {
+                    return res.redirect('/');
+                }
             }
+        } else {
+            return res.redirect('/');
         }
-    }else{
+    } catch (error) {
         return res.redirect('/');
     }
 };

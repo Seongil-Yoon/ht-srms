@@ -16,6 +16,9 @@ router
     .route('/register')
     .get(UserController.getRegisterPage)
     .post(UserController.postRegister);
+router.post('/register/vali-userid', UserController.valiUserId);
+
+
 router.route('/item-manage').get(authJWT, ItemManageController.getItemPage);
 router.post('/refresh', refresh);
 

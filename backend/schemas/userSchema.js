@@ -25,11 +25,11 @@ const userSchema = new Schema(
             type: Map,
             require: false,
         },
-        deptName: {
+        userDept: {
             type: String,
             require: false,
         },
-        jobName: {
+        userPosition: {
             type: String,
             require: false,
         },

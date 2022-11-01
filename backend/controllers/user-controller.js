@@ -5,7 +5,6 @@ import customJwt from '../utils/auth-jwt.js';
 
 const UserController = {
     getLoginPage: (req, res) => {
-
         res.render('user/login');
     },
     postLogin: async (req, res) => {
@@ -14,6 +13,7 @@ const UserController = {
         if (user) {
             const chk = await bcrypt.compare(userPassword, user.userPassword);
             if (chk) {
+                user.userPassword = undefined;
                 const accessToken = customJwt.sign(user);
                 const refreshToken = customJwt.refresh();
 
@@ -73,6 +73,26 @@ const UserController = {
                 ok: false,
                 message: err.message,
             });
+        }
+    },
+    valiUserId: async (req, res) => {
+        const {userId} = req.body;
+        const user = await User.findOne({userId});
+        try {
+            if (user === null) {
+                res.status(200).send({
+                    ok: true,
+                    message: '사용가능한 사번입니다',
+                });
+            } else {
+                res.status(401).send({
+                    ok: false,
+                    message: '❌이미 등록된 사람입니다',
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            res.redirect('/');
         }
     },
 };

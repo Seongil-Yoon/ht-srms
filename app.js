@@ -3,7 +3,7 @@ import morgan from 'morgan'; //(log관리)개발 : dev, 배포 : combined
 import path from 'path';
 import dotenv from 'dotenv';
 
-import connect from './backend/schemas/index.js';
+import dbConnect from './backend/schemas/dbConnect.js';
 import indexRouter from './backend/routes/index.js';
 
 dotenv.config();
@@ -14,7 +14,7 @@ app.set('port', process.env.PORT || 3000); //(논리단축평가)환경변수_�
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-connect();
+dbConnect();
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public/')));

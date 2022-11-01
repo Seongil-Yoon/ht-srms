@@ -1,7 +1,7 @@
-import httpHeaders from '../httpHeaders.js';
+// import httpHeaders from '../httpHeaders.js';
+// const token = localStorage.getItem('accessToken');
 const loginForm = document.querySelector('#js-loginForm');
 const valiAlert = loginForm.querySelector('span');
-const token = localStorage.getItem('accessToken');
 
 const userDto = {
     userId: undefined,

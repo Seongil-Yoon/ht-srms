@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const connect = () => {
+const dbConnect = () => {
     if (process.env.NODE_ENV !== 'production') {
         mongoose.set('debug', true);
     }
@@ -28,4 +28,4 @@ mongoose.connection.on('disconnected', () => {
     connect();
 });
 
-export default connect;
+export default dbConnect;

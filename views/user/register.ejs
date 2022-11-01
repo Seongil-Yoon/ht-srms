@@ -5,51 +5,83 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <style>
-        input {
-            margin-bottom: 1rem;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            max-width: 50vw;
-            margin: 0 auto;
-        }
-    </style>
+    <title>ht-srms :: 회원가입</title>
+    <%- include("../libs/libsStyles.ejs") %>
+    <link rel="stylesheet" href="/static/css/user/register.css">
 </head>
 
 <body>
+    <%- include("../header.ejs") %>
 
-    <script>
-        const PasswordCheck = () => {
-            let password = document.querySelector("#userPassword").value;
-            let passwordConfirm = document.querySelector("#passwordConfirm").value;
-            if (password != passwordConfirm) {
-                alert("비밀번호와 비밀번호 확인은 같아야 합니다.")
-                return false;
-            }
-        }
-    </script>
+    <section class="container">
+        <form action="/register" method="post" class="register-form roundBox" id="js-registerForm">
+            <div class="form-title">
+                <span>회원가입</span>
+            </div>
+            <hr>
+            <div class="user-id-wrap input-group">
+                <label for="js-userId">사번</label>
+                <input type="text" id="js-userId" class="user-id" name="userId" placeholder="특수문자나 한글은 입력할 수 없습니다"
+                    required autofocus>
+                <span class="check-alarm1">❌이미 등록된 사람입니다</span>
+            </div>
 
-    <form action="/register" method="post" onsubmit="return PasswordCheck()">
-        <label for="userName">이름</label>
-        <input type="text" id="userName" name="userName" required>
+            <div class="user-name-wrap input-group">
+                <label for="js-userName">이름</label>
+                <input type="text" id="js-userName" class="user-name" name="userName" required>
+            </div>
 
-        <label for="userId">아이디</label>
-        <input type="text" id="userId" name="userId" required>
+            <div class="user-password-wrap input-group">
+                <label for="js-userPassword">비밀번호</label>
+                <input type="password" id="js-userPassword" class="user-password" name="userPassword"
+                    placeholder="특수문자를 제외한 4자리이상 입력해주세요" required>
+                <span class="check-alarm1">❌특수문자를 제외한 4자리이상 입력해주세요</span>
+            </div>
 
-        <label for="userPassword">비밀번호</label>
-        <input type="text" id="userPassword" name="userPassword" required>
+            <div class="user-password-confirm-wrap input-group">
+                <label for="js-passwordConfirm">비밀번호 확인</label>
+                <input type="password" id="js-passwordConfirm" class="user-password-confirm"
+                    placeholder="비밀번호를 똑같이 한 번 더 입력해주세요" required>
+                <span class="check-alarm1">❌비밀번호가 일치하지 않습니다.</span>
+            </div>
 
-        <label for="passwordConfirm">비밀번호 확인</label>
-        <input type="text" id="passwordConfirm" name="passwordConfirm" required>
+            <div class="input-group">
+                <label for="js-userEmail">이메일</label>
+                <input type="email" id="js-userEmail" name="userEmail" class="user-email" placeholder="xxxx@example.com"
+                    required>
+                <span class="check-alarm1">❌올바른 이메일 형식이 아닙니다.</span>
+            </div>
+            <div class="select-group">
+                <div>
+                    <select class="user-dept" id="js-userDept" name="userDept">
+                        <option value="daeguOffice" selected="">대구오피스</option>
+                        <option value="rndTeam">R&D 연구소</option>
+                        <option value="marketingTeam">마케팅팀</option>
+                        <option value="teTeam">테크 에반젤리스트팀</option>
+                        <option value="designTeam">전략디자인팀</option>
+                        <option value="hrTeam">피플컬처팀</option>
+                        <option value="officeInfraTeam">오피스인프라팀</option>
+                        <option value="etc">기타</option>
+                    </select>
+                    <label for="js-userDept">부서</label>
+                </div>
+                <div>
+                    <select class="user-position" id="js-userPosition" name="userPosition">
+                        <option value="executive" selected="">임원</option>
+                        <option value="teamLeader">팀장</option>
+                        <option value="staff">사원</option>
+                        <option value="etc">기타</option>
+                    </select>
+                    <label for="js-userPosition">직책</label>
+                </div>
+            </div>
 
-        <input type="submit" value="회원가입">
-    </form>
-    
+            <input type="submit" value="회원가입">
+        </form>
+    </section>
+
+    <%- include("../libs/libsScript.ejs") %>
+    <script type="module" src="/static/js/user/register-script.js"></script>
 </body>
 
 </html>

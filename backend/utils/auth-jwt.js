@@ -5,6 +5,7 @@ import {User} from '../schemas/userSchema.js';
 const customJwt = {
     sign: (user) => {
         // access token 발급
+        console.log("user :", user);
         const payload = {
             // access token에 들어갈 payload
             id: user.userId,
@@ -13,7 +14,7 @@ const customJwt = {
         return jwt.sign(payload, process.env.JWT_SECRET, {
             // process.env.JWT_SECRET으로 sign하여 발급하고 return
             algorithm: 'HS256',
-            expiresIn: '10m',
+            expiresIn: '5m',
             issuer: 'kshired',
         });
     },
@@ -47,7 +48,6 @@ const customJwt = {
         const data = await User.findOne({
             userId: userId,
         });
-        console.log(data);
         try {
             if (token === data) {
                 return {
