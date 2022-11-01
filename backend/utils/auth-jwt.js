@@ -13,7 +13,7 @@ const customJwt = {
         return jwt.sign(payload, process.env.JWT_SECRET, {
             // process.env.JWT_SECRET으로 sign하여 발급하고 return
             algorithm: 'HS256',
-            expiresIn: '5m',
+            expiresIn: '10m',
             issuer: 'kshired',
         });
     },
@@ -46,8 +46,8 @@ const customJwt = {
         // refresh token 검증
         const data = await User.findOne({
             userId: userId,
-        }).refreshToken;
-
+        });
+        console.log(data);
         try {
             if (token === data) {
                 return {
@@ -66,4 +66,4 @@ const customJwt = {
     },
 };
 
-export {customJwt};
+export default customJwt;
