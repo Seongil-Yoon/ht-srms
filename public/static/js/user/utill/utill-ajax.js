@@ -4,8 +4,13 @@ const result = {
     message: '',
 };
 
+/**
+ * 원래 validaion.js로 result를 반환하여, 거기서 html을 수정하려 했으나 보류
+ */
 const utillAjax = {
-    idDuplicateCheck: (userId) => {
+    idDuplicateCheck: (userId, e) => {
+        const checkAlarm = e.target.nextSibling.nextSibling;
+
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: '/register/vali-userid',
@@ -16,12 +21,14 @@ const utillAjax = {
                     console.log('res.ok :', res.ok);
                     if (res.ok == true) {
                         result.ok = true;
-                        result.status = 200;
-                        result.message = '사용가능한 사번입니다';
+                        checkAlarm.style.display = 'inline';
+                        checkAlarm.style.color = 'green';
+                        checkAlarm.innerText = '사용가능한 사번입니다';
                     } else {
                         result.ok = false;
-                        result.status = 401;
-                        result.message = '❌이미 등록된 사람입니다';
+                        checkAlarm.style.display = 'inline';
+                        checkAlarm.style.color = 'red';
+                        checkAlarm.innerText = '❌이미 등록된 사람입니다';
                     }
                 },
                 error: function (error) {
@@ -32,8 +39,9 @@ const utillAjax = {
                         result.message = '찾는 자료가 없습니다';
                     } else if (error.status == 401) {
                         result.ok = false;
-                        result.status = 401;
-                        result.message = error.responseJSON.message;
+                        checkAlarm.style.display = 'inline';
+                        checkAlarm.style.color = 'red';
+                        checkAlarm.innerText = '❌이미 등록된 사람입니다';
                     } else if (error.status == 403) {
                         result.ok = false;
                         result.status = 403;

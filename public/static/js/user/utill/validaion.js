@@ -23,25 +23,13 @@ const userUtill = {
         formIsChecked.userIdIsCheck.isReg = reg.idReg.test(e.target.value);
         if (formIsChecked.userIdIsCheck.isReg) {
             const isDuplicate = utillAjax
-                .idDuplicateCheck(e.target.value)
+                .idDuplicateCheck(e.target.value, e)
                 .then((result) => {
                     return new Promise((resolve, reject) => {
                         console.log(result.ok);
                         formIsChecked.userIdIsCheck.isDuplicate = result.ok;
                         resolve(formIsChecked.userIdIsCheck.isDuplicate);
                     });
-                })
-                .then((e) => {
-                    console.log(e);
-                    if (!e) {
-                        checkAlarm.style.display = 'inline';
-                        checkAlarm.style.color = 'red';
-                        checkAlarm.innerText = '❌이미 등록된 사람입니다';
-                    } else {
-                        checkAlarm.style.display = 'inline';
-                        checkAlarm.style.color = 'green';
-                        checkAlarm.innerText = '사용가능한 사번입니다';
-                    }
                 });
         } else {
             checkAlarm.style.display = 'inline';
