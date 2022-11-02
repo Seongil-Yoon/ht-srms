@@ -1,3 +1,6 @@
+import {userDto} from '../model/user-dto.js';
+import {formIsChecked, userUtill, reg} from '../utill/validation.js';
+
 const result = {
     ok: false,
     status: 500,
@@ -10,6 +13,7 @@ const result = {
 const utillAjax = {
     idDuplicateCheck: (userId, e) => {
         const checkAlarm = e.target.nextSibling.nextSibling;
+        formIsChecked.userIdIsDuplicateCheck = false;
 
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -24,11 +28,13 @@ const utillAjax = {
                         checkAlarm.style.display = 'inline';
                         checkAlarm.style.color = 'green';
                         checkAlarm.innerText = '사용가능한 사번입니다';
+                        formIsChecked.userIdIsDuplicateCheck = true;
+                        userDto.userId = e.target.value;
                     } else {
                         result.ok = false;
                         checkAlarm.style.display = 'inline';
                         checkAlarm.style.color = 'red';
-                        checkAlarm.innerText = '❌이미 등록된 사람입니다';
+                        checkAlarm.innerText = '❌이미 등록된 사번입니다';
                     }
                 },
                 error: function (error) {
@@ -41,7 +47,7 @@ const utillAjax = {
                         result.ok = false;
                         checkAlarm.style.display = 'inline';
                         checkAlarm.style.color = 'red';
-                        checkAlarm.innerText = '❌이미 등록된 사람입니다';
+                        checkAlarm.innerText = '❌이미 등록된 사번입니다';
                     } else if (error.status == 403) {
                         result.ok = false;
                         result.status = 403;

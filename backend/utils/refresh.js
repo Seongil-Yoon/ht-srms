@@ -21,7 +21,7 @@ const refresh = async (req, res) => {
 
             // 디코딩 결과가 없으면 권한이 없음을 응답.
             if (decoded === null) {
-                res.status(401).send({
+                res.status(200).send({
                     ok: false,
                     message: 'No authorized!',
                 });
@@ -41,7 +41,7 @@ const refresh = async (req, res) => {
             ) {
                 // 1. access token이 만료되고, refresh token도 만료 된 경우 => 새로 로그인해야합니다.
                 if (refreshResult.ok === false) {
-                    res.status(401).send({
+                    res.status(200).send({
                         ok: false,
                         message: 'No authorized!',
                     });
@@ -59,21 +59,21 @@ const refresh = async (req, res) => {
                 }
             } else {
                 // 3. access token이 만료되지 않은경우 => refresh 할 필요가 없습니다.
-                res.status(400).send({
+                res.status(200).send({
                     ok: false,
                     message: 'Acess token is not expired!',
                 });
             }
         } else {
             // access token 또는 refresh token이 헤더에 없는 경우
-            res.status(400).send({
+            res.status(200).send({
                 ok: false,
                 message: 'Access token and refresh token are need for refresh!',
             });
         }
     } catch (error) {
         // access token 또는 refresh token이 헤더에 없는 경우
-        res.status(400).send({
+        res.status(200).send({
             ok: false,
             message: 'Access token and refresh token are need for refresh!',
         });

@@ -4,6 +4,11 @@ header {
     height: 50px;
 }
 
+.header-text{
+    font-size: larger;
+    color: white;
+}
+
 nav.srms-header {
     position: fixed;
     top: 0;
@@ -29,8 +34,17 @@ nav.srms-header>.header-left {
 
 nav.srms-header>.header-center {
     flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+nav.srms-header>.header-center>span{
+
 }
 
 nav.srms-header>.header-right {
     flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }

@@ -12,8 +12,11 @@ const authJWT = (req, res, next) => {
             if (tokenInCookie.accessToken) {
                 const result = customJwt.verify(tokenInCookie.accessToken);
                 if (result.ok) {
-                    req.userId = result.userId;
-                    req.userRole = result.userRole;
+                    req.body = {
+                        userId: result.id,
+                        userRole: result.role,
+                        userName: result.name,
+                    };
                     next();
                 } else {
                     return res.redirect('/');

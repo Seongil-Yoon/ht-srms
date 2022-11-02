@@ -19,8 +19,31 @@ a {
 
 /* ========== end of 초기설정 ========== */
 
+input[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+.btn-white {
+    font-size: larger;
+    background-color: white;
+    color: rgb(35, 78, 112);
+    border: rgb(35, 78, 112);
+    box-sizing: border-box;
+    padding: 3px;
+    padding-left: 12px;
+    padding-right: 14px;
+    border-width: 1px;
+    border-radius: 6px;
+    border-style: solid;
+}
+
+/* 가장 큰 영역 */
+main {
+}
+
 /* 큰 영역 */
-.container{
+.container {
     margin-top: 50px;
 }
 
@@ -36,6 +59,4 @@ a {
 }
 
 /* 베이지색 사각형 */
-.beigeBox {
-
-}
+.beigeBox {}

@@ -5,16 +5,17 @@ import {User} from '../schemas/userSchema.js';
 const customJwt = {
     sign: (user) => {
         // access token 발급
-        console.log("user :", user);
+        console.log("user__ :", user);
         const payload = {
             // access token에 들어갈 payload
             id: user.userId,
             role: user.userRole,
+            name: user.userName
         };
         return jwt.sign(payload, process.env.JWT_SECRET, {
             // process.env.JWT_SECRET으로 sign하여 발급하고 return
             algorithm: 'HS256',
-            expiresIn: '5m',
+            expiresIn: '30m',
             issuer: 'kshired',
         });
     },
@@ -26,6 +27,7 @@ const customJwt = {
                 ok: true,
                 id: decoded.id,
                 role: decoded.role,
+                name: decoded.name
             };
         } catch (err) {
             return {
@@ -39,7 +41,7 @@ const customJwt = {
         return jwt.sign({}, process.env.JWT_SECRET, {
             // refresh token은 payload 없이 발급
             algorithm: 'HS256',
-            expiresIn: '1h',
+            expiresIn: '6h',
             issuer: 'kshired',
         });
     },

@@ -5,7 +5,19 @@
                 <img src="/static/images/ht-SRMS width.png" alt="">
             </a>
         </div>
-        <div class="header-center"></div>
-        <div class="header-right"></div>
+        <div class="header-center">
+            <% if(userInfo) {%>
+            <span class="header-text"><%= userInfo.userName%>님 환영합니다</span>
+            <span class="header-text">사번 : <%= userInfo.userId%></span>
+            <% } %>
+        </div>
+        <div class="header-right">
+            <% if(userInfo) {%>
+            <a id="js-itemWrite" class="btn-white" href="/item/write">
+                ✏️ 물품 등록
+            </a>
+            <a class="header-text" id="js-logout" href="javascript:logout();">로그아웃</a>
+            <% } %>
+        </div>
     </nav>
 </header>

@@ -5,7 +5,9 @@ import customJwt from '../utils/auth-jwt.js';
 
 const UserController = {
     getLoginPage: (req, res) => {
-        res.render('user/login');
+        res.render('user/login', {
+            userInfo: false,
+        });
     },
     postLogin: async (req, res) => {
         const {userId, userPassword} = req.body;
@@ -49,17 +51,34 @@ const UserController = {
             message: '등록되지 않은 사용자입니다',
         });
     },
+    userLogout: (req, res) => {
+        res.clearCookie('accessToken');
+        res.clearCookie('refreshToken');
+        res.redirect('/');
+    },
     getRegisterPage: (req, res) => {
-        res.render('user/register');
+        res.render('user/register', {
+            userInfo: false,
+        });
     },
     postRegister: async (req, res) => {
-        const {userId, userName, userPassword} = req.body;
+        const {
+            userId,
+            userName,
+            userPassword,
+            userEmail,
+            userDept,
+            userPosition,
+        } = req.body;
         const hashedPassword = await bcrypt.hash(userPassword, 10);
         try {
             const user = await User.create({
                 userId,
                 userName,
                 userPassword: hashedPassword,
+                userEmail,
+                userDept,
+                userPosition,
             });
             const token = customJwt.sign(user);
             res.cookie('accessToken', token);

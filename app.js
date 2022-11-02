@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan'; //(log관리)개발 : dev, 배포 : combined
 import path from 'path';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import dbConnect from './backend/schemas/dbConnect.js';
 import indexRouter from './backend/routes/index.js';
@@ -19,6 +20,7 @@ dbConnect();
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public/')));
 app.use(express.json()); //json요청 파싱모듈
+app.use(cors())
 app.use(express.urlencoded({extended: false})); //url쿼리요청 파싱
 
 app.use('/', indexRouter);

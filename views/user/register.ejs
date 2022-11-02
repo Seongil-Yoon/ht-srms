@@ -41,7 +41,7 @@
             <div class="user-password-confirm-wrap input-group">
                 <label for="js-passwordConfirm">비밀번호 확인</label>
                 <input type="password" id="js-passwordConfirm" class="user-password-confirm"
-                    placeholder="비밀번호를 똑같이 한 번 더 입력해주세요" required>
+                    placeholder="비밀번호를 똑같이 한 번 더 입력해주세요" required readonly>
                 <span class="check-alarm1">❌비밀번호가 일치하지 않습니다.</span>
             </div>
 
@@ -54,14 +54,14 @@
             <div class="select-group">
                 <div>
                     <select class="user-dept" id="js-userDept" name="userDept">
-                        <option value="daeguOffice" selected="">대구오피스</option>
+                        <option value="daeguOffice">대구오피스</option>
                         <option value="rndTeam">R&D 연구소</option>
                         <option value="marketingTeam">마케팅팀</option>
                         <option value="teTeam">테크 에반젤리스트팀</option>
                         <option value="designTeam">전략디자인팀</option>
                         <option value="hrTeam">피플컬처팀</option>
                         <option value="officeInfraTeam">오피스인프라팀</option>
-                        <option value="etc">기타</option>
+                        <option value="etc" selected="">기타</option>
                     </select>
                     <label for="js-userDept">부서</label>
                 </div>
@@ -70,7 +70,7 @@
                         <option value="executive" selected="">임원</option>
                         <option value="teamLeader">팀장</option>
                         <option value="staff">사원</option>
-                        <option value="etc">기타</option>
+                        <option value="etc" selected="">기타</option>
                     </select>
                     <label for="js-userPosition">직책</label>
                 </div>

@@ -22,16 +22,25 @@ const userSchema = new Schema(
             required: false,
         },
         userRole: {
-            type: Map,
-            require: false,
+            type: Object,
+            require: true,
+            default: {
+                read: true,
+                rent: true,
+                write: false,
+                edit: false,
+                admin: false,
+            },
         },
         userDept: {
             type: String,
             require: false,
+            default: 'etc',
         },
         userPosition: {
             type: String,
             require: false,
+            default: 'etc',
         },
         refreshToken: {
             type: String,
@@ -39,11 +48,11 @@ const userSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow()
+            default: customMoment.asiaSeoulTimeNow(),
         },
         updatedAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow()
+            default: customMoment.asiaSeoulTimeNow(),
         },
     },
     {
@@ -52,4 +61,3 @@ const userSchema = new Schema(
 );
 const User = mongoose.model('User', userSchema);
 export {User};
-
