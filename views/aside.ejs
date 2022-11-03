@@ -1,18 +1,20 @@
 <aside>
+    <img id="aside-img"src="/static/images/clovine-char.png" alt="" onclick="">
     <% 
-        if(userInfo.userRole.admin == false){ %>
+        const roles = userInfo.userRole;
+        if(roles.admin === false){ %>
             <a class="item-manage sidebar-select" href="/item-manage-page">
                 <div class="item-manage sidebar-option">물품 관리</div>
             </a>
-            <% if(userInfo.userRole.read === true){ %>
+            <% if(roles.read === true){ %>
                 <a class="allrent-status sidebar-select" href="/allrent-status-page">
                     <div class="allrent-status sidebar-option">전체 대여 현황</div>
                 </a>   
-            <% }else if(userInfo.userRole.rent === true){ %>
+            <% }else if(roles.rent === true){ %>
     
-            <% }else if(userInfo.userRole.write === true){ %>
+            <% }else if(roles.write === true){ %>
                 
-            <% }else if(userInfo.userRole.edit === true){ %>
+            <% }else if(roles.edit === true){ %>
             
             <% }
         }else{ %>

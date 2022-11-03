@@ -22,7 +22,7 @@ const itemSchema = new Schema(
             type: String,
             require: true,
         },
-        itemIsNeedRent: {
+        itemIsCanRent: {
             type: Boolean,
             require: true,
             default: false,

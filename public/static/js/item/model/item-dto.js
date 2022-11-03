@@ -5,7 +5,7 @@ const itemDto = {
         small: undefined,
     },
     itemName: undefined,
-    itemIsNeedRent: undefined,
+    itemIsCanRent: undefined,
     itemIsNeedReturn: undefined,
     itemCanRentAmount: undefined,
     itemRentingAmount: undefined,

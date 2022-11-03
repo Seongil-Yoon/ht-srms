@@ -12,3 +12,25 @@ aside>a>.item-manage {
 aside>a.item-manage {
     color: black;
 }
+
+div.main {}
+
+section>article.roundBox>.table-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: stretch;
+}
+
+.table-header>div {
+    margin-left: 13px;
+}
+
+.table-header input.small {
+    height: 100% !important;
+}
+
+.table-header>div:nth-last-child(2){
+    margin-left: -3px;
+}

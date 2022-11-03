@@ -16,23 +16,67 @@
     <div class="main">
         <%- include("../aside.ejs") %>
         <section class="container">
-            <div class="jui">
+            <article>
+                <span>📑 물품 관리</span>
+            </article>
+            <article class="jui roundBox">
+                <div class="table-header">
+                    <div>
+                        <input type="radio" class="btn small" id="js-canRent" name="canRent" value='true' checked>
+                        <label for="js-canRent">대여 가능</label>
+                        <input type="radio" class="btn small" id="js-cantRent" name="canRent" value='false'>
+                        <label for="js-cantRent">대여 불가능</label>
+                    </div>
+                    <div>
+                        <select class="item-category-large" id="js-itemCategoryLarge" name="itemCategoryLarge">
+                            <option>대분류</option>
+                            <option value="">전자제품</option>
+                            <option value="">문구</option>
+                            <option value="">도서</option>
+                            <option value="">인형</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select class="item-category-small" id="js-itemCategorySmall" name="itemCategorySmall">
+                            <option>소분류</option>
+                            <option value="">모니터</option>
+                            <option value="">키보드</option>
+                            <option value="">마우스</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select class="item-search-select" id="js-itemSearchSelect" name="itemSearchSelect">
+                            <option value="">이름</option>
+                            <option value="">코드</option>
+                            <option value="">등록자</option>
+                        </select>
+                    </div>
+                    <div id="ac_1" class="group">
+                        <input type="text" class="input small" style="width: 150px;height: 100% !important;" />
+                        <label class="label small" style="height: 100% !important;"><i class="icon-search"></i></label>
+                    </div>
+                    <div>
+                        <select class="item-search-select" id="js-itemSearchSelect" name="itemSearchSelect">
+                            <option> 정렬순서 📶</option>
+                            <option value="">등록순</option>
+                            <option value="">이름순</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="tablebody">
-                    <button class="insertBtn" id="js-insertGroup">
-                        + 그룹추가
-                    </button>
                     <table id="table_9" class="table simple headline">
                         <thead>
                             <tr>
+                                <th width="30px">No</th>
                                 <th>물품코드</th>
                                 <th>대분류</th>
                                 <th>소분류</th>
                                 <th>이름</th>
-                                <th>대여 가능 여부</th>
-                                <th>반납 필요 여부</th>
-                                <th>대여 가능 수량</th>
-                                <th>대여 중 수량</th>
-                                <th>총 수량</th>
+                                <th width="80px">대여 가능 여부</th>
+                                <th width="80px">반납 필요 여부</th>
+                                <th width="80px">대여 가능 수량</th>
+                                <th width="80px">대여 중 수량</th>
+                                <th width="50px">총 수량</th>
                                 <th>등록일(마지막 수정)</th>
                             </tr>
                         </thead>
@@ -40,18 +84,39 @@
                     </table>
                     <div id="table_9_dd" class="dropdown large">
                         <ul style="width: 150px;">
-                            <li>수정</li>
-                            <li>삭제</li>
+                            <% 
+                                const roles = userInfo.userRole;
+                                if(roles.admin === true){ %>
+                            <li>대여</li>
+                            <li>대여/반납 이력</li>
+                            <li>물품편집</li>
+                            <li>물품삭제</li>
+                            <li>대여자 명단</li>
+                            <% } else if(roles.rent === true && roles.edit === true){ %>
+                            <li>대여</li>
+                            <li>대여/반납 이력</li>
+                            <li>물품편집</li>
+                            <li>물품삭제</li>
+                            <% } else if(roles.rent === true){ %>
+                            <li>대여</li>
+                            <li>대여/반납 이력</li>
+                            <% } else if(roles.edit === true ){ %>
+                            <li>물품편집</li>
+                            <li>물품삭제</li>
+                            <% } else { %>
+                            <li>대여/반납 이력</li>
+                            <% }
+                            %>
                         </ul>
                     </div>
                     <script data-jui="#table_9" data-tpl="row" type="text/template">
                         <tr>
-                            <th width="50px">No</th>
+                            <td><!= row.index !></td>
                             <td><!= itemId !></td>
                             <td><!= itemCategoryLarge !></td>
                             <td><!= itemCategorySmall !></td>
                             <td><!= itemName !></td>
-                            <td><!= itemIsNeedRent !></td>
+                            <td><!= itemIsCanRent !></td>
                             <td><!= itemIsNeedReturn !></td>
                             <td><!= itemCanRentAmount !></td>
                             <td><!= itemRentingAmount !></td>
@@ -60,24 +125,30 @@
                         </tr>
                     </script>
                 </div>
-                <div id="paging_1" class="paging" style="width: 100%; margin-top: 3px;">
-                    <a href="#" class="prev">Previous</a>
-                    <div class="list"></div>
-                    <a href="#" class="next">Next</a>
+                <div class="paging table-footer">
+                    <a href="#" class="prev">이전</a>
+                    <div class="list">
+                        <a href="#">1</a>
+                        <a href="#" class="active">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">7</a>
+                        <a href="#">8</a>
+                        <a href="#">9</a>
+                        <a href="#">10</a>
+                    </div>
+                    <a href="#" class="next">다음</a>
                 </div>
-
-                <script data-jui="#paging_1" data-tpl="pages" type="text/template">
-                    <! for(var i = 0; i < pages.length; i++) { !>
-                    <a href="#" class="page"><!= pages[i] !></a>
-                    <! } !>
-                </script>
-            </div>
+            </article>
         </section>
     </div>
 
     <%- include("../libs/libsScript.ejs") %>
     <%- include("../libs/jui/jui-libsScript.ejs") %>
     <script type="module" src="/static/js/item/item-manage-script.js"></script>
+    <!-- <script type="text/javascript" src="/static/js/item/item-manage-script.js"></script> -->
 </body>
 
 </html>

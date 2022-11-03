@@ -5,7 +5,6 @@ import {User} from '../schemas/userSchema.js';
 const customJwt = {
     sign: (user) => {
         // access token 발급
-        console.log("user__ :", user);
         const payload = {
             // access token에 들어갈 payload
             id: user.userId,

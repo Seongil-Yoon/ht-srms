@@ -2,22 +2,16 @@
 
 aside {}
 
-aside>a>.user-manage {
+aside>a>.item-manage {
     border-color: red;
     border-style: solid;
     background-color: rgb(255, 249, 215) !important;
     border-width: 0px 0px 0px 5px
 }
 
-aside>a.user-manage {
+aside>a.item-manage {
     color: black;
 }
 
-section>article>div>svg{
-    width: 48px;
-}
-section>article>div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
+div.main {}
+

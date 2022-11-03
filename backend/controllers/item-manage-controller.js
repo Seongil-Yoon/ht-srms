@@ -9,7 +9,11 @@ const ItemManageController = {
             userInfo: req.body,
         });
     },
-    getInsertItemPage: (req, res) => {},
+    getInsertItemPage: (req, res) => {
+        res.render('item/item-insert', {
+            userInfo: req.body,
+        });
+    },
     getItemList: (req, res) => {},
     getItem: (req, res) => {},
     insertItem: (req, res) => {},

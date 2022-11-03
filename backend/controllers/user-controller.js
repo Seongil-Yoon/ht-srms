@@ -2,6 +2,7 @@ import UserService from '../service/user-service.js';
 import bcrypt from 'bcrypt';
 import {User} from '../schemas/userSchema.js';
 import customJwt from '../utils/auth-jwt.js';
+import {Counter} from '../schemas/counterSchema.js';
 
 const UserController = {
     getLoginPage: (req, res) => {
@@ -72,7 +73,16 @@ const UserController = {
         } = req.body;
         const hashedPassword = await bcrypt.hash(userPassword, 10);
         try {
+            const counter = await Counter.findOneAndUpdate(
+                {name: 'counter'},
+                {
+                    $inc: {
+                        userNum: 1,
+                    },
+                }
+            );
             const user = await User.create({
+                userNum : counter.userNum,
                 userId,
                 userName,
                 userPassword: hashedPassword,
@@ -80,6 +90,8 @@ const UserController = {
                 userDept,
                 userPosition,
             });
+            console.log("user : ", user);
+
             const token = customJwt.sign(user);
             res.cookie('accessToken', token);
 
@@ -88,6 +100,7 @@ const UserController = {
                 message: 'accessToken Created!',
             });
         } catch (err) {
+            console.log(err);
             res.status(409).send({
                 ok: false,
                 message: err.message,

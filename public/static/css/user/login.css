@@ -4,8 +4,7 @@ input {
     margin-bottom: 1rem;
 }
 
-section.container {
-}
+section.container {}
 
 form.login-form {
     display: flex;
@@ -15,6 +14,12 @@ form.login-form {
     padding: 2em;
     background-color: rgba(255, 249, 215, 0.8);
 
+}
+
+@media screen and (min-width: 0px) and (max-width: 900px) {
+    form.login-form {
+        max-width: 60%;
+    }
 }
 
 form.login-form>img {

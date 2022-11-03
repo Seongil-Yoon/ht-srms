@@ -4,6 +4,10 @@ import customMoment from '../utils/custom-moment.js';
 const {Schema} = mongoose;
 const userSchema = new Schema(
     {
+        userNum: {
+            type: Number,
+            require: false
+        },
         userId: {
             type: String,
             required: true,
