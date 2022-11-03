@@ -1,10 +1,11 @@
-import httpHeaders from '../httpHeaders.js';
+// import httpHeaders from '../httpHeaders.js';
+// const token = localStorage.getItem('accessToken');
 const loginForm = document.querySelector('#js-loginForm');
-const token = localStorage.getItem('accessToken');
+const valiAlert = loginForm.querySelector('span');
 
 const userDto = {
-    userId,
-    userPassword,
+    userId: undefined,
+    userPassword: undefined,
 };
 
 async function loginSubmit(e) {
@@ -15,23 +16,19 @@ async function loginSubmit(e) {
     if (userDto.userId != undefined && userDto.userPassword != undefined) {
         await $.ajax({
             url: '/login',
-            type: 'post', //데이터 전달방식
+            type: 'post',
             data: JSON.stringify(userDto), //객체를 json 문자열로 반환 해서보냄 서버와는 문자열로통신
-            contentType: 'application/json', //json 으로 데이터줄떄 사용,
+            contentType: 'application/json', //json 으로 데이터줄때 사용,
             success: function (result, jqxHR) {
                 console.log(result);
                 if (result.ok == true) {
                     //로그인 성공후 메인 화면 이동
                     swal('로그인 되었습니다', '', 'success');
                     setTimeout(() => {
-                        location.href = '/item';
+                        location.href = '/item-manage-page';
                     }, 1.1 * 1000);
                 } else {
-                    swal({
-                        title: '',
-                        text: '아이디 또는 비밀번호를 다시 입력하세요',
-                        icon: 'error',
-                    });
+                    valiAlert.style.visibility = 'unset';
                 }
             },
             error: function (error) {
@@ -40,7 +37,8 @@ async function loginSubmit(e) {
                 if (error.status == 404) {
                     swal('찾는 자료가 없습니다', '', 'error');
                 } else if (error.status == 401) {
-                    swal(error.responseJSON.message, '', 'error');
+                    valiAlert.innerText = error.responseJSON.message
+                    valiAlert.style.visibility = 'unset';
                 } else if (error.status == 403) {
                     swal('접근 권한이 없습니다', '', 'error');
                 } else if (error.status == 500) {

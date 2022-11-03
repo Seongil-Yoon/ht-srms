@@ -2,9 +2,10 @@ import express from 'express';
 import morgan from 'morgan'; //(log관리)개발 : dev, 배포 : combined
 import path from 'path';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
-import connect from './schemas/index.js';
-import indexRouter from './routes/index.js';
+import dbConnect from './backend/schemas/dbConnect.js';
+import indexRouter from './backend/routes/index.js';
 
 dotenv.config();
 const app = express();
@@ -14,17 +15,19 @@ app.set('port', process.env.PORT || 3000); //(논리단축평가)환경변수_�
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-connect();
+dbConnect();
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public/')));
 app.use(express.json()); //json요청 파싱모듈
+app.use(cors())
 app.use(express.urlencoded({extended: false})); //url쿼리요청 파싱
 
 app.use('/', indexRouter);
 
 app.use((req, res, next) => {
-    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+    // const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+    const error = `페이지를 찾을수 없습니다(${req.url})`;
     error.status = 404;
     next(error);
 });

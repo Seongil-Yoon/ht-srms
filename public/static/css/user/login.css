@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+input {
+    margin-bottom: 1rem;
+}
+
+section.container {
+}
+
+form.login-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 24.2%;
+    margin: 0 auto;
+    padding: 2em;
+    background-color: rgba(255, 249, 215, 0.8);
+
+}
+
+form.login-form>img {
+    width: 70%;
+    margin: 0 auto;
+}
+
+form.login-form>input.user-password {
+    margin-bottom: 0;
+}
+
+form.login-form>span {
+    /* display: none; */
+    visibility: hidden;
+    color: red;
+    font-size: medium;
+}
+
+form.login-form>footer {
+    margin-top: 20px;
+}
+
+form.login-form>footer>input {
+    width: 100%;
+    margin-bottom: 10px;
+
+}

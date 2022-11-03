@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.main>aside {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background-color: rgb(35, 78, 112);
+    z-index: 5;
+    box-sizing: border-box;
+    width: 150px;
+    min-height: 90vh;
+    padding-top: 10px;
+}
+
+.main>.container {
+    min-width: 100vh;
+    min-height: 90vh;
+    margin-left: 150px;
+    padding: 10px 0 0 10px;
+    margin-top: 0 !important;
+}
+
+aside>a.sidebar-select {
+    box-sizing: border-box;
+    color: white;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+aside>a>div.sidebar-option {
+    height: 45px;
+    background-color: rgb(24, 90, 142);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

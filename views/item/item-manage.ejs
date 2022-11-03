@@ -1,12 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ht-srms :: 물품 관리</title>
+    <%- include("../libs/libsStyles.ejs") %>
+    <%- include("../libs/jui/jui-libsStyles.ejs") %>
+    <link rel="stylesheet" href="/static/css/item/item-manage.css">
 </head>
+
 <body>
-    Hello Express
+    <%- include("../header.ejs") %>
+    <div class="main">
+        <%- include("../aside.ejs") %>
+        <section class="container">
+            <div class="jui">
+                <div class="tablebody">
+                    <button class="insertBtn" id="js-insertGroup">
+                        + 그룹추가
+                    </button>
+                    <table id="table_9" class="table simple headline">
+                        <thead>
+                            <tr>
+                                <th>물품코드</th>
+                                <th>대분류</th>
+                                <th>소분류</th>
+                                <th>이름</th>
+                                <th>대여 가능 여부</th>
+                                <th>반납 필요 여부</th>
+                                <th>대여 가능 수량</th>
+                                <th>대여 중 수량</th>
+                                <th>총 수량</th>
+                                <th>등록일(마지막 수정)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div id="table_9_dd" class="dropdown large">
+                        <ul style="width: 150px;">
+                            <li>수정</li>
+                            <li>삭제</li>
+                        </ul>
+                    </div>
+                    <script data-jui="#table_9" data-tpl="row" type="text/template">
+                        <tr>
+                            <th width="50px">No</th>
+                            <td><!= itemId !></td>
+                            <td><!= itemCategoryLarge !></td>
+                            <td><!= itemCategorySmall !></td>
+                            <td><!= itemName !></td>
+                            <td><!= itemIsNeedRent !></td>
+                            <td><!= itemIsNeedReturn !></td>
+                            <td><!= itemCanRentAmount !></td>
+                            <td><!= itemRentingAmount !></td>
+                            <td><!= itemTotalAmount !></td>
+                            <td><!= updatedAt !></td>
+                        </tr>
+                    </script>
+                </div>
+                <div id="paging_1" class="paging" style="width: 100%; margin-top: 3px;">
+                    <a href="#" class="prev">Previous</a>
+                    <div class="list"></div>
+                    <a href="#" class="next">Next</a>
+                </div>
+
+                <script data-jui="#paging_1" data-tpl="pages" type="text/template">
+                    <! for(var i = 0; i < pages.length; i++) { !>
+                    <a href="#" class="page"><!= pages[i] !></a>
+                    <! } !>
+                </script>
+            </div>
+        </section>
+    </div>
+
+    <%- include("../libs/libsScript.ejs") %>
+    <%- include("../libs/jui/jui-libsScript.ejs") %>
+    <script type="module" src="/static/js/item/item-manage-script.js"></script>
 </body>
+
 </html>
