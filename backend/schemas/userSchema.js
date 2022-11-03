@@ -25,8 +25,8 @@ const userSchema = new Schema(
             type: Object,
             require: true,
             default: {
-                read: true,
                 rent: true,
+                read: false,
                 write: false,
                 edit: false,
                 admin: false,
@@ -53,6 +53,10 @@ const userSchema = new Schema(
         updatedAt: {
             type: Date,
             default: customMoment.asiaSeoulTimeNow(),
+        },
+        isDelete: {
+            type: Boolean,
+            default: false,
         },
     },
     {

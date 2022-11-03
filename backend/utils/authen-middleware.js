@@ -26,6 +26,7 @@ const authJWT = (req, res, next) => {
             return res.redirect('/');
         }
     } catch (error) {
+        console.log(error);
         return res.redirect('/');
     }
 };

@@ -4,6 +4,10 @@ input {
     margin-bottom: 1rem;
 }
 
+section.container {
+    min-height: 100vh;
+}
+
 form.register-form input {
     margin-bottom: 5px;
 }
@@ -11,9 +15,9 @@ form.register-form input {
 form.register-form {
     display: flex;
     flex-direction: column;
-    max-width: 38.2%;
+    max-width: 24.2%;
     margin: 0 auto;
-    padding: 4em;
+    padding: 2em;
     padding-top: 2em;
     padding-bottom: 2em;
     background-color: rgba(255, 249, 215, 0.8);

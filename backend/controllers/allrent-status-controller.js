@@ -1,7 +1,7 @@
 import ItemService from '../service/item-service.js';
 
 const AllrentStatusController = {
-    getItemPage: (req, res) => {
+    getAllrentPage: (req, res) => {
         res.render('allrent/allrent-status', {
             userInfo: req.body,
         });

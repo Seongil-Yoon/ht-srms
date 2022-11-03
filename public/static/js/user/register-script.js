@@ -37,7 +37,6 @@ async function registerSubmit(e) {
                         if (res.ok === true) {
                             swal(
                                 '가입을 축하합니다🎉',
-                                '다시 로그인해주세요',
                                 'success'
                             );
                             setTimeout(() => (location.href = '/'), 2000);
@@ -63,9 +62,9 @@ async function registerSubmit(e) {
                             swal('입력 안 된 항목이 있습니다', '', 'error');
                         }
                     },
-                });
+                });//end of ajax
             }
-        });
+        });//end of .then
     } else {
         swal('', '항목을 다시 확인해주세요', 'error');
     }

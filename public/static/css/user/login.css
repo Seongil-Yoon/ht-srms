@@ -5,15 +5,14 @@ input {
 }
 
 section.container {
-    margin-top: 50px;
 }
 
 form.login-form {
     display: flex;
     flex-direction: column;
-    max-width: 38.2%;
+    max-width: 24.2%;
     margin: 0 auto;
-    padding: 4em;
+    padding: 2em;
     background-color: rgba(255, 249, 215, 0.8);
 
 }

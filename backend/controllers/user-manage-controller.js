@@ -1,7 +1,7 @@
 import ItemService from '../service/item-service.js';
 
 const UserManageController = {
-    getItemPage: (req, res) => {
+    getAdminPage: (req, res) => {
         res.render('admin/user-manage', {
             userInfo: req.body,
         });

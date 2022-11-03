@@ -11,7 +11,7 @@ function blockGoToInit(req, res, next) {
                 if (result.ok) {
                     console.log("customJwt.verify : ", customJwt.verify);
                     //엑세스토큰있으며 검증되면 물품관리페이지.
-                    return res.redirect('/item-manage');
+                    return res.redirect('/item-manage-page');
                 } else {
                     //엑세스토큰이있으나 검증실패면 로그인페이지
                     next();

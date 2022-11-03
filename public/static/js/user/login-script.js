@@ -25,7 +25,7 @@ async function loginSubmit(e) {
                     //로그인 성공후 메인 화면 이동
                     swal('로그인 되었습니다', '', 'success');
                     setTimeout(() => {
-                        location.href = '/item-manage';
+                        location.href = '/item-manage-page';
                     }, 1.1 * 1000);
                 } else {
                     valiAlert.style.visibility = 'unset';
