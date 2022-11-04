@@ -31,6 +31,6 @@ section>article.roundBox>.table-header {
     height: 100% !important;
 }
 
-.table-header>div:nth-last-child(2){
+.table-header>div:nth-last-child(2) {
     margin-left: -3px;
 }

@@ -6,24 +6,24 @@ const userSchema = new Schema(
     {
         userNum: {
             type: Number,
-            require: false
+            require: false,
         },
         userId: {
             type: String,
-            required: true,
+            require: true,
             unique: true,
         },
         userName: {
             type: String,
-            required: true,
+            require: true,
         },
         userPassword: {
             type: String,
-            required: true,
+            require: true,
         },
         userEmail: {
             type: String,
-            required: false,
+            require: false,
         },
         userRole: {
             type: Object,
@@ -38,12 +38,12 @@ const userSchema = new Schema(
         },
         userDept: {
             type: String,
-            require: false,
+            require: true,
             default: 'etc',
         },
         userPosition: {
             type: String,
-            require: false,
+            require: true,
             default: 'etc',
         },
         refreshToken: {

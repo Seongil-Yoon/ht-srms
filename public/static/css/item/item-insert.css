@@ -15,3 +15,100 @@ aside>a.item-manage {
 
 div.main {}
 
+section>article.item-insert-main {
+    display: flex;
+    padding: 1.2em;
+    background-color: rgba(255, 249, 215, 0.8);
+    min-height: 70vh;
+
+}
+
+section>article.item-insert-main>:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+section>article.item-insert-main>:last-child>button {
+    margin-left: 10px;
+}
+
+section>article>.item-form-group {
+    flex: 95;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+section>article>.item-insert-footer {
+    flex: 5;
+}
+
+section>article>.item-form-group>section {
+    width: 49%;
+    padding: 1em;
+    padding-top: 0.5em;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+section>article>.item-form-group>section>form {
+    flex: 9;
+    display: flex;
+    flex-direction: column;
+}
+
+section>article>.item-form-group>section>form>header {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+section>article>.item-form-group>section>form>header>span {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+section>article>.item-form-group>section>form>article {
+    flex: 9;
+    display: flex;
+    flex-direction: column;
+}
+
+section>article>.item-form-group>section>form>footer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+
+section>article>.item-form-group>section>form>footer>button {}
+
+section>article>.item-form-group>section:first-child {}
+
+section>article>.item-form-group>section:first-child ul {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+section>article>.item-form-group>section:first-child ul>li {
+    min-height: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+section>article>.item-form-group>section:first-child ul>li>:first-child {
+    min-width: 200px;
+}
+
+section>article>.item-form-group>section:last-child {}

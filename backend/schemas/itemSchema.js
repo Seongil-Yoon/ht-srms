@@ -5,9 +5,13 @@ import {User} from './userSchema.js';
 const {Schema} = mongoose;
 const itemSchema = new Schema(
     {
+        itemNum: {
+            type: Number,
+            require: false
+        },
         itemId: {
             type: String,
-            require: true,
+            require: false,
             unique: true,
         },
         itemCategory: {
@@ -42,6 +46,7 @@ const itemSchema = new Schema(
         },
         itemTotalAmount: {
             type: Number,
+            require: false,
             default: 1,
         },
         createdAt: {

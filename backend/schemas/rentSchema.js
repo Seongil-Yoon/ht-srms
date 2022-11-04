@@ -6,6 +6,10 @@ import {User} from './userSchema.js';
 const {Schema} = mongoose;
 const rentSchema = new Schema(
     {
+        rentNum: {
+            type: Number,
+            require: false
+        },
         rentPurpose: {
             type: String,
             require: true,
@@ -37,12 +41,12 @@ const rentSchema = new Schema(
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
+            require: true,
             ref: User,
         },
         item: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
+            require: true,
             ref: Item,
         },
     },

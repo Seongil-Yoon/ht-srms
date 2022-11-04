@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ht-srms :: 물품 등록</title>
     <%- include("../libs/libsStyles.ejs") %>
+    <%- include("../libs/jui/jui-libsStyles.ejs") %>
     <link rel="stylesheet" href="/static/css/item/item-insert.css">
 </head>
 
@@ -18,11 +19,149 @@
             <article>
                 <span>✏️ 물품 등록</span>
             </article>
-            <article class="roundBox"></article>
+            <article class="item-insert-main roundBox">
+                <div class="item-form-group">
+                    <section class="roundBox">
+                        <form action="">
+                            <header>
+                                <span>📝 물품 등록 양식</span>
+                                <button type="reset">양식 초기화</button>
+                            </header>
+                            <article id="js-itemInsertForm">
+                                <ul>
+                                    <li>
+
+                                        <label for="js-itemCategoryLarge">*대분류 : </label>
+                                        <div>
+                                            <select class="item-category-large" id="js-itemCategoryLarge"
+                                                name="itemCategoryLarge">
+                                                <option>대분류</option>
+                                                <option value="">전자제품</option>
+                                                <option value="">문구</option>
+                                                <option value="">도서</option>
+                                                <option value="">인형</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <label for="js-itemCategorySmall">*소분류 : </label>
+                                        <div>
+                                            <select class="item-category-small" id="js-itemCategorySmall"
+                                                name="itemCategorySmall">
+                                                <option>소분류</option>
+                                                <option value="">모니터</option>
+                                                <option value="">키보드</option>
+                                                <option value="">마우스</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <label for="js-itemName">*물품 이름 : </label>
+                                        <input type="text" id="js-itemName" class="item-name" name="itemName"
+                                            placeholder="물품의 이름을 입력해주세요" required />
+                                    </li>
+                                    <li>
+                                        <label for="js-itemIsCanRent">*대여 가능 여부 : </label>
+                                        <div>
+                                            <input type="radio" class="btn small" id="js-itemIsCanRent"
+                                                name="itemIsCanRent" value='true' checked>
+                                            <label for="js-itemIsCanRent">대여 가능</label>
+                                            <input type="radio" class="btn small" id="js-itemIsCantRent"
+                                                name="itemIsCanRent" value='false'>
+                                            <label for="js-itemIsCantRent">대여 불가능</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <label for="js-itemIsNeedReturn">*반납 필요 여부 : </label>
+                                        <div>
+                                            <input type="radio" class="btn small" id="js-itemIsNeedReturn"
+                                                name="itemIsNeedReturn" value='true' checked>
+                                            <label for="js-itemIsNeedReturn">반납 필요</label>
+                                            <input type="radio" class="btn small" id="js-itemIsntNeedReturn"
+                                                name="itemIsNeedReturn" value='false'>
+                                            <label for="js-itemIsntNeedReturn">반납 불필요</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <label for="js-itemId">제품 코드 : </label>
+                                        <input type="text" id="js-itemId" class="item-id" name="itemId"
+                                            placeholder="제품코드를 입력해주세요" />
+                                    </li>
+                                    <li>
+                                        <label for="js-itemTotalAmount">물품 수량 : </label>
+                                        <input type="number" id="js-itemTotalAmount" class="item-total-amount"
+                                            name="itemTotalAmount" placeholder="1" />
+                                    </li>
+                                </ul>
+                            </article>
+                            <footer>
+                                <button type="submit" for="js-itemInsertForm">
+                                    등록리스트에 올리기📩
+                                </button>
+                            </footer>
+                        </form>
+                    </section>
+                    <section class="roundBox">
+                        <form action="">
+                            <header>
+                                <span>📃 물품 등록리스트</span>
+                                <button type="reset">리스트 초기화</button>
+                            </header>
+                            <article id="itemListTableWrap">
+                                <div class="jui">
+                                    <input type="file" id="table_16_btn" />
+                                    <div id="xtable_3" class="xtable" style="margin-top: 7px;">
+                                        <table class="table simple headline">
+                                            <thead>
+                                                <tr>
+                                                    <th>대분류</th>
+                                                    <th>소분류</th>
+                                                    <th>물품이름</th>
+                                                    <th>대여여부</th>
+                                                    <th>반납여부</th>
+                                                    <th>코드</th>
+                                                    <th>수량</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+                                    <script data-jui="#xtable_3" data-tpl="row" type="text/template">
+                                        <tr>
+                                            <td><!= itemCategoryLarge !></td>
+                                            <td><!= itemCategorySmall !></td>
+                                            <td><!= itemName !></td>
+                                            <td><!= itemIsCanRent !></td>
+                                            <td><!= itemIsNeedReturn !></td>
+                                            <td><!= itemId !></td>
+                                            <td><!= itemTotalAmount !></td>
+                                        </tr>
+                                    </script>
+
+                                    <script data-jui="#xtable_3" data-tpl="none" type="text/template">
+                                        <tr>
+                                            <td colspan="3" class="none" align="center">Data does not exist.</td>
+                                        </tr>
+                                    </script>
+                                </div>
+                            </article>
+                            <footer>
+                                <button type="submit">등록리스트 임시저장</button>
+                            </footer>
+                        </form>
+                    </section>
+                </div>
+                <div class="item-insert-footer">
+                    <button>취소</button>
+                    <button>최종등록</button>
+                </div>
+            </article>
         </section>
     </div>
 
     <%- include("../libs/libsScript.ejs") %>
+    <%- include("../libs/jui/jui-libsScript.ejs") %>
     <script type="module" src="/static/js/item/item-insert.js"></script>
 </body>
 
