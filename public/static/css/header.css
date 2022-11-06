@@ -4,7 +4,7 @@ header {
     height: 50px;
 }
 
-.header-text{
+.header-text {
     font-size: larger;
     color: white;
 }
@@ -38,13 +38,28 @@ nav.srms-header>.header-center {
     align-items: center;
     justify-content: space-evenly;
 }
-nav.srms-header>.header-center>span{
 
-}
+nav.srms-header>.header-center>span {}
 
 nav.srms-header>.header-right {
     flex: 3;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.btn-insertItem {
+    font-size: larger;
+    border: rgb(35, 78, 112);
+    padding: 3px;
+    padding-left: 12px;
+    padding-right: 14px;
+    border-radius: 6px;
+    border-style: solid;
+}
+
+.btn-insertItem:hover {
+    background-color: rgba(255, 249, 215);
+    color: rgb(35, 78, 112);
+    font-weight: bolder;
 }

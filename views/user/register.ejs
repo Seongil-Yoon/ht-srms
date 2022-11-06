@@ -22,13 +22,13 @@
             <div class="user-id-wrap input-group">
                 <label for="js-userId">사번</label>
                 <input type="text" id="js-userId" class="user-id" name="userId" placeholder="특수문자나 한글은 입력할 수 없습니다"
-                    required autofocus>
+                    autocomplete="off" required autofocus>
                 <span class="check-alarm1">❌이미 등록된 사람입니다</span>
             </div>
 
             <div class="user-name-wrap input-group">
                 <label for="js-userName">이름</label>
-                <input type="text" id="js-userName" class="user-name" name="userName" required>
+                <input type="text" id="js-userName" class="user-name" name="userName" autocomplete="off" required>
             </div>
 
             <div class="user-password-wrap input-group">
@@ -48,7 +48,7 @@
             <div class="input-group">
                 <label for="js-userEmail">이메일</label>
                 <input type="email" id="js-userEmail" name="userEmail" class="user-email" placeholder="xxxx@example.com"
-                    required>
+                    autocomplete="off" required>
                 <span class="check-alarm1">❌올바른 이메일 형식이 아닙니다.</span>
             </div>
             <div class="select-group">
@@ -75,8 +75,7 @@
                     <label for="js-userPosition">직책</label>
                 </div>
             </div>
-
-            <input type="submit" value="회원가입">
+            <input type="submit" value="회원가입" class="btn btn-outline-primary btn-blue">
         </form>
     </section>
 

@@ -19,7 +19,7 @@ section>article.item-insert-main {
     display: flex;
     padding: 1.2em;
     background-color: rgba(255, 249, 215, 0.8);
-    min-height: 70vh;
+    min-height: 80vh;
 
 }
 
@@ -89,7 +89,9 @@ section>article>.item-form-group>section>form>footer {
 }
 
 
-section>article>.item-form-group>section>form>footer>button {}
+section>article>.item-form-group>section>form>footer>button {
+    width: 100%;
+}
 
 section>article>.item-form-group>section:first-child {}
 
@@ -103,12 +105,38 @@ section>article>.item-form-group>section:first-child ul {
 
 section>article>.item-form-group>section:first-child ul>li {
     min-height: 10px;
+    width: 100%;
     display: flex;
     justify-content: space-around;
 }
 
 section>article>.item-form-group>section:first-child ul>li>:first-child {
-    min-width: 200px;
+    flex: 3;
+}
+
+section>article>.item-form-group>section:first-child ul>li>:last-child {
+    flex: 7;
+    display: flex;
+}
+
+/* ===== 대분류, 소분류 ===== */
+section>article>.item-form-group>section:first-child ul>li>:last-child>select {
+    flex: 7;
+}
+
+section>article>.item-form-group>section:first-child ul>li>:last-child>button {
+    flex: 3;
+    margin-left: 10px;
+}
+
+/* ===== end of 대분류, 소분류 ===== */
+
+section>article>.item-form-group>section:first-child ul>li>.btn-group>label {
+    width: 100%;
+}
+
+section>article>.item-form-group>section:first-child ul>li> input {
+    min-height: 2.2rem;
 }
 
 section>article>.item-form-group>section:last-child {}

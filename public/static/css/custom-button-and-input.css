@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+input[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+/* ===== 버튼 및 라디오체크박스 공통===== */
+.btn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 2px solid transparent;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    padding: 0.375rem 0.75rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.btn-group>:nth-child(2) {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-right: 0px;
+}
+
+.btn-group>:nth-child(4) {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 0px;
+}
+
+.btn-check {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+.btn-outline-primary {
+    background-color: #F9F9F9;
+    color: rgb(35, 78, 112);
+    border-color: rgb(35, 78, 112);
+}
+
+.btn-outline-primary:hover {
+    background-color: rgb(64, 123, 168);
+    color: white;
+    font-weight: bolder;
+}
+
+.btn-check:checked+.btn-outline-primary,
+.btn-outline-primary:active {
+    background-color: rgb(35, 78, 112);
+    color: white;
+}
+
+.btn-check:notchecked+.btn-outline-primary {
+    background-color: #F9F9F9;
+    color: black;
+}
+
+/* ===== end of 버튼 및 라디오체크박스 공통===== */
+
+/* ===== 파란색 배경 버튼 ===== */
+.btn-blue {
+    background-color: rgb(35, 78, 112);
+    color: white;
+}
+
+.btn-blue:hover {
+    background-color: rgb(64, 123, 168);
+    color: white;
+}
+
+/* ===== 흰색 배경 버튼 ===== */
+.btn-white {
+    background-color: white;
+    color: rgb(35, 78, 112);
+}

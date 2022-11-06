@@ -25,7 +25,7 @@
                         <form action="">
                             <header>
                                 <span>📝 물품 등록 양식</span>
-                                <button type="reset">양식 초기화</button>
+                                <button type="reset" class="btn btn-outline-primary btn-white">양식 초기화</button>
                             </header>
                             <article id="js-itemInsertForm">
                                 <ul>
@@ -41,6 +41,8 @@
                                                 <option value="">도서</option>
                                                 <option value="">인형</option>
                                             </select>
+                                            <button type="button" for="js-itemCategoryLarge"
+                                                class="btn btn-outline-primary btn-blue">대분류 추가</button>
                                         </div>
                                     </li>
                                     <li>
@@ -53,6 +55,8 @@
                                                 <option value="">키보드</option>
                                                 <option value="">마우스</option>
                                             </select>
+                                            <button type="button" for="js-itemCategorySmall"
+                                                class="btn btn-outline-primary btn-blue">소분류 추가</button>
                                         </div>
                                     </li>
                                     <li>
@@ -62,24 +66,27 @@
                                     </li>
                                     <li>
                                         <label for="js-itemIsCanRent">*대여 가능 여부 : </label>
-                                        <div>
-                                            <input type="radio" class="btn small" id="js-itemIsCanRent"
+                                        <div class="btn-group">
+                                            <input type="radio" class="btn-check" id="js-itemIsCanRent"
                                                 name="itemIsCanRent" value='true' checked>
-                                            <label for="js-itemIsCanRent">대여 가능</label>
-                                            <input type="radio" class="btn small" id="js-itemIsCantRent"
+                                            <label class="btn btn-outline-primary" for="js-itemIsCanRent">대여 가능</label>
+                                            <input type="radio" class="btn-check" id="js-itemIsCantRent"
                                                 name="itemIsCanRent" value='false'>
-                                            <label for="js-itemIsCantRent">대여 불가능</label>
+                                            <label class="btn btn-outline-primary" for="js-itemIsCantRent">대여
+                                                불가능</label>
                                         </div>
                                     </li>
                                     <li>
                                         <label for="js-itemIsNeedReturn">*반납 필요 여부 : </label>
-                                        <div>
-                                            <input type="radio" class="btn small" id="js-itemIsNeedReturn"
+                                        <div class="btn-group">
+                                            <input type="radio" class="btn-check" id="js-itemIsNeedReturn"
                                                 name="itemIsNeedReturn" value='true' checked>
-                                            <label for="js-itemIsNeedReturn">반납 필요</label>
-                                            <input type="radio" class="btn small" id="js-itemIsntNeedReturn"
+                                            <label class="btn btn-outline-primary" for="js-itemIsNeedReturn">반납
+                                                필요</label>
+                                            <input type="radio" class="btn-check" id="js-itemIsntNeedReturn"
                                                 name="itemIsNeedReturn" value='false'>
-                                            <label for="js-itemIsntNeedReturn">반납 불필요</label>
+                                            <label class="btn btn-outline-primary" for="js-itemIsntNeedReturn">반납
+                                                불필요</label>
                                         </div>
                                     </li>
                                     <li>
@@ -95,7 +102,7 @@
                                 </ul>
                             </article>
                             <footer>
-                                <button type="submit" for="js-itemInsertForm">
+                                <button type="submit" class="btn btn-outline-primary btn-blue" for="js-itemInsertForm">
                                     등록리스트에 올리기📩
                                 </button>
                             </footer>
@@ -105,7 +112,7 @@
                         <form action="">
                             <header>
                                 <span>📃 물품 등록리스트</span>
-                                <button type="reset">리스트 초기화</button>
+                                <button type="reset" class="btn btn-outline-primary btn-white">리스트 초기화</button>
                             </header>
                             <article id="itemListTableWrap">
                                 <div class="jui">
@@ -147,14 +154,14 @@
                                 </div>
                             </article>
                             <footer>
-                                <button type="submit">등록리스트 임시저장</button>
+                                <button type="submit" class="btn btn-outline-primary btn-blue">등록리스트 임시저장</button>
                             </footer>
                         </form>
                     </section>
                 </div>
                 <div class="item-insert-footer">
-                    <button>취소</button>
-                    <button>최종등록</button>
+                    <button class="btn btn-outline-primary btn-white">취소</button>
+                    <button class="btn btn-outline-primary btn-blue">최종등록</button>
                 </div>
             </article>
         </section>

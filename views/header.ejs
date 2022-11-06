@@ -16,7 +16,7 @@
                 <%  
                 const roles = userInfo.userRole;
                 if(roles.write === true || roles.edit === true || roles.admin === true ) {%>
-                    <a id="js-itemWrite" class="btn-white" href="/item-manage-page/insert-item-page">
+                    <a id="js-itemWrite" class="btn btn-outline-primary btn-white btn-insertItem" href="/item-manage-page/insert-item-page">
                         ✏️ 물품 등록
                     </a>
                 <% } %>

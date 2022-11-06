@@ -23,6 +23,14 @@ aside>a>div.sidebar-option {
     align-items: center;
 }
 
+aside>a>div.sidebar-option:hover {
+    border-color: red;
+    border-style: solid;
+    background-color: rgb(255, 249, 215) !important;
+    border-width: 0px 0px 0px 5px;
+    color: black;
+}
+
 .main>aside {
     position: fixed;
     top: 50px;
@@ -73,6 +81,6 @@ section>article.roundBox>.paging {
     margin-top: 20px;
 }
 
-section>article.roundBox>.tablebody{
+section>article.roundBox>.tablebody {
     margin-top: 10px;
 }

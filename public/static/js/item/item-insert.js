@@ -1,5 +1,6 @@
-import { itemDto } from "./model/item-dto";
-itemDto
+import {
+    itemDto
+} from "./model/item-dto.js";
 let table_16, xtable_3;
 const table_16_btn = document.querySelector('#table_16_btn');
 const itemListTableWrap = document.querySelector('#itemListTableWrap');
