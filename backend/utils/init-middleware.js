@@ -1,15 +1,17 @@
 import customJwt from './auth-jwt.js';
-import {convertCookieToObject} from './cookie-util.js';
+import {
+    convertCookieToObject
+} from './cookie-util.js';
 import isEmptyObj from './isEmptyObj.js';
 
 function blockGoToInit(req, res, next) {
     const tokenInCookie = convertCookieToObject(req.headers.cookie);
+    console.log(req.query);
     try {
         if (tokenInCookie !== undefined) {
             if (tokenInCookie.accessToken) {
                 const result = customJwt.verify(tokenInCookie.accessToken);
                 if (result.ok) {
-                    console.log("customJwt.verify : ", customJwt.verify);
                     //엑세스토큰있으며 검증되면 물품관리페이지.
                     return res.redirect('/item-manage-page');
                 } else {

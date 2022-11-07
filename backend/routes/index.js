@@ -32,7 +32,7 @@ router.post('/logout', UserController.userLogout);
 router.route('/item-manage-page').get(ItemManageController.getItemPage);
 router
     .route('/item-manage-page/insert-item-page')
-    .get(ItemManageController.getInsertItemPage);
+    .get(hasRole('write', 'edit', 'admin'),ItemManageController.getInsertItemPage);
 router
     .route('/item')
     .get(ItemManageController.getItemList)

@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 const customUtill = {
     getKeyByValue: (object, value) => {
-        console.log('object : ', object);
         return Object.keys(object).find((key) => object[key] === value);
     },
     getValueByKey: (object, key) => {

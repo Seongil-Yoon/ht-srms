@@ -9,12 +9,12 @@ const customJwt = {
             // access token에 들어갈 payload
             id: user.userId,
             role: user.userRole,
-            name: user.userName
+            name: user.userName,
         };
         return jwt.sign(payload, process.env.JWT_SECRET, {
             // process.env.JWT_SECRET으로 sign하여 발급하고 return
             algorithm: 'HS256',
-            expiresIn: '30m',
+            expiresIn: '10m',
             issuer: 'kshired',
         });
     },
@@ -26,7 +26,7 @@ const customJwt = {
                 ok: true,
                 id: decoded.id,
                 role: decoded.role,
-                name: decoded.name
+                name: decoded.name,
             };
         } catch (err) {
             return {
@@ -40,20 +40,28 @@ const customJwt = {
         return jwt.sign({}, process.env.JWT_SECRET, {
             // refresh token은 payload 없이 발급
             algorithm: 'HS256',
-            expiresIn: '6h',
+            expiresIn: '1h',
             issuer: 'kshired',
         });
     },
     refreshVerify: async (token, userId) => {
-        // refresh token 검증
-        const data = await User.findOne({
-            userId: userId,
-        });
         try {
-            if (token === data) {
-                return {
-                    ok: true,
-                };
+            const data = await User.findOne({
+                userId: userId,
+            });
+            if (token === data.refreshToken) {
+                try {
+                    //리프레쉬토큰 검증
+                    jwt.verify(token, process.env.JWT_SECRET);
+                    return {
+                        ok: true,
+                    };
+                } catch (error) {
+                    console.log('jwt expiredAt : ', error.expiredAt);
+                    return {
+                        ok: false,
+                    };
+                } //end of inner try-catch
             } else {
                 return {
                     ok: false,
@@ -63,7 +71,7 @@ const customJwt = {
             return {
                 ok: false,
             };
-        }
+        } //end of outer try-catch
     },
 };
 

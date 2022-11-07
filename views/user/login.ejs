@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ht-srms :: 로그인</title>
     <%- include("../libs/libsStyles.ejs") %>
+    <%- include("../libs/jui/jui-libsStyles.ejs") %>
     <link rel="stylesheet" href="/static/css/user/login.css">
 </head>
 
@@ -18,7 +19,7 @@
             <img src="/static/images/ht-SRMS square.png" alt="">
 
             <label for="js-userId">사번</label>
-            <input type="text" id="js-userId" class="user-id" name="userId" required autofocus>
+            <input type="text" id="js-userId" class="user-id" name="userId" autocomplete="off" required autofocus>
 
             <label for="js-userPassword">비밀번호</label>
             <input type="password" id="js-userPassword" class="user-password" name="userPassword" autocomplete="on"
@@ -31,8 +32,17 @@
             </footer>
         </form>
     </section>
-
+    <footer class="jui">
+        <div id="notify_target"></div>
+        <script id="tpl_alarm" type="text/template">
+            <div class="notify <!= color !>">
+                <div class="title"><!= title !></div>
+                <div class="message"><!= message !></div>
+            </div>
+        </script>
+    </footer>
     <%- include("../libs/libsScript.ejs") %>
+    <%- include("../libs/jui/jui-libsScript.ejs") %>
     <script type="module" src="/static/js/user/login-script.js"></script>
 </body>
 

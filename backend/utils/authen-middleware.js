@@ -3,6 +3,7 @@
  */
 import customJwt from './auth-jwt.js';
 import {convertCookieToObject} from './cookie-util.js';
+import { refresh } from './refresh.js';
 import isEmptyObj from './isEmptyObj.js';
 
 const authJWT = (req, res, next) => {
@@ -19,8 +20,11 @@ const authJWT = (req, res, next) => {
                     };
                     next();
                 } else {
-                    return res.redirect('/');
+                    //엑세스토큰 만료시
+                    refresh(req, res, next);
                 }
+            } else {
+                return res.redirect('/');
             }
         } else {
             return res.redirect('/');

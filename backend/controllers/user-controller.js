@@ -29,8 +29,8 @@ const UserController = {
                     }
                 );
 
-                res.cookie('accessToken', accessToken);
-                res.cookie('refreshToken', refreshToken);
+                res.cookie('accessToken', accessToken, {httpOnly: true});
+                res.cookie('refreshToken', refreshToken, {httpOnly: true});
                 res.status(200).send({
                     ok: true,
                     data: {
@@ -81,26 +81,28 @@ const UserController = {
                     },
                 }
             );
+            const refreshToken = customJwt.refresh();
             const user = await User.create({
-                userNum : counter.userNum,
+                userNum: counter.userNum,
                 userId,
                 userName,
                 userPassword: hashedPassword,
                 userEmail,
                 userDept,
                 userPosition,
+                refreshToken: refreshToken,
             });
-            console.log("user : ", user);
 
             const token = customJwt.sign(user);
-            res.cookie('accessToken', token);
+            res.cookie('accessToken', token, {httpOnly: true});
+            res.cookie('refreshToken', refreshToken, {httpOnly: true});
 
             res.status(200).send({
                 ok: true,
                 message: 'accessToken Created!',
             });
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             res.status(409).send({
                 ok: false,
                 message: err.message,

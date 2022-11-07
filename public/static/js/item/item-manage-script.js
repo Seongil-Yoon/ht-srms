@@ -1,7 +1,5 @@
 import customUtill from '../custom-utill.js';
-import {
-    itemDto
-} from './model/item-dto.js';
+import {itemDto} from './model/item-dto.js';
 let table_9, paging_1;
 
 itemDto.itemId = 'A232323';
@@ -44,7 +42,8 @@ jui.ready(['ui.dropdown', 'grid.table'], function (dropdown, table) {
             'itemTotalAmount',
             'updatedAt',
         ],
-        data: [{
+        data: [
+            {
                 itemId: 'A000001',
                 itemCategoryLarge: '전자제품',
                 itemCategorySmall: '모니터',
@@ -182,7 +181,5 @@ jui.ready(['ui.paging'], function (paging) {
 /* ======  end of JUI 실행 ======*/
 /* ==============================*/
 
-function main() {
-    customUtill.postRefresh();
-}
+function main() {}
 main();
