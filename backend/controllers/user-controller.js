@@ -1,6 +1,7 @@
 import UserService from '../service/user-service.js';
 import bcrypt from 'bcrypt';
 import {User} from '../schemas/userSchema.js';
+import UserDTO from '../dto/user-dto.js';
 import customJwt from '../utils/auth-jwt.js';
 import {Counter} from '../schemas/counterSchema.js';
 
@@ -11,17 +12,21 @@ const UserController = {
         });
     },
     postLogin: async (req, res) => {
-        const {userId, userPassword} = req.body;
-        const user = await User.findOne({userId});
-        if (user) {
-            const chk = await bcrypt.compare(userPassword, user.userPassword);
+        const userDto = new UserDTO(req.body);
+        // const {userId, userPassword} = req.body;
+        const result = await User.findOne({userId: userDto.userId});
+        if (result) {
+            const chk = await bcrypt.compare(
+                userDto.userPassword,
+                result.userPassword
+            );
             if (chk) {
-                user.userPassword = undefined;
-                const accessToken = customJwt.sign(user);
+                result.userPassword = undefined;
+                const accessToken = customJwt.sign(result);
                 const refreshToken = customJwt.refresh();
 
                 await User.findOneAndUpdate(
-                    {userId: user.userId},
+                    {userId: result.userId},
                     {
                         $set: {
                             refreshToken: refreshToken,

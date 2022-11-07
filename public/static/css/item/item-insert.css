@@ -15,6 +15,9 @@ aside>a.item-manage {
 
 div.main {}
 
+.swal-text{
+    color: tomato;
+}
 section>article.item-insert-main {
     display: flex;
     padding: 1.2em;

@@ -76,7 +76,7 @@ function main() {
 
             const notify_bottom_submit = (type, color) => {
                 let data = {
-                    title: '장시간 사용하지 않아 자동 로그아웃 되었습니다',
+                    title: '인증정보가 만료되어 자동 로그아웃 되었습니다',
                     message: '다시 로그인해 주시기 바랍니다',
                     color: color,
                 };

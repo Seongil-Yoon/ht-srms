@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import customMoment from '../utils/custom-moment.js';
+import {Item} from './itemSchema.js';
+import {Rent} from './rentSchema.js';
 
 const {Schema} = mongoose;
 const userSchema = new Schema(
@@ -7,12 +9,27 @@ const userSchema = new Schema(
         userNum: {
             type: Number,
             require: false,
+            unique: true,
         },
         userId: {
             type: String,
             require: true,
             unique: true,
         },
+        rentedItem: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                require: false,
+                ref: 'Rent',
+            },
+        ],
+        writedItem: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                require: false,
+                ref: 'Item',
+            },
+        ],
         userName: {
             type: String,
             require: true,
@@ -46,10 +63,6 @@ const userSchema = new Schema(
             require: true,
             default: 'etc',
         },
-        refreshToken: {
-            type: String,
-            require: false,
-        },
         createdAt: {
             type: Date,
             default: customMoment.asiaSeoulTimeNow(),
@@ -57,6 +70,10 @@ const userSchema = new Schema(
         updatedAt: {
             type: Date,
             default: customMoment.asiaSeoulTimeNow(),
+        },
+        refreshToken: {
+            type: String,
+            require: false,
         },
         isDelete: {
             type: Boolean,

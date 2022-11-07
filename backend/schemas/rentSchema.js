@@ -8,7 +8,31 @@ const rentSchema = new Schema(
     {
         rentNum: {
             type: Number,
-            require: false
+            require: true,
+        },
+        renter: {
+            type: Object,
+            require: true,
+            default: {
+                _id: undefined,
+                userId: undefined,
+                userName: undefined,
+                userDept: undefined,
+                userPosition: undefined,
+            },
+        },
+        rentedItem: {
+            type: Object,
+            require: true,
+            default: {
+                _id: undefined,
+                itemId: undefined,
+                itemName: undefined,
+                itemCategory: {
+                    large: undefined,
+                    small: undefined,
+                },
+            },
         },
         rentPurpose: {
             type: String,
@@ -31,6 +55,10 @@ const rentSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        isReturned: {
+            type: Boolean,
+            default: false,
+        },
         createdAt: {
             type: Date,
             default: customMoment.asiaSeoulTimeNow(),
@@ -38,16 +66,6 @@ const rentSchema = new Schema(
         updatedAt: {
             type: Date,
             default: customMoment.asiaSeoulTimeNow(),
-        },
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            require: true,
-            ref: User,
-        },
-        item: {
-            type: mongoose.Schema.Types.ObjectId,
-            require: true,
-            ref: Item,
         },
     },
     {

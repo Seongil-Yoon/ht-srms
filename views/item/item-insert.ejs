@@ -36,10 +36,10 @@
                                             <select class="item-category-large" id="js-itemCategoryLarge"
                                                 name="itemCategoryLarge">
                                                 <option>대분류</option>
-                                                <option value="">전자제품</option>
-                                                <option value="">문구</option>
-                                                <option value="">도서</option>
-                                                <option value="">인형</option>
+                                                <option value="전자제품">전자제품</option>
+                                                <option value="문구">문구</option>
+                                                <option value="도서">도서</option>
+                                                <option value="인형">인형</option>
                                             </select>
                                             <button type="button" for="js-itemCategoryLarge"
                                                 class="btn btn-outline-primary btn-blue">대분류 추가</button>
@@ -51,9 +51,9 @@
                                             <select class="item-category-small" id="js-itemCategorySmall"
                                                 name="itemCategorySmall">
                                                 <option>소분류</option>
-                                                <option value="">모니터</option>
-                                                <option value="">키보드</option>
-                                                <option value="">마우스</option>
+                                                <option value="모니터">모니터</option>
+                                                <option value="키보드">키보드</option>
+                                                <option value="마우스">마우스</option>
                                             </select>
                                             <button type="button" for="js-itemCategorySmall"
                                                 class="btn btn-outline-primary btn-blue">소분류 추가</button>
@@ -102,7 +102,8 @@
                                 </ul>
                             </article>
                             <footer>
-                                <button type="submit" class="btn btn-outline-primary btn-blue" for="js-itemInsertForm">
+                                <button type="button" class="btn btn-outline-primary btn-blue"
+                                    for="js-itemInsertFormBtn" id="js-itemInsertFormBtn">
                                     등록리스트에 올리기📩
                                 </button>
                             </footer>
@@ -112,7 +113,8 @@
                         <form action="">
                             <header>
                                 <span>📃 물품 등록리스트</span>
-                                <button type="reset" class="btn btn-outline-primary btn-white">리스트 초기화</button>
+                                <button type="reset" class="btn btn-outline-primary btn-white"
+                                    id="js-itemListResetBtn">리스트 초기화</button>
                             </header>
                             <article id="itemListTableWrap">
                                 <div class="jui">
@@ -121,11 +123,12 @@
                                         <table class="table simple headline">
                                             <thead>
                                                 <tr>
+                                                    <th width="20px">No</th>
                                                     <th>대분류</th>
                                                     <th>소분류</th>
                                                     <th>물품이름</th>
-                                                    <th>대여여부</th>
-                                                    <th>반납여부</th>
+                                                    <th>대여 가능 여부</th>
+                                                    <th>반납 필요 여부</th>
                                                     <th>코드</th>
                                                     <th>수량</th>
                                                 </tr>
@@ -136,6 +139,7 @@
 
                                     <script data-jui="#xtable_3" data-tpl="row" type="text/template">
                                         <tr>
+                                            <td><!= row.index !></td>
                                             <td><!= itemCategoryLarge !></td>
                                             <td><!= itemCategorySmall !></td>
                                             <td><!= itemName !></td>
@@ -148,20 +152,22 @@
 
                                     <script data-jui="#xtable_3" data-tpl="none" type="text/template">
                                         <tr>
-                                            <td colspan="3" class="none" align="center">Data does not exist.</td>
+                                            <td colspan="8" class="none" align="center">Data does not exist.</td>
                                         </tr>
                                     </script>
                                 </div>
                             </article>
                             <footer>
-                                <button type="submit" class="btn btn-outline-primary btn-blue">등록리스트 임시저장</button>
+                                <button type="button" class="btn btn-outline-primary btn-blue"
+                                    id="js-itemListSave">등록리스트 임시저장</button>
                             </footer>
                         </form>
                     </section>
                 </div>
                 <div class="item-insert-footer">
-                    <button class="btn btn-outline-primary btn-white">취소</button>
-                    <button class="btn btn-outline-primary btn-blue">최종등록</button>
+                    <button type="button" class="btn btn-outline-primary btn-white" id="js-itemInsertCancel">취소</button>
+                    <button type="button" class="btn btn-outline-primary btn-blue"
+                        id="js-itemInsertSubmit">최종등록</button>
                 </div>
             </article>
         </section>
@@ -169,7 +175,8 @@
 
     <%- include("../libs/libsScript.ejs") %>
     <%- include("../libs/jui/jui-libsScript.ejs") %>
-    <script type="module" src="/static/js/item/item-insert.js"></script>
+    <script type="text/javascript" src="/static/libs/d3@7.js"></script>
+    <script type="module" src="/static/js/item/item-insert-script.js"></script>
 </body>
 
 </html>

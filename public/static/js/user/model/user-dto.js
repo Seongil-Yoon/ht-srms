@@ -1,10 +1,17 @@
 const userDto = {
     userId: undefined,
+    rentedItem: [],
+    writedItem: [],
     userName: undefined,
     userPassword: undefined,
     userEmail: undefined,
+    userRole: {},
     userDept: undefined,
     userPosition: undefined,
+    createdAt: undefined,
+    updatedAt: undefined,
+    refreshToken: undefined,
+    isDelete: undefined,
 };
 /* 싱글톤 및 빌더 패턴*/
 /* let instance = null;

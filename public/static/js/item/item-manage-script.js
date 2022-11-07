@@ -2,11 +2,6 @@ import customUtill from '../custom-utill.js';
 import {itemDto} from './model/item-dto.js';
 let table_9, paging_1;
 
-itemDto.itemId = 'A232323';
-itemDto.itemCategory.large = '전자제품';
-itemDto.itemCategory.small = '모니터';
-itemDto.itemIsCanRent = '대여 가능';
-itemDto.itemIsNeedReturn = '반납 불필요';
 const itemRowDate = [];
 const position = {
     pageX: 0,

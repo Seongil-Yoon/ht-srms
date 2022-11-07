@@ -44,17 +44,16 @@ const refresh = async (req, res, next) => {
                 } else {
                     // 2. access token이 만료되고, refresh token은 만료되지 않은 경우 => 새로운 access token을 발급
                     const newAccessToken = customJwt.sign({
+                        _id: decoded._id,
                         userId: decoded.id,
                         userRole: decoded.role,
                         userName: decoded.name,
                     });
+                    // 새로 발급한 access token과 원래 있던 refresh token 모두 클라이언트에게 반환합니다.
                     res.cookie('accessToken', newAccessToken, {httpOnly: true});
                     res.cookie('refreshToken', refreshToken, {httpOnly: true});
 
-                    // 새로 발급한 access token과 원래 있던 refresh token 모두 클라이언트에게 반환합니다.
-                    return res.redirect(
-                        `/?ok=true&msg=Acess token is expired!`
-                    );
+                    next();
                 }
             } else {
                 // 3. access token이 만료되지 않은경우 => refresh 할 필요가 없습니다.

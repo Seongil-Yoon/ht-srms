@@ -9,6 +9,7 @@
             <% if(userInfo) {%>
                 <span class="header-text"><%= userInfo.userName%>님 환영합니다</span>
                 <span class="header-text">사번 : <%= userInfo.userId%></span>
+                <input type="hidden" name="_id" value=<%= userInfo._id %>>
             <% } %>
         </div>
         <div class="header-right">

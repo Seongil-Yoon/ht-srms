@@ -11,7 +11,7 @@ import customUtill from './custom-utill.js';
 const hasRole = (...roles) => {
     // 미들웨어 반환
     return (req, res, next) => {
-        const userRoles = req.body.userRole;
+        const userRoles = req.userRole;
         const checkedRole = [];
 
         if (userRoles['admin']) {

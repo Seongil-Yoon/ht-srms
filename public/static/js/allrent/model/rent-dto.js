@@ -1,9 +1,11 @@
-const itemDto = {
+const rentDto = {
     itemId: undefined,
     itemWriter: undefined,
     itemRentId: [],
-    itemCategoryLarge: undefined,
-    itemCategorySmall: undefined,
+    itemCategory: {
+        large: undefined,
+        small: undefined,
+    },
     itemName: undefined,
     itemIsCanRent: undefined,
     itemIsNeedReturn: undefined,
@@ -15,4 +17,4 @@ const itemDto = {
     isDelete: undefined,
 };
 
-export {itemDto};
+export {rentDto};

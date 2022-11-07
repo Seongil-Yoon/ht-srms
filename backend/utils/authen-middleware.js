@@ -3,7 +3,7 @@
  */
 import customJwt from './auth-jwt.js';
 import {convertCookieToObject} from './cookie-util.js';
-import { refresh } from './refresh.js';
+import {refresh} from './refresh.js';
 import isEmptyObj from './isEmptyObj.js';
 
 const authJWT = (req, res, next) => {
@@ -13,11 +13,10 @@ const authJWT = (req, res, next) => {
             if (tokenInCookie.accessToken) {
                 const result = customJwt.verify(tokenInCookie.accessToken);
                 if (result.ok) {
-                    req.body = {
-                        userId: result.id,
-                        userRole: result.role,
-                        userName: result.name,
-                    };
+                    req._id = result._id;
+                    req.userId = result.id;
+                    req.userRole = result.role;
+                    req.userName = result.name;
                     next();
                 } else {
                     //엑세스토큰 만료시
