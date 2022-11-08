@@ -102,7 +102,7 @@ const itemInsertCancelClick = (e) => {
         icon: 'warning',
         buttons: true,
         dangerMode: true,
-        buttons: ['계속 등록', '등록 취소'],
+        buttons: ['닫기', '등록 취소'],
     }).then((e) => {
         if (e) {
             location.href = `/item-manage-page`;
@@ -110,38 +110,46 @@ const itemInsertCancelClick = (e) => {
     });
 };
 const itemInsertSubmitClick = (e) => {
-    const itemInsertAjax = () => {
-        $.ajax({
-            url: '/item',
-            type: 'post', //데이터 전달방식
-            data: JSON.stringify(itemList),
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (result, jqxHR) {
-                if (result.ok === true) {
-                    console.log(result);
-                } else {
-                    swal('서버 오류 관리자에게 문의 하세요', '', 'error');
-                    console.log(result);
-                }
-            },
-            error: function (error) {
-                //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
-                if (error.status == 404) {
-                    swal('찾는 자료가 없습니다', '', 'error');
-                } else if (error.status == 401) {
-                    swal('유효하지 않은 인증입니다', '', 'error');
-                } else if (error.status == 403) {
-                    swal('접근 권한이 없습니다', '', 'error');
-                } else if (error.status == 500) {
-                    swal('서버 오류 관리자에게 문의 하세요', '', 'error');
-                } else {
-                    swal(`${error.message}`, '', 'error');
-                }
-            },
-        }); //end of ajax
-    };
-    itemInsertAjax();
+    swal({
+        title: `등록리스트의 물품을 확인해주십시오`,
+        text: '',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+        buttons: ['닫기', '등록 하기'],
+    }).then((e) => {
+        if (e) {
+            $.ajax({
+                url: '/item',
+                type: 'post', //데이터 전달방식
+                data: JSON.stringify(itemList),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (result, jqxHR) {
+                    if (result.ok === true) {
+                        console.log(result);
+                    } else {
+                        swal('서버 오류 관리자에게 문의 하세요', '', 'error');
+                        console.log(result);
+                    }
+                },
+                error: function (error) {
+                    //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
+                    if (error.status == 404) {
+                        swal('찾는 자료가 없습니다', '', 'error');
+                    } else if (error.status == 401) {
+                        swal('유효하지 않은 인증입니다', '', 'error');
+                    } else if (error.status == 403) {
+                        swal('접근 권한이 없습니다', '', 'error');
+                    } else if (error.status == 500) {
+                        swal('서버 오류 관리자에게 문의 하세요', '', 'error');
+                    } else {
+                        swal(`${error.message}`, '', 'error');
+                    }
+                },
+            }); //end of ajax
+        }
+    });
 };
 
 function main() {
