@@ -1,4 +1,9 @@
 import {dom as itemDom} from './dom/item-insert-dom.js';
+import {
+    itemCategoryLargeAddEvent,
+    itemCategorySmallAddEvent,
+    itemCategoryRender
+} from './item-category-event.js';
 import {itemDto} from './model/item-dto.js';
 
 let table_16, xtable;
@@ -57,8 +62,8 @@ const juiGridXtable = () => {
 const itemInsertFormClick = (e) => {
     e.preventDefault();
     // itemDto.itemWriter = $("input[name='_id']").val();
-    itemDto.itemCategoryLarge = $("select[name='itemCategoryLarge']").val();
-    itemDto.itemCategorySmall = $("select[name='itemCategorySmall']").val();
+    itemDto.itemCategoryLarge = $("#js-itemCategoryLarge").val();
+    itemDto.itemCategorySmall = $("#js-itemCategorySmall").val();
     itemDto.itemName = $("input[name='itemName']").val();
     itemDto.itemIsCanRent = $("input[name='itemIsCanRent']:checked").val();
     itemDto.itemIsNeedReturn = $(
@@ -110,55 +115,78 @@ const itemInsertCancelClick = (e) => {
     });
 };
 const itemInsertSubmitClick = (e) => {
-    swal({
-        title: `등록리스트의 물품을 확인해주십시오`,
-        text: '',
-        icon: 'warning',
-        buttons: true,
-        dangerMode: true,
-        buttons: ['닫기', '등록 하기'],
-    }).then((e) => {
-        if (e) {
-            $.ajax({
-                url: '/item',
-                type: 'post', //데이터 전달방식
-                data: JSON.stringify(itemList),
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function (result, jqxHR) {
-                    if (result.ok === true) {
-                        console.log(result);
-                    } else {
-                        swal('서버 오류 관리자에게 문의 하세요', '', 'error');
-                        console.log(result);
-                    }
-                },
-                error: function (error) {
-                    //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
-                    if (error.status == 404) {
-                        swal('찾는 자료가 없습니다', '', 'error');
-                    } else if (error.status == 401) {
-                        swal('유효하지 않은 인증입니다', '', 'error');
-                    } else if (error.status == 403) {
-                        swal('접근 권한이 없습니다', '', 'error');
-                    } else if (error.status == 500) {
-                        swal('서버 오류 관리자에게 문의 하세요', '', 'error');
-                    } else {
-                        swal(`${error.message}`, '', 'error');
-                    }
-                },
-            }); //end of ajax
-        }
-    });
+    if (itemList.length > 0) {
+        swal({
+            title: `등록리스트의 물품을 확인해주십시오`,
+            text: '오른쪽 리스트에 있는 물품이 등록됩니다',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+            buttons: ['닫기', '등록 하기'],
+        }).then((e) => {
+            console.log(itemList);
+            if (e) {
+                $.ajax({
+                    url: '/item',
+                    type: 'post', //데이터 전달방식
+                    data: JSON.stringify(itemList),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (result, jqxHR) {
+                        if (result.ok === true) {
+                            swal('물품을 등록했습니다🎉', 'success');
+                            setTimeout(() => (location.href = '/'), 1400);
+                        } else {
+                            swal(
+                                '서버 오류 관리자에게 문의 하세요',
+                                '',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function (error) {
+                        //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
+                        if (error.status == 404) {
+                            swal('찾는 자료가 없습니다', '', 'error');
+                        } else if (error.status == 401) {
+                            swal('유효하지 않은 인증입니다', '', 'error');
+                        } else if (error.status == 403) {
+                            swal('접근 권한이 없습니다', '', 'error');
+                        } else if (error.status == 500) {
+                            swal(
+                                '서버 오류 관리자에게 문의 하세요',
+                                '',
+                                'error'
+                            );
+                        } else {
+                            swal(`${error.message}`, '', 'error');
+                        }
+                    },
+                }); //end of ajax
+            }
+        });
+    } else {
+        swal('물품을 하나도 올리지 않으셨습니다', '', 'error');
+    }
 };
 
 function main() {
     juiGridXtable();
     if (localStoreItemList) itemList = localStoreItemList;
+    itemCategoryRender();
     itemDom.itemInsertFormBtn.addEventListener('click', itemInsertFormClick);
     itemDom.itemListSave.addEventListener('click', itemListSaveClick);
     itemDom.itemListResetBtn.addEventListener('click', itemListResetBtnClick);
     itemDom.itemInsertCancel.addEventListener('click', itemInsertCancelClick);
     itemDom.itemInsertSubmit.addEventListener('click', itemInsertSubmitClick);
+
+    itemDom.itemCategoryLargeAddInsert.addEventListener(
+        'click',
+        itemCategoryLargeAddEvent.itemCategoryLargeAddSelect
+    );
+    itemDom.itemCategorySmallAddInsert.addEventListener(
+        'click',
+        itemCategorySmallAddEvent.itemCategorySmallAddSelect
+    );
 }
 main();

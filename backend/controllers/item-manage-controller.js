@@ -19,15 +19,35 @@ const ItemManageController = {
             },
         });
     },
-    getInsertItemPage: (req, res) => {
-        res.render('item/item-insert', {
-            userInfo: {
-                _id: req._id,
-                userId: req.userId,
-                userRole: req.userRole,
-                userName: req.userName,
-            },
-        });
+    getInsertItemPage: async (req, res) => {
+        try {
+            res.render('item/item-insert', {
+                userInfo: {
+                    _id: req._id,
+                    userId: req.userId,
+                    userRole: req.userRole,
+                    userName: req.userName,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(404).send({
+                ok: false,
+                message: '',
+            });
+        }
+    },
+    getAllItemCategory: async (req, res) => {
+        try {
+            const itemCategory = await ItemCategory.find({});
+            res.json(itemCategory);
+        } catch (error) {
+            console.log(error);
+            res.status(404).send({
+                ok: false,
+                message: '',
+            });
+        }
     },
     getItemList: (req, res) => {},
     getItem: (req, res) => {},
@@ -114,7 +134,6 @@ const ItemManageController = {
                 return insertResult;
             };
 
-            let x = await itemListForEach();
             itemListForEach().then((e) => {
                 console.log(e); // 해결필요
                 res.status(200).send({

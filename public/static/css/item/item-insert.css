@@ -15,9 +15,6 @@ aside>a.item-manage {
 
 div.main {}
 
-.swal-text{
-    color: tomato;
-}
 section>article.item-insert-main {
     display: flex;
     padding: 1.2em;
@@ -123,13 +120,16 @@ section>article>.item-form-group>section:first-child ul>li>:last-child {
 }
 
 /* ===== 대분류, 소분류 ===== */
-section>article>.item-form-group>section:first-child ul>li>:last-child>select {
-    flex: 7;
+section>article>.item-form-group>section:first-child ul>li>:last-child>:first-child {
+    flex: 6;
 }
 
 section>article>.item-form-group>section:first-child ul>li>:last-child>button {
-    flex: 3;
+    flex: 4;
     margin-left: 10px;
+}
+section>article>.item-form-group>section:first-child ul>li>.other{
+    display: none;
 }
 
 /* ===== end of 대분류, 소분류 ===== */
