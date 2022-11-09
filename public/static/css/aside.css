@@ -76,11 +76,6 @@ section>article.roundBox {
     min-height: max-content
 }
 
-section>article.roundBox>.paging {
-    max-width: 80%;
+section>article.roundBox>footer ,.tablebody {
     margin-top: 20px;
-}
-
-section>article.roundBox>.tablebody {
-    margin-top: 10px;
 }

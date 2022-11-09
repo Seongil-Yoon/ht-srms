@@ -38,7 +38,6 @@ router
     );
 router.get(
     '/item-manage-page/category',
-    hasRole('write', 'edit', 'admin'),
     ItemManageController.getAllItemCategory
 );
 router.get('/items', ItemManageController.getItemList);

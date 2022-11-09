@@ -24,17 +24,33 @@ class PagingFooterBar {
         @dom pagingTableFooter, prevBtn, pageNumList, nextBtn
         @return void
     */
-    createPageNum({startPage, endPage, maxPost, totalPage, currentPage}) {
+    createPageNum({
+        startPage,
+        endPage,
+        maxPost,
+        hidePost,
+        totalPage,
+        currentPage,
+    }) {
         try {
             this.fragment = document.createDocumentFragment();
             while (this.pageNumList.hasChildNodes()) {
                 this.pageNumList.removeChild(this.pageNumList.firstChild);
             }
-
-            if (startPage > maxPost) {
+            if (
+                startPage > ((startPage - 1) * maxPost) / maxPost &&
+                hidePost / maxPost !== 0 &&
+                startPage !== 1
+            ) {
                 // 이전 페이지 버튼 활성화
                 this.prevBtn.setAttribute('data-value', startPage - 1);
+                this.prevBtn.innerHTML = '이전';
+                this.prevBtn.setAttribute(
+                    'style',
+                    '/* background-image: url(../img/theme/jennifer/paging-list.png); */'
+                );
             } else {
+                this.prevBtn.removeAttribute('data-value');
                 this.prevBtn.innerHTML = '';
                 this.prevBtn.setAttribute('style', 'background-image: url()');
             }
@@ -55,7 +71,13 @@ class PagingFooterBar {
             if (endPage < totalPage) {
                 // 다음 페이지 버튼 활성화
                 this.nextBtn.setAttribute('data-value', endPage + 1);
+                this.nextBtn.innerHTML = '다음';
+                this.nextBtn.setAttribute(
+                    'style',
+                    '/* background-image: url(../img/theme/jennifer/paging-list.png); */'
+                );
             } else {
+                this.nextBtn.removeAttribute('data-value');
                 this.nextBtn.innerHTML = '';
                 this.nextBtn.setAttribute('style', 'background-image: url()');
             }

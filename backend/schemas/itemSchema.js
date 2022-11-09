@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import customMoment from '../utils/custom-moment.js';
 import {Rent} from './rentSchema.js';
 import {User} from './userSchema.js';
 
@@ -63,11 +62,11 @@ const itemSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow(),
+            default: Date.now(),
         },
         updatedAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow(),
+            default: Date.now(),
         },
         isDelete: {
             type: Boolean,

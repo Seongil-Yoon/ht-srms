@@ -4,7 +4,9 @@ let itemCategoryList = [];
 
 const smallRender = () => {
     $('#js-itemCategorySmall').empty();
-    let largeCategory = $('option:selected').attr('value');
+    let largeCategory = $('#js-itemCategoryLarge')
+        .children('option:selected')
+        .attr('value');
     let findSmall = itemCategoryList.filter((e) => {
         if (e.itemCategory.large == largeCategory) {
             return true;

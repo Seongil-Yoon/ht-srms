@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import customMoment from '../utils/custom-moment.js';
 import {Item} from './itemSchema.js';
 import {User} from './userSchema.js';
 
@@ -41,15 +40,15 @@ const rentSchema = new Schema(
         },
         rentAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow(),
+            default: Date.now(),
         },
         expectReturnAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow() + 300000, //5분
+            default: Date.now() + 300000, //5분
         },
         realReturnAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow(),
+            default: Date.now(),
         },
         isExpire: {
             type: Boolean,
@@ -61,11 +60,11 @@ const rentSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow(),
+            default: Date.now(),
         },
         updatedAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow(),
+            default: Date.now(),
         },
     },
     {

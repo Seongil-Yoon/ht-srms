@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import customMoment from '../utils/custom-moment.js';
 import {Item} from './itemSchema.js';
 import {Rent} from './rentSchema.js';
 
@@ -65,11 +64,11 @@ const userSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow(),
+            default: Date.now(),
         },
         updatedAt: {
             type: Date,
-            default: customMoment.asiaSeoulTimeNow(),
+            default: Date.now(),
         },
         refreshToken: {
             type: String,

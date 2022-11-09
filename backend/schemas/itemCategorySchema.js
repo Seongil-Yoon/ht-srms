@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import customMoment from '../utils/custom-moment.js';
 import {Rent} from './rentSchema.js';
 import {User} from './userSchema.js';
 

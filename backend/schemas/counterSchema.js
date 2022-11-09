@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import customMoment from '../utils/custom-moment.js';
 
 const {Schema} = mongoose;
 const counterSchema = new Schema(

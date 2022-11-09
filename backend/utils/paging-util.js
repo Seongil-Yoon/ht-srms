@@ -11,7 +11,7 @@
     }
  */
 const paging = (pageNum, totalPost) => {
-    const maxPost = 10;
+    const maxPost = 15;
     const maxPage = 10;
     let currentPage = pageNum ? parseInt(pageNum) : 1;
     const hidePost = pageNum === 1 ? 0 : (pageNum - 1) * maxPost; // 앞에서 제외할 다큐먼트(row)

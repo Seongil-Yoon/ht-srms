@@ -22,6 +22,7 @@
     "jui-core": "^2.0.4",
     "jui-grid": "^2.0.2",
     "lodash": "^4.17.21",
+    "luxon": "^3.1.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.38",
     "mongodb": "^4.11.0",

@@ -54,6 +54,11 @@ a {
 /* 베이지색 사각형 */
 .beigeBox {}
 
+#exportfile {
+    width: 35px;
+    height: 35px;
+}
+
 /* JUI스타일 */
 .jui table th,
 td {

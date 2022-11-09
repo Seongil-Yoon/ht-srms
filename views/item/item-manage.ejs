@@ -22,12 +22,11 @@
             <article class="jui roundBox">
                 <div class="table-header">
                     <div class="btn-group">
-                        <input type="radio" class="btn-check" id="js-itemIsCanRent" name="itemIsCanRent" value='true'
-                            checked>
-                        <label class="ht-btn btn-outline-primary" for="js-itemIsCanRent">대여 가능</label>
-                        <input type="radio" class="btn-check" id="js-itemIsCantRent" name="itemIsCanRent" value='false'>
-                        <label class="ht-btn btn-outline-primary" for="js-itemIsCantRent">대여
-                            불가능</label>
+                        <select class="item-search-select" id="js-itemIsCanRent" name="itemIsCanRent">
+                            <option selected>대여 가능/불가능</option>
+                            <option value="true">대여 가능</option>
+                            <option value="false">대여 불가능</option>
+                        </select>
                     </div>
                     <div>
                         <select class="item-category-large" id="js-itemCategoryLarge" name="itemCategoryLarge">
@@ -39,9 +38,9 @@
                     </div>
                     <div>
                         <select class="item-search-select" id="js-itemSearchSelect" name="itemSearchSelect">
-                            <option value="">이름</option>
-                            <option value="">코드</option>
-                            <option value="">등록자</option>
+                            <option value="itemName" selected>물품이름</option>
+                            <option value="itemId">물품코드</option>
+                            <option value="itemWriter">등록자</option>
                         </select>
                     </div>
                     <div id="ac_1" class="group">
@@ -49,10 +48,13 @@
                         <label class="label small" style="height: 100% !important;"><i class="icon-search"></i></label>
                     </div>
                     <div>
-                        <select class="item-search-select" id="js-itemSearchSelect" name="itemSearchSelect">
-                            <option> 정렬순서 📶</option>
-                            <option value="">등록순</option>
-                            <option value="">이름순</option>
+                        <select class="item-search-select" id="js-itemOrberBySelect" name="itemOrberBySelect">
+                            <option value="updatedAt" selected>최신순 📶</option>
+                            <option value="itemName">물품이름순</option>
+                            <option value="itemId">물품코드순</option>
+                            <option value="itemCanRentAmount">대여 가능 수량순</option>
+                            <option value="itemRentingAmount">대여 중 수량순</option>
+                            <option value="itemTotalAmount">총 수량순</option>
                         </select>
                     </div>
                 </div>
@@ -60,16 +62,16 @@
                     <table id="table_9" class="table simple headline">
                         <thead>
                             <tr>
-                                <th width="30px">No</th>
-                                <th width="135px">물품코드</th>
-                                <th>대분류</th>
+                                <th width="30px" data-value="itemNum">No</th>
+                                <th width="135px" data-value="itemId">물품코드</th>
+                                <th data-value="itemCategoryLarge">대분류</th>
                                 <th>소분류</th>
                                 <th>이름</th>
-                                <th width="90px">대여 가능 여부</th>
-                                <th width="90px">반납 필요 여부</th>
-                                <th width="90px">대여 가능 수량</th>
-                                <th width="90px">대여 중 수량</th>
-                                <th width="50px">총 수량</th>
+                                <th width="110px">대여 가능 여부</th>
+                                <th width="110px">반납 필요 여부</th>
+                                <th width="110px">대여 가능 수량</th>
+                                <th width="110px">대여 중 수량</th>
+                                <th width="60px">총 수량</th>
                                 <th>등록일(마지막 수정)</th>
                             </tr>
                         </thead>
@@ -118,13 +120,21 @@
                         </tr>
                     </script>
                 </div>
-                <div class="paging table-footer" id="js-pagingTableFooter">
-                    <a class="prev" id="prevBtn"  data-value="">이전</a>
-                    <div class="list" id="pageNumList">
-                        <!-- JS영역 -->
+                <footer>
+                    <div></div>
+                    <div class="paging table-footer" id="js-pagingTableFooter">
+                        <a class="prev" id="prevBtn" data-value="">이전</a>
+                        <div class="list" id="pageNumList">
+                            <!-- JS영역 -->
+                        </div>
+                        <a class="next" id="nextBtn" data-value="">다음</a>
                     </div>
-                    <a class="next" id="nextBtn"  data-value="">다음</a>
-                </div>
+                    <div>
+                        <a id="exportfile" download="table.csv">
+                            <img src="/static/images/excel-4954.svg">
+                        </a>
+                    </div>
+                </footer>
             </article>
         </section>
     </div>

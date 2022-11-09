@@ -44,12 +44,35 @@ section>article.roundBox>.table-header {
     margin-left: -3px;
 }
 
-.table-header>div:nth-last-child(1) {
-}
+.table-header>div:nth-last-child(1) {}
 
 .table-header>.btn-group>label {
     padding-top: 0.06rem;
     padding-right: 0.75rem;
     padding-bottom: 0.06rem;
     padding-left: 0.75rem;
+}
+
+article.jui>footer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+article.jui>footer>:first-child {
+    flex: 20
+}
+
+article.jui>footer>.paging {
+    flex: 60
+}
+
+article.jui>footer>:last-child {
+    flex: 20;
+}
+article.jui>footer>:last-child a {
+    float: right;
+}
+article.jui>footer>:last-child a>img{
+    width: 35px;
 }

@@ -5,6 +5,7 @@ import ItemDTO from '../dto/item-dto.js';
 import {Counter} from '../schemas/counterSchema.js';
 import {ItemCategory} from '../schemas/itemCategorySchema.js';
 import ItemService from '../service/item-service.js';
+import ExceptionAdvice from '../utils/exception-advice.js';
 import paging from '../utils/paging-util.js';
 
 const router = express();
@@ -51,74 +52,34 @@ const ItemManageController = {
         }
     },
     getItemList: async (req, res) => {
-        let {pageNum} = req.query;
-        console.log(pageNum);
+        let {
+            pageNum,
+            itemIsCanRent,
+            itemCategoryLarge,
+            itemCategorySmall,
+            itemSearchSelect,
+            itemOrberBySelect,
+        } = req.query;
+        console.log(itemIsCanRent);
         try {
-            if (pageNum === undefined) throw Error('wrong query name');
-            pageNum = Number(pageNum);
-            if (isNaN(pageNum)) throw Error('wrong value type');
-            const totalPost = await Item.countDocuments({});
-            if (!totalPost) throw Error();
-            let {
-                startPage,
-                endPage,
-                hidePost,
-                maxPost,
-                totalPage,
-                currentPage,
-            } = paging(pageNum, totalPost);
-            const items = await Item.find({})
-                .sort({createdAt: -1, itemNum: -1})
-                .skip(hidePost)
-                .limit(maxPost);
-            res.status(200).json({
-                pageInfo: {
-                    startPage,
-                    endPage,
-                    maxPost,
-                    totalPage,
-                    currentPage,
-                },
-                items,
-            });
+            const result = await ItemService.getItemList(
+                pageNum,
+                itemIsCanRent,
+                itemCategoryLarge,
+                itemCategorySmall,
+                itemSearchSelect,
+                itemOrberBySelect
+            );
+            res.status(200).json(result);
         } catch (error) {
             console.log(error);
-            if (error.message === 'wrong query name') {
-                res.status(400).json({
-                    ok: false,
-                    message: error.message,
-                    advice : 'query name : pageNum',
-                    detail: {
-                        key: Object.keys(req.query),
-                        keyAndValue: req.query,
-                    },
-                    items: [],
-                });
-            } else if (error.message === 'wrong value type') {
-                res.status(400).json({
-                    ok: false,
-                    message: error.message,
-                    advice : 'value type : Number',
-                    detail: {
-                        key: Object.keys(req.query),
-                        keyAndValue: req.query,
-                    },
-                    items: [],
-                });
-            } else {
-                res.status(404).json({
-                    ok: false,
-                    message: error.message,
-                    items: [],
-                });
-            }
+            ExceptionAdvice.item(req, res, error);
         }
     },
     getItem: (req, res) => {},
     insertItem: async (req, res) => {
         try {
             let result, counted;
-            let itemDto = undefined;
             const itemList = req.body;
             const itemListForEach = async () => {
                 let insertResult = undefined;
