@@ -28,10 +28,6 @@ a {
     margin-top: 50px;
 }
 
-.swal-text {
-    color: tomato;
-}
-
 /* 모서리를 둥글게 처리한 사각형 테두리 div*/
 .roundBox {
     padding: 1.5rem;
@@ -57,3 +53,14 @@ a {
 
 /* 베이지색 사각형 */
 .beigeBox {}
+
+/* JUI스타일 */
+.jui table th,
+td {
+    font-size: larger;
+    text-align: center !important;
+}
+
+.jui .paging {
+    cursor: pointer;
+}

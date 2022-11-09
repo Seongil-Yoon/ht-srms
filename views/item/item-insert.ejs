@@ -25,7 +25,7 @@
                         <form action="">
                             <header>
                                 <span>📝 물품 등록 양식</span>
-                                <button type="reset" class="btn btn-outline-primary btn-white">양식 초기화</button>
+                                <button type="reset" class="ht-btn btn-outline-primary btn-white">양식 초기화</button>
                             </header>
                             <article id="js-itemInsertForm">
                                 <ul>
@@ -37,7 +37,8 @@
                                                 name="itemCategoryLarge">
                                             </select>
                                             <button type="button" for="js-itemCategoryLarge"
-                                                class="btn btn-outline-primary btn-blue" id="js-itemCategoryLargeAddInsert">대분류 추가</button>
+                                                class="ht-btn btn-outline-primary btn-blue"
+                                                id="js-itemCategoryLargeAddInsert">대분류 추가</button>
                                         </div>
                                     </li>
                                     <li class="item-category-small-group">
@@ -47,7 +48,7 @@
                                                 name="itemCategorySmall">
                                             </select>
                                             <button type="button" for="js-itemCategorySmall"
-                                                class="btn btn-outline-primary btn-blue"
+                                                class="ht-btn btn-outline-primary btn-blue"
                                                 id="js-itemCategorySmallAddInsert">소분류 추가</button>
                                         </div>
                                     </li>
@@ -61,10 +62,10 @@
                                         <div class="btn-group">
                                             <input type="radio" class="btn-check" id="js-itemIsCanRent"
                                                 name="itemIsCanRent" value='true' checked>
-                                            <label class="btn btn-outline-primary" for="js-itemIsCanRent">대여 가능</label>
+                                            <label class="ht-btn btn-outline-primary" for="js-itemIsCanRent">대여 가능</label>
                                             <input type="radio" class="btn-check" id="js-itemIsCantRent"
                                                 name="itemIsCanRent" value='false'>
-                                            <label class="btn btn-outline-primary" for="js-itemIsCantRent">대여
+                                            <label class="ht-btn btn-outline-primary" for="js-itemIsCantRent">대여
                                                 불가능</label>
                                         </div>
                                     </li>
@@ -73,18 +74,18 @@
                                         <div class="btn-group">
                                             <input type="radio" class="btn-check" id="js-itemIsNeedReturn"
                                                 name="itemIsNeedReturn" value='true' checked>
-                                            <label class="btn btn-outline-primary" for="js-itemIsNeedReturn">반납
+                                            <label class="ht-btn btn-outline-primary" for="js-itemIsNeedReturn">반납
                                                 필요</label>
                                             <input type="radio" class="btn-check" id="js-itemIsntNeedReturn"
                                                 name="itemIsNeedReturn" value='false'>
-                                            <label class="btn btn-outline-primary" for="js-itemIsntNeedReturn">반납
+                                            <label class="ht-btn btn-outline-primary" for="js-itemIsntNeedReturn">반납
                                                 불필요</label>
                                         </div>
                                     </li>
                                     <li>
                                         <label for="js-itemId">제품 코드 : </label>
                                         <input type="text" id="js-itemId" class="item-id" name="itemId"
-                                            placeholder="제품코드를 입력해주세요" />
+                                            placeholder="ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))" />
                                     </li>
                                     <li>
                                         <label for="js-itemTotalAmount">물품 수량 : </label>
@@ -94,7 +95,7 @@
                                 </ul>
                             </article>
                             <footer>
-                                <button type="button" class="btn btn-outline-primary btn-blue"
+                                <button type="button" class="ht-btn btn-outline-primary btn-blue"
                                     for="js-itemInsertFormBtn" id="js-itemInsertFormBtn">
                                     등록리스트에 올리기📩
                                 </button>
@@ -105,7 +106,7 @@
                         <form action="">
                             <header>
                                 <span>📃 물품 등록리스트</span>
-                                <button type="reset" class="btn btn-outline-primary btn-white"
+                                <button type="reset" class="ht-btn btn-outline-primary btn-white"
                                     id="js-itemListResetBtn">리스트 초기화</button>
                             </header>
                             <article id="itemListTableWrap">
@@ -150,15 +151,15 @@
                                 </div>
                             </article>
                             <footer>
-                                <button type="button" class="btn btn-outline-primary btn-blue"
+                                <button type="button" class="ht-btn btn-outline-primary btn-blue"
                                     id="js-itemListSave">등록리스트 임시저장</button>
                             </footer>
                         </form>
                     </section>
                 </div>
                 <div class="item-insert-footer">
-                    <button type="button" class="btn btn-outline-primary btn-white" id="js-itemInsertCancel">취소</button>
-                    <button type="button" class="btn btn-outline-primary btn-blue"
+                    <button type="button" class="ht-btn btn-outline-primary btn-white" id="js-itemInsertCancel">취소</button>
+                    <button type="button" class="ht-btn btn-outline-primary btn-blue"
                         id="js-itemInsertSubmit">최종등록</button>
                 </div>
             </article>

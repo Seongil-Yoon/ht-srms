@@ -12,7 +12,7 @@ const smallRender = () => {
     });
     let html = '';
     findSmall[0].itemCategory.small.forEach((e) => {
-        html += `<option value=${e}>${e}</option>`;
+        html += `<option value='${e}'>${e}</option>`;
     });
     $('#js-itemCategorySmall').append(html);
 };
@@ -52,7 +52,7 @@ const itemCategoryRender = async () => {
         // call by value
         let html = '';
         itemCategoryList.forEach((e) => {
-            html += `<option value=${e.itemCategory.large}>${e.itemCategory.large}</option>`;
+            html += `<option value='${e.itemCategory.large}'>${e.itemCategory.large}</option>`;
         });
         $('#js-itemCategoryLarge').append(html);
     };
@@ -69,7 +69,7 @@ const itemCategoryLargeAddEvent = {
         let html = `
         <div>
             <input type="text" id="js-itemCategoryLarge" class="item-category-large" name="itemCategoryLarge" placeholder="대분류를 입력해주세요">
-            <button type="button" for="js-itemCategoryLarge" class="btn btn-outline-primary btn-blue" id="js-itemCategoryLargeAddSelect" value="insert">대분류 선택</button>
+            <button type="button" for="js-itemCategoryLarge" class="ht-btn btn-outline-primary btn-blue" id="js-itemCategoryLargeAddSelect" value="insert">대분류 선택</button>
         </div>
         `;
         itemDom.itemCategoryLargeGroup.insertAdjacentHTML('beforeend', html);
@@ -87,7 +87,7 @@ const itemCategoryLargeAddEvent = {
         let html = `
         <div>
             <select class="item-category-large" id="js-itemCategoryLarge" name="itemCategoryLarge"></select>
-            <button type="button" for="js-itemCategoryLarge" class="btn btn-outline-primary btn-blue" id="js-itemCategoryLargeAddInsert">대분류 추가</button>
+            <button type="button" for="js-itemCategoryLarge" class="ht-btn btn-outline-primary btn-blue" id="js-itemCategoryLargeAddInsert">대분류 추가</button>
         </div>
         `;
         itemDom.itemCategoryLargeGroup.insertAdjacentHTML('beforeend', html);
@@ -108,7 +108,7 @@ const itemCategorySmallAddEvent = {
         let html = `
         <div>
             <input type="text" id="js-itemCategorySmall" class="item-category-small" name="itemCategorySmall" placeholder="대분류를 입력해주세요">
-            <button type="button" for="js-itemCategorySmall" class="btn btn-outline-primary btn-blue" id="js-itemCategorySmallAddSelect">소분류 선택</button>
+            <button type="button" for="js-itemCategorySmall" class="ht-btn btn-outline-primary btn-blue" id="js-itemCategorySmallAddSelect">소분류 선택</button>
         </div>
         `;
         itemDom.itemCategorySmallGroup.insertAdjacentHTML('beforeend', html);
@@ -125,7 +125,7 @@ const itemCategorySmallAddEvent = {
         let html = `
         <div>
             <select class="item-category-small" id="js-itemCategorySmall" name="itemCategorySmall"></select>
-            <button type="button" for="js-itemCategorySmall" class="btn btn-outline-primary btn-blue" id="js-itemCategorySmallAddInsert">대분류 추가</button>
+            <button type="button" for="js-itemCategorySmall" class="ht-btn btn-outline-primary btn-blue" id="js-itemCategorySmallAddInsert">대분류 추가</button>
         </div>
         `;
         itemDom.itemCategorySmallGroup.insertAdjacentHTML('beforeend', html);

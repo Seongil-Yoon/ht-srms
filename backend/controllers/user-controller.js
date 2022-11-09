@@ -16,7 +16,7 @@ const UserController = {
         // const {userId, userPassword} = req.body;
         const result = await User.findOne({userId: userDto.userId});
         if (result) {
-            const chk = await bcrypt.compare(
+            const chk = bcrypt.compare(
                 userDto.userPassword,
                 result.userPassword
             );

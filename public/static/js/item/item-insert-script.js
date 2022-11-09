@@ -2,7 +2,7 @@ import {dom as itemDom} from './dom/item-insert-dom.js';
 import {
     itemCategoryLargeAddEvent,
     itemCategorySmallAddEvent,
-    itemCategoryRender
+    itemCategoryRender,
 } from './item-category-event.js';
 import {itemDto} from './model/item-dto.js';
 
@@ -12,6 +12,8 @@ let text,
     itemList = [];
 let localStoreItemList = JSON.parse(localStorage.getItem('itemList'));
 const itemListTableWrap = document.querySelector('#itemListTableWrap');
+const itemIdReg = /^[A-Z]{2}[0-9]{14}$/;
+// 제품코드(16) : 물품분류코드(String : 2), 도입년월(Number : 6), 동일물품수량(Number:4), 동일배치에서순번(Number:4)
 
 const juiGridXtable = () => {
     jui.ready(['util.base', 'grid.xtable'], (_, xtableUI) => {
@@ -62,26 +64,32 @@ const juiGridXtable = () => {
 const itemInsertFormClick = (e) => {
     e.preventDefault();
     // itemDto.itemWriter = $("input[name='_id']").val();
-    itemDto.itemCategoryLarge = $("#js-itemCategoryLarge").val();
-    itemDto.itemCategorySmall = $("#js-itemCategorySmall").val();
-    itemDto.itemName = $("input[name='itemName']").val();
-    itemDto.itemIsCanRent = $("input[name='itemIsCanRent']:checked").val();
-    itemDto.itemIsNeedReturn = $(
-        "input[name='itemIsNeedReturn']:checked"
-    ).val();
-    itemDto.itemId = $("input[name='itemId']").val();
-    itemDto.itemTotalAmount = $("input[name='itemTotalAmount']").val();
+    if ($("input[name='itemName']").val() === '') {
+        swal('물품 이름을 입력해주십시오', '', 'error');
+    } else if (!itemIdReg.test($("input[name='itemId']").val())) {
+        swal('제품코드 규칙을 지켜주십시오', '', 'error');
+    } else {
+        itemDto.itemCategoryLarge = $('#js-itemCategoryLarge').val();
+        itemDto.itemCategorySmall = $('#js-itemCategorySmall').val();
+        itemDto.itemName = $("input[name='itemName']").val();
+        itemDto.itemIsCanRent = $("input[name='itemIsCanRent']:checked").val();
+        itemDto.itemIsNeedReturn = $(
+            "input[name='itemIsNeedReturn']:checked"
+        ).val();
+        itemDto.itemId = $("input[name='itemId']").val();
+        itemDto.itemTotalAmount = $("input[name='itemTotalAmount']").val();
 
-    itemList.unshift({
-        itemCategoryLarge: itemDto.itemCategoryLarge,
-        itemCategorySmall: itemDto.itemCategorySmall,
-        itemName: itemDto.itemName,
-        itemIsCanRent: itemDto.itemIsCanRent,
-        itemIsNeedReturn: itemDto.itemIsNeedReturn,
-        itemId: itemDto.itemId,
-        itemTotalAmount: itemDto.itemTotalAmount,
-    });
-    xtable.update(itemList);
+        itemList.unshift({
+            itemCategoryLarge: itemDto.itemCategoryLarge,
+            itemCategorySmall: itemDto.itemCategorySmall,
+            itemName: itemDto.itemName,
+            itemIsCanRent: itemDto.itemIsCanRent,
+            itemIsNeedReturn: itemDto.itemIsNeedReturn,
+            itemId: itemDto.itemId,
+            itemTotalAmount: itemDto.itemTotalAmount,
+        });
+        xtable.update(itemList);
+    }
 };
 
 const itemListSaveClick = (e) => {
@@ -159,7 +167,7 @@ const itemInsertSubmitClick = (e) => {
                                 'error'
                             );
                         } else {
-                            swal(`${error.message}`, '', 'error');
+                            swal(`'${error.message}'`, '', 'error');
                         }
                     },
                 }); //end of ajax

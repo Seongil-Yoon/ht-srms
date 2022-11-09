@@ -25,7 +25,7 @@ const userUtill = {
         } else {
             checkAlarm.style.display = 'inline';
             checkAlarm.style.color = 'red';
-            checkAlarm.innerText = '❌특수문자나 한글은 입력할 수 없습니다';
+            checkAlarm.innerText = '❌특수문자, 영어 대문자, 한글은 입력할 수 없습니다';
         }
     },
     passwordCheck: (e) => {

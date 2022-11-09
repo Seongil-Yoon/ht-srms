@@ -6,7 +6,7 @@ const token = localStorage.getItem('accessToken');
 const httpHeaders = {
     Authorization : {
         key : "Authorization",
-        value : `Bearer ${token}`
+        value : `Bearer '${token}'`
     },
 }
 

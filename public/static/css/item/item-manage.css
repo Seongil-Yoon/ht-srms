@@ -28,6 +28,28 @@ section>article.roundBox>.table-header {
     height: 100% !important;
 }
 
-.table-header>div:nth-last-child(2) {
+.table-header>div:nth-child(1) {}
+
+.table-header>div:nth-child(2)>select {
+    width: 150px;
+}
+
+.table-header>div:nth-child(3)>select {
+    width: 150px;
+}
+
+.table-header>div:nth-child(4) {}
+
+.table-header>div:nth-child(5) {
     margin-left: -3px;
+}
+
+.table-header>div:nth-last-child(1) {
+}
+
+.table-header>.btn-group>label {
+    padding-top: 0.06rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.06rem;
+    padding-left: 0.75rem;
 }

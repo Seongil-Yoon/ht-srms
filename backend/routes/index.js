@@ -41,10 +41,12 @@ router.get(
     hasRole('write', 'edit', 'admin'),
     ItemManageController.getAllItemCategory
 );
-router
-    .route('/item')
-    .get(ItemManageController.getItemList)
-    .post(hasRole('write', 'edit', 'admin'), ItemManageController.insertItem);
+router.get('/items', ItemManageController.getItemList);
+router.post(
+    '/item',
+    hasRole('write', 'edit', 'admin'),
+    ItemManageController.insertItem
+);
 router
     .route('/item/:itemId')
     .get(ItemManageController.getItem)
