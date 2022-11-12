@@ -1,7 +1,7 @@
 const token = localStorage.getItem('accessToken');
 
 /**
- * deprecated
+ * @deprecated
  */
 const httpHeaders = {
     Authorization : {

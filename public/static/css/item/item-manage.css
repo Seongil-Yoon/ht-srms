@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url("./item-modify.css");
 
 aside {}
 
@@ -44,7 +45,11 @@ section>article.roundBox>.table-header {
     margin-left: -3px;
 }
 
-.table-header>div:nth-last-child(1) {}
+.table-header>div:last-child {}
+
+.table-header>div:last-child>:last-child {
+    margin-left: -4px;
+}
 
 .table-header>.btn-group>label {
     padding-top: 0.06rem;
@@ -70,9 +75,11 @@ article.jui>footer>.paging {
 article.jui>footer>:last-child {
     flex: 20;
 }
+
 article.jui>footer>:last-child a {
     float: right;
 }
-article.jui>footer>:last-child a>img{
+
+article.jui>footer>:last-child a>img {
     width: 35px;
 }

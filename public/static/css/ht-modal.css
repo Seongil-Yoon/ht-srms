@@ -1,0 +1,188 @@
+@charset "UTF-8";
+
+/* 모달창 */
+.ht-modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .4)
+}
+
+.ht-modal {
+    --width: 478px;
+    --height: 300px;
+}
+
+.ht-modal {
+    position: fixed;
+    z-index: 222;
+    top: 50%;
+    left: 50%;
+    width: var(--width);
+    min-height: var(--height);
+    padding: 0;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom-width: 0px;
+}
+
+.ht-modal>header {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: inherit;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    background-color: rgba(35, 78, 112, 0.8);
+    box-sizing: border-box;
+    padding: 0.4rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    font-size: larger;
+}
+
+.ht-modal>header>span {
+    color: white;
+    font-size: larger;
+}
+
+.ht-modal>header>button {
+    height: 25px;
+}
+
+
+/* ===== 모달창 가운데 ===== */
+.ht-modal>article {
+    flex: 8;
+    box-sizing: border-box;
+    padding: 0.7rem;
+    width: 100%;
+}
+
+article.ht-modal-input-list table {
+    border-collapse: unset;
+}
+
+article.ht-modal-input-list td {
+    border-spacing: 0px;
+    text-indent: 0px;
+    font-size: medium;
+}
+
+article.ht-modal-input-list td>button {
+    width: 100%;
+}
+
+article.ht-modal-input-list td>input {
+    width: 100%;
+}
+
+article.ht-modal-input-list td>.btn-group {
+    width: 100%;
+}
+
+article.ht-modal-input-list td>.btn-group>label {
+    width: 100%;
+}
+
+article.ht-modal-input-list>table button {
+    height: 100%;
+}
+
+article.ht-modal-input-list>table {
+    width: 100%;
+}
+
+article.ht-modal-input-list tbody {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+article.ht-modal-input-list tbody>tr {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 16px;
+    min-height: 40px;
+}
+
+article.ht-modal-input-list tbody>tr:first-child {
+    margin-top: 0px;
+}
+
+article.ht-modal-input-list tbody>tr>td:first-child {
+    flex: 4;
+    display: flex;
+    font-size: larger;
+}
+
+article.ht-modal-input-list tbody>tr>td:last-child {
+    flex: 6;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    align-self: stretch;
+}
+
+/* ===== end of 모달창 가운데 ===== */
+
+.ht-modal>footer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    background-color: rgba(35, 78, 112, 0.8);
+    box-sizing: border-box;
+}
+
+.ht-modal>footer button {
+    width: inherit;
+    height: 100%;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-style: solid;
+    border-color: rgba(35, 78, 112, 0.8);
+    border-bottom-width: 0px;
+    font-size: larger;
+    border-bottom-width: 1px;
+}
+
+.ht-modal>footer .btn-blue {
+    background-color: rgb(79, 113, 141);
+}
+
+.ht-modal>footer .btn-blue:hover {
+    background-color: rgb(35, 78, 112);
+}
+
+.ht-modal>footer .btn-white:hover {
+    background-color: rgb(79, 113, 141);
+}
+
+.ht-modal>footer>:first-child {
+    flex: 1;
+    border-bottom-right-radius: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+.ht-modal>footer>:last-child {
+    flex: 1;
+    border-bottom-left-radius: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}

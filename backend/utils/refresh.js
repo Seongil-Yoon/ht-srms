@@ -32,7 +32,6 @@ const refresh = async (req, res, next) => {
                 refreshToken,
                 decoded.id
             );
-            console.log('refreshResult : ', refreshResult);
             // 재발급을 위해서는 access token이 만료되어 있어야합니다.
             if (
                 authResult.ok === false &&

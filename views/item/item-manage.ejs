@@ -22,8 +22,9 @@
             <article class="jui roundBox">
                 <div class="table-header">
                     <div class="btn-group">
-                        <select class="item-search-select" id="js-itemIsCanRent" name="itemIsCanRent">
-                            <option selected>대여 가능/불가능</option>
+                        <select class="item-search-select" id="js-itemIsCanRent" name="itemIsCanRent"
+                            aria-label="itemIsCanRent">
+                            <option value="any" selected>대여 가능/불가능</option>
                             <option value="true">대여 가능</option>
                             <option value="false">대여 불가능</option>
                         </select>
@@ -44,12 +45,19 @@
                         </select>
                     </div>
                     <div id="ac_1" class="group">
-                        <input type="text" class="input small" style="width: 150px;height: 100% !important;" />
-                        <label class="label small" style="height: 100% !important;"><i class="icon-search"></i></label>
+                        <input type="text" class="input small" name="itemSerchInput" value=""
+                            style="width: 150px;height: 100% !important;" />
+                        <label class="label small icon-search" id="itemSearchNameBtn"
+                            style="height: 100% !important;"></label>
                     </div>
                     <div>
                         <select class="item-search-select" id="js-itemOrberBySelect" name="itemOrberBySelect">
-                            <option value="updatedAt" selected>최신순 📶</option>
+                            <option value="-1" selected>내림차순 📉</option>
+                            <option value="1">오름차순 📈</option>
+                        </select>
+                        <select class="item-search-select" id="js-itemSortSelect" name="itemSortSelect">
+                            <option value="itemNum" selected>등록순번순</option>
+                            <option value="updatedAt">등록날짜순</option>
                             <option value="itemName">물품이름순</option>
                             <option value="itemId">물품코드순</option>
                             <option value="itemCanRentAmount">대여 가능 수량순</option>
@@ -72,7 +80,7 @@
                                 <th width="110px">대여 가능 수량</th>
                                 <th width="110px">대여 중 수량</th>
                                 <th width="60px">총 수량</th>
-                                <th>등록일(마지막 수정)</th>
+                                <th width="160px">등록일(마지막 수정)</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -82,24 +90,35 @@
                             <% 
                                 const roles = userInfo.userRole;
                                 if(roles.admin === true){ %>
-                            <li>대여</li>
-                            <li>대여/반납 이력</li>
-                            <li>물품편집</li>
-                            <li>물품삭제</li>
-                            <li>대여자 명단</li>
+                            <li value="rent">대여</li>
+                            <li value="rentHistory">대여/반납 이력</li>
+                            <li value="modifyItem">물품편집</li>
+                            <li value="deleteItem">물품삭제</li>
+                            <li value="renterList">대여자 명단</li>
+                            <li class="divider"></li>
+                            <li value="close">닫기</li>
                             <% } else if(roles.rent === true && roles.edit === true){ %>
-                            <li>대여</li>
-                            <li>대여/반납 이력</li>
-                            <li>물품편집</li>
-                            <li>물품삭제</li>
+                            <li value="rent">대여</li>
+                            <li value="rentHistory">대여/반납 이력</li>
+                            <li value="modifyItem">물품편집</li>
+                            <li value="deleteItem">물품삭제</li>
+                            <li value="renterList">대여자 명단</li>
+                            <li class="divider"></li>
+                            <li value="close">닫기</li>
                             <% } else if(roles.rent === true){ %>
-                            <li>대여</li>
-                            <li>대여/반납 이력</li>
+                            <li value="rent">대여</li>
+                            <li value="rentHistory">대여/반납 이력</li>
+                            <li class="divider"></li>
+                            <li value="close">닫기</li>
                             <% } else if(roles.edit === true ){ %>
-                            <li>물품편집</li>
-                            <li>물품삭제</li>
+                            <li value="modifyItem">물품편집</li>
+                            <li value="deleteItem">물품삭제</li>
+                            <li class="divider"></li>
+                            <li value="close">닫기</li>
                             <% } else { %>
-                            <li>대여/반납 이력</li>
+                            <li value="rentHistory">대여/반납 이력</li>
+                            <li class="divider"></li>
+                            <li value="close">닫기</li>
                             <% }
                             %>
                         </ul>
@@ -138,10 +157,13 @@
             </article>
         </section>
     </div>
+    <%- include("./item-modify.ejs") %>
+
 
     <%- include("../libs/libsScript.ejs") %>
     <%- include("../libs/jui/jui-libsScript.ejs") %>
     <script type="module" src="/static/js/item/item-manage-script.js"></script>
+    <!-- <script type="module" src="/static/js/item/item-modify-script.js"></script> -->
 </body>
 
 </html>

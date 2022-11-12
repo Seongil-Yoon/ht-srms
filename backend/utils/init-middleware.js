@@ -6,7 +6,6 @@ import isEmptyObj from './isEmptyObj.js';
 
 function blockGoToInit(req, res, next) {
     const tokenInCookie = convertCookieToObject(req.headers.cookie);
-    console.log(req.query);
     try {
         if (tokenInCookie !== undefined) {
             if (tokenInCookie.accessToken) {

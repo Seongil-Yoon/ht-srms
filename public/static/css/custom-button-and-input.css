@@ -7,10 +7,10 @@ input[readonly] {
 
 /* ===== 버튼 및 라디오체크박스 공통===== */
 .ht-btn {
-    display: inline-block;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
-    vertical-align: middle;
     cursor: pointer;
     user-select: none;
     border: 2px solid transparent;
@@ -20,9 +20,10 @@ input[readonly] {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.btn-group{
+.btn-group {
     display: flex;
 }
+
 .btn-group>:nth-child(2) {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;

@@ -4,23 +4,24 @@ import {itemCategoryRender} from './item-category-event.js';
 import getItemList from './ajax/item-list-ajax.js';
 import PagingFooterBar from '../paging-util.js';
 import {DateTime} from '../../libs/luxon.min.js';
+import ItemModifyEvent from './item-modify-script.js';
 
-let table_9, paging_1;
+let table_9, paging_1, dd_3;
 let itemListDate = [];
+let pageNumClickRender = undefined;
 const position = {
     pageX: 0,
     pageY: 0,
 };
 const itemfilterAndOrderByMap = {
-    itemNum: undefined,
-    itemId: undefined,
-    itemName: undefined,
-    itemCanRentAmount: undefined,
-    itemRentingAmount: undefined,
-    updatedAt: undefined,
-    itemIsCanRent: undefined,
-    itemCategoryLarge: undefined,
-    itemCategorySmall: undefined,
+    pageNum: 1,
+    itemIsCanRent: 'any',
+    itemCategoryLarge: '',
+    itemCategorySmall: '',
+    itemSearchSelect: '',
+    itemSearchInput: '',
+    itemSortSelect: '',
+    itemOrberBySelect: -1,
 };
 /* ==============================*/
 /* ==========  JUI 실행 ==========*/
@@ -43,11 +44,10 @@ const juiTableColums = [
     'updatedAt',
 ];
 const juiGridTable = (items) => {
+    const newItemDto = itemDto;
     jui.ready(['ui.dropdown', 'grid.table'], function (dropdown, table) {
+        let rows = [];
         const insertItems = (items) => {
-            // table_9.reset();
-            let rows = [];
-
             items.forEach((e) => {
                 rows.push({
                     itemNum: e.itemNum,
@@ -65,15 +65,33 @@ const juiGridTable = (items) => {
                         .toLocaleString(DateTime.DATETIME_SHORT),
                 });
             });
-            // table_9.update(rows)
-            // table_9.insert(0, rows.reverse());
             return rows;
         };
-        // insertItems(items);
         let dd = dropdown('#table_9_dd', {
             event: {
-                change: function (data) {
-                    alert(data.text);
+                change: async function (data, e) {
+                    switch (data.value) {
+                        case 'rent':
+                            break;
+                        case 'rentHistory':
+                            break;
+                        case 'modifyItem':
+                            let result;
+                            await ItemModifyEvent.main(newItemDto, dd, table_9);//addEventListener
+                            result = await ItemModifyEvent.getResult();
+                            console.log(result);
+                            pageNumClickRender(itemfilterAndOrderByMap);
+                            break;
+                        case 'deleteItem':
+                            break;
+                        case 'renterList':
+                            break;
+
+                        default:
+                            dd.hide();
+                            table_9.unselect();
+                            break;
+                    }
                 },
             },
         });
@@ -88,9 +106,24 @@ const juiGridTable = (items) => {
             sort: true,
             event: {
                 rowmenu: function (row, e) {
+                    newItemDto.itemNum = row.data.itemNum;
+                    newItemDto.itemId = row.data.itemId;
+                    newItemDto.itemCategory.large = row.data.itemCategoryLarge;
+                    newItemDto.itemCategory.small = row.data.itemCategorySmall;
+                    newItemDto.itemName = row.data.itemName;
+                    newItemDto.itemIsCanRent = row.data.itemIsCanRent;
+                    newItemDto.itemIsNeedReturn = row.data.itemIsNeedReturn;
+                    newItemDto.itemCanRentAmount = row.data.itemCanRentAmount;
+                    newItemDto.itemRentingAmount = row.data.itemRentingAmount;
+                    newItemDto.itemTotalAmount = row.data.itemTotalAmount;
+                    newItemDto.updatedAt = row.data.updatedAt;
+
                     this.select(row.index);
                     dd.move(position.pageX, position.pageY);
                     dd.show();
+                },
+                click: (e) => {
+                    table_9.unselect();
                 },
                 sort: function (column, e) {
                     let className = {
@@ -108,34 +141,106 @@ const juiGridTable = (items) => {
                 },
             },
         });
+        table_9.update(rows);
+
         $('#exportfile').attr('href', table_9.getCsvBase64());
     });
 };
 /* ==============================*/
 /* ======  end of JUI 실행 ======*/
 /* ==============================*/
+const itemfilterAndSortSelect = () => {
+    try {
+        $(".main select[name='itemIsCanRent']").on('change', (e) => {
+            itemfilterAndOrderByMap.itemIsCanRent = e.target.value;
+            itemfilterAndOrderByMap.pageNum = 1;
+            pageNumClickRender(itemfilterAndOrderByMap);
+        });
+        $(".main select[name='itemCategoryLarge']").on('change', (e) => {
+            itemfilterAndOrderByMap.itemCategoryLarge = e.target.value;
+            itemfilterAndOrderByMap.itemCategorySmall = '';
+            itemfilterAndOrderByMap.pageNum = 1;
+            pageNumClickRender(itemfilterAndOrderByMap);
+        });
+        $(".main select[name='itemCategorySmall']").on('change', (e) => {
+            itemfilterAndOrderByMap.itemCategorySmall = e.target.value;
+            itemfilterAndOrderByMap.pageNum = 1;
+
+            pageNumClickRender(itemfilterAndOrderByMap);
+        });
+        $(".main select[name='itemSearchSelect']").on('change', (e) => {
+            itemfilterAndOrderByMap.itemSearchSelect = e.target.value;
+        });
+        $(".main label[id='itemSearchNameBtn']").on('click', (e) => {
+            e.stopPropagation();
+            itemfilterAndOrderByMap.itemSearchInput =
+                e.target.previousSibling.previousSibling.value;
+            itemfilterAndOrderByMap.pageNum = 1;
+
+            pageNumClickRender(itemfilterAndOrderByMap);
+        });
+        $(".main select[name='itemOrberBySelect']").on('change', (e) => {
+            itemfilterAndOrderByMap.itemOrberBySelect = e.target.value;
+            itemfilterAndOrderByMap.pageNum = 1;
+            pageNumClickRender(itemfilterAndOrderByMap);
+        });
+        $(".main select[name='itemSortSelect']").on('change', (e) => {
+            itemfilterAndOrderByMap.itemSortSelect = e.target.value;
+            itemfilterAndOrderByMap.pageNum = 1;
+            pageNumClickRender(itemfilterAndOrderByMap);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 async function main() {
-    itemCategoryRender();
+    await itemCategoryRender();
+    itemfilterAndSortSelect();
 
     const pagingFooterBar1 = new PagingFooterBar();
-    const pageNumClickRender = async (pageNum) => {
+    pageNumClickRender = async ({
+        pageNum,
+        itemIsCanRent,
+        itemCategoryLarge,
+        itemCategorySmall,
+        itemSearchSelect,
+        itemSearchInput,
+        itemSortSelect,
+        itemOrberBySelect,
+    }) => {
+        itemfilterAndOrderByMap.pageNum = pageNum;
+        itemListDate = [];
         if (pageNum !== null) {
-            itemListDate = await getItemList(pageNum);
+            itemListDate = await getItemList({
+                pageNum,
+                itemIsCanRent,
+                itemCategoryLarge,
+                itemCategorySmall,
+                itemSearchSelect,
+                itemSearchInput,
+                itemSortSelect,
+                itemOrberBySelect,
+            });
+            itemListDate.items = itemListDate.items || [];
+
             juiGridTable(itemListDate.items);
             pagingFooterBar1.createPageNum(itemListDate.pageInfo);
         }
     };
-    pageNumClickRender(1);
+    pageNumClickRender(itemfilterAndOrderByMap);
 
     pagingFooterBar1.prevBtn.addEventListener('click', (e) => {
-        pageNumClickRender(e.target.getAttribute('data-value'));
+        itemfilterAndOrderByMap.pageNum = e.target.getAttribute('data-value');
+        pageNumClickRender(itemfilterAndOrderByMap);
     });
     pagingFooterBar1.pageNumList.addEventListener('click', (e) => {
-        pageNumClickRender(e.target.getAttribute('data-value'));
+        itemfilterAndOrderByMap.pageNum = e.target.getAttribute('data-value');
+        pageNumClickRender(itemfilterAndOrderByMap);
     });
     pagingFooterBar1.nextBtn.addEventListener('click', (e) => {
-        pageNumClickRender(e.target.getAttribute('data-value'));
+        itemfilterAndOrderByMap.pageNum = e.target.getAttribute('data-value');
+        pageNumClickRender(itemfilterAndOrderByMap);
     });
 }
 main();

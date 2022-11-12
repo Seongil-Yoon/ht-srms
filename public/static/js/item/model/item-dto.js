@@ -1,9 +1,9 @@
 const itemDto = {
+    itemNum: undefined,
     itemId: undefined,
     itemWriter: undefined,
     itemRentId: [],
-    itemCategoryLarge: undefined,
-    itemCategorySmall: undefined,
+    itemCategory: {large: undefined, small: undefined},
     itemName: undefined,
     itemIsCanRent: undefined,
     itemIsNeedReturn: undefined,

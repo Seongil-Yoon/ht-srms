@@ -41,7 +41,7 @@ const ItemManageController = {
     },
     getAllItemCategory: async (req, res) => {
         try {
-            const itemCategory = await ItemCategory.find({});
+            const itemCategory = await ItemCategory.find({}).exec();
             res.json(itemCategory);
         } catch (error) {
             console.log(error);
@@ -58,9 +58,10 @@ const ItemManageController = {
             itemCategoryLarge,
             itemCategorySmall,
             itemSearchSelect,
+            itemSearchInput,
+            itemSortSelect,
             itemOrberBySelect,
         } = req.query;
-        console.log(itemIsCanRent);
         try {
             const result = await ItemService.getItemList(
                 pageNum,
@@ -68,6 +69,8 @@ const ItemManageController = {
                 itemCategoryLarge,
                 itemCategorySmall,
                 itemSearchSelect,
+                itemSearchInput,
+                itemSortSelect,
                 itemOrberBySelect
             );
             res.status(200).json(result);
@@ -93,7 +96,7 @@ const ItemManageController = {
                                 itemNum: 1,
                             },
                         }
-                    );
+                    ).exec();
                     itemDto.itemNum = Number(counted.itemNum);
                     itemDto.itemId = element.itemId;
                     itemDto.itemWriter = ObjectId(req._id);
@@ -107,61 +110,18 @@ const ItemManageController = {
                         element.itemIsNeedReturn.toLowerCase();
                     itemDto.itemCanRentAmount = Number(element.itemTotalAmount);
                     itemDto.itemTotalAmount = Number(element.itemTotalAmount);
+                    itemDto.createdAt = Date.now();
 
                     insertResult = await Item.create(itemDto);
-                    result = await ItemCategory.findOne({
-                        'itemCategory.large': itemDto.itemCategory.large,
-                    });
-                    //물품 분류 스키마
-                    if (result) {
-                        try {
-                            result = await ItemCategory.findOne({
-                                'itemCategory.small':
-                                    itemDto.itemCategory.small,
-                            });
-                            if (!result) {
-                                result = await ItemCategory.findOneAndUpdate(
-                                    {
-                                        'itemCategory.large':
-                                            itemDto.itemCategory.large,
-                                    },
-                                    {
-                                        $push: {
-                                            'itemCategory.small':
-                                                itemDto.itemCategory.small,
-                                        },
-                                    }
-                                );
-                            }
-                        } catch (error) {
-                            console.log(error);
-                            res.status(500).send({
-                                ok: false,
-                                message: '물품 항목을 확인해주세요',
-                            });
-                        }
-                    } else {
-                        try {
-                            result = await ItemCategory.create({
-                                itemCategory: {
-                                    large: itemDto.itemCategory.large,
-                                    small: [itemDto.itemCategory.small],
-                                },
-                            });
-                        } catch (error) {
-                            console.log(error);
-                            res.status(500).send({
-                                ok: false,
-                                message: '물품 항목을 확인해주세요',
-                            });
-                        }
-                    } //end of 물품 분류 스키마
+                    insertResult = await ItemService.updateItemCategory(
+                        insertResult.itemCategory
+                    );
                 }); //end of for-each
-                return insertResult;
+                return await insertResult;
             };
 
-            itemListForEach().then((e) => {
-                console.log(e); // 해결필요
+            await itemListForEach().then((e) => {
+                console.log('itemListForEach:', e); // 해결필요
                 res.status(200).send({
                     ok: true,
                     message: '물품 등록 결과',
@@ -176,7 +136,36 @@ const ItemManageController = {
             });
         }
     },
-    updateItem: (req, res) => {},
+    updateItem: async (req, res) => {
+        try {
+            let result = undefined;
+            let newItemDTO = ItemDTO;
+            newItemDTO = req.body;
+            newItemDTO.itemCanRentAmount =
+                newItemDTO.itemTotalAmount - newItemDTO.itemRentingAmount;
+            result = await Item.findOneAndUpdate(
+                {itemNum: newItemDTO.itemNum},
+                newItemDTO
+            ).exec();
+            result = await ItemService.updateItemCategory(
+                newItemDTO.itemCategory
+            );
+            if (result) {
+                res.status(200).json({
+                    ok: true,
+                    message: `물품 편집 성공`,
+                });
+            } else {
+                throw Error('죄송합니다 편집이 실패했습니다');
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(404).json({
+                ok: false,
+                message: `${error.message}`,
+            });
+        }
+    },
     deleteItem: (req, res) => {},
     getHistoryListByItem: (req, res) => {},
     getRenterListByItem: (req, res) => {

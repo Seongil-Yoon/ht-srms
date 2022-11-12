@@ -51,6 +51,7 @@ const itemCategoryRender = async () => {
     };
 
     const render = async (itemCategoryList) => {
+        $('#js-itemCategoryLarge').empty();
         // call by value
         let html = '';
         itemCategoryList.forEach((e) => {
@@ -131,6 +132,7 @@ const itemCategorySmallAddEvent = {
         </div>
         `;
         itemDom.itemCategorySmallGroup.insertAdjacentHTML('beforeend', html);
+        itemCategoryRender();
         e.target.parentNode.remove();
         itemDom.itemCategorySmallAddInsert = document.querySelector(
             '#js-itemCategorySmallAddInsert'

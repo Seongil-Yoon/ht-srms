@@ -34,7 +34,7 @@
                                         <label for="js-itemCategoryLarge">*대분류 : </label>
                                         <div>
                                             <select class="item-category-large" id="js-itemCategoryLarge"
-                                                name="itemCategoryLarge">
+                                                name="itemCategoryLarge" required>
                                             </select>
                                             <button type="button" for="js-itemCategoryLarge"
                                                 class="ht-btn btn-outline-primary btn-blue"
@@ -45,7 +45,7 @@
                                         <label for="js-itemCategorySmall">*소분류 : </label>
                                         <div>
                                             <select class="item-category-small" id="js-itemCategorySmall"
-                                                name="itemCategorySmall">
+                                                name="itemCategorySmall" required>
                                             </select>
                                             <button type="button" for="js-itemCategorySmall"
                                                 class="ht-btn btn-outline-primary btn-blue"
@@ -55,14 +55,15 @@
                                     <li>
                                         <label for="js-itemName">*물품 이름 : </label>
                                         <input type="text" id="js-itemName" class="item-name" name="itemName"
-                                            placeholder="물품의 이름을 입력해주세요" required />
+                                            placeholder="물품의 이름을 입력해주세요" />
                                     </li>
                                     <li>
                                         <label for="js-itemIsCanRent">*대여 가능 여부 : </label>
                                         <div class="btn-group">
                                             <input type="radio" class="btn-check" id="js-itemIsCanRent"
                                                 name="itemIsCanRent" value='true' checked>
-                                            <label class="ht-btn btn-outline-primary" for="js-itemIsCanRent">대여 가능</label>
+                                            <label class="ht-btn btn-outline-primary" for="js-itemIsCanRent">대여
+                                                가능</label>
                                             <input type="radio" class="btn-check" id="js-itemIsCantRent"
                                                 name="itemIsCanRent" value='false'>
                                             <label class="ht-btn btn-outline-primary" for="js-itemIsCantRent">대여
@@ -90,7 +91,7 @@
                                     <li>
                                         <label for="js-itemTotalAmount">물품 수량 : </label>
                                         <input type="number" id="js-itemTotalAmount" class="item-total-amount"
-                                            name="itemTotalAmount" placeholder="1" />
+                                            name="itemTotalAmount" placeholder="최소 1개이상" value="1" />
                                     </li>
                                 </ul>
                             </article>
@@ -158,7 +159,8 @@
                     </section>
                 </div>
                 <div class="item-insert-footer">
-                    <button type="button" class="ht-btn btn-outline-primary btn-white" id="js-itemInsertCancel">취소</button>
+                    <button type="button" class="ht-btn btn-outline-primary btn-white"
+                        id="js-itemInsertCancel">취소</button>
                     <button type="button" class="ht-btn btn-outline-primary btn-blue"
                         id="js-itemInsertSubmit">최종등록</button>
                 </div>

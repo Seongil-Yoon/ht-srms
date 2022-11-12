@@ -59,7 +59,6 @@ const customJwt = {
                         ok: true,
                     };
                 } catch (error) {
-                    console.log('jwt expiredAt : ', error.expiredAt);
                     return {
                         ok: false,
                     };

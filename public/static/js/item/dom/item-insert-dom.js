@@ -1,15 +1,31 @@
+const itemInsertMain = document.querySelector('.item-insert-main') || document;
 const dom = {
-    itemInsertFormBtn: document.querySelector('#js-itemInsertFormBtn'),
-    itemListResetBtn: document.querySelector('#js-itemListResetBtn'),
-    itemListSave: document.querySelector('#js-itemListSave'),
-    itemInsertCancel: document.querySelector('#js-itemInsertCancel'),
-    itemInsertSubmit: document.querySelector('#js-itemInsertSubmit'),
-    table_16_btn: document.querySelector('#table_16_btn'),
-    itemCategoryLargeGroup : document.querySelector(".item-category-large-group"),
-    itemCategoryLargeAddInsert: document.querySelector("#js-itemCategoryLargeAddInsert"),
-    itemCategoryLargeAddSelect: document.querySelector("#js-itemCategoryLargeAddSelect"),
-    itemCategorySmallGroup : document.querySelector(".item-category-small-group"),
-    itemCategorySmallAddInsert: document.querySelector("#js-itemCategorySmallAddInsert"),
-    itemCategorySmallAddSelect: document.querySelector("#js-itemCategorySmallAddSelect"),
+    itemInsertFormBtn: itemInsertMain.querySelector('#js-itemInsertFormBtn'),
+    itemListResetBtn: itemInsertMain.querySelector('#js-itemListResetBtn'),
+    itemListSave: itemInsertMain.querySelector('#js-itemListSave'),
+    itemInsertCancel: itemInsertMain.querySelector('#js-itemInsertCancel'),
+    itemInsertSubmit: itemInsertMain.querySelector('#js-itemInsertSubmit'),
+    table_16_btn: itemInsertMain.querySelector('#table_16_btn'),
+    itemCategoryLargeGroup: itemInsertMain.querySelector(
+        '.item-category-large-group'
+    ),
+    itemCategoryLargeAddInsert: itemInsertMain.querySelector(
+        '#js-itemCategoryLargeAddInsert'
+    ),
+    itemCategoryLargeAddSelect: itemInsertMain.querySelector(
+        '#js-itemCategoryLargeAddSelect'
+    ),
+    itemCategorySmallGroup: itemInsertMain.querySelector(
+        '.item-category-small-group'
+    ),
+    itemCategorySmallAddInsert: itemInsertMain.querySelector(
+        '#js-itemCategorySmallAddInsert'
+    ),
+    itemCategorySmallAddSelect: itemInsertMain.querySelector(
+        '#js-itemCategorySmallAddSelect'
+    ),
 };
-export {dom};
+
+export {
+    dom
+};

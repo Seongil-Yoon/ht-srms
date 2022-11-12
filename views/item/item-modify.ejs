@@ -1,0 +1,89 @@
+<section class="item-modify-modal-overlay ht-modal-overlay">
+    <form class="item-modify-modal-form ht-modal roundBox" id="js-itemModifyForm">
+        <header>
+            <span>✏️ 물품 편집</span>
+            <button type="reset" class="ht-btn btn-outline-primary btn-white">양식 초기화</button>
+        </header>
+        <article class="ht-modal-input-list">
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr class="item-category-large-group">
+                        <td for="js-itemCategoryLargeModify">*대분류 : </td>
+                        <td>
+                            <select class="item-category-large" id="js-itemCategoryLargeModify"
+                                name="itemCategoryLargeModify" required>
+                            </select>
+                            <button type="button" for="js-itemCategoryLargeModify"
+                                class="ht-btn btn-outline-primary btn-blue" id="js-itemCategoryLargeModifyAddInsert">대분류
+                                추가</button>
+                        </td>
+                    </tr>
+                    <tr class="item-category-small-group">
+                        <td for="js-itemCategorySmallModify">*소분류 : </td>
+                        <td>
+                            <select class="item-category-small" id="js-itemCategorySmallModify"
+                                name="itemCategorySmallModify" required>
+                            </select>
+                            <button type="button" for="js-itemCategorySmallModify"
+                                class="ht-btn btn-outline-primary btn-blue" id="js-itemCategorySmallModifyAddInsert">소분류
+                                추가</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td for="js-itemNameModify">*물품 이름 : </td>
+                        <td>
+                            <input type="text" id="js-itemNameModify" class="item-name" name="itemNameModify"
+                                placeholder="물품의 이름을 입력해주세요" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td for="js-itemIsCanRentModify">*대여 가능 여부 : </td>
+                        <td>
+                            <div class="btn-group">
+                                <input type="radio" class="btn-check" id="js-itemIsCanRentModify"
+                                    name="itemIsCanRentModify" value='true' checked="">
+                                <label class="ht-btn btn-outline-primary" for="js-itemIsCanRentModify">대여 가능</label>
+                                <input type="radio" class="btn-check" id="js-itemIsCantRentModify"
+                                    name="itemIsCanRentModify" value='false'>
+                                <label class="ht-btn btn-outline-primary" for="js-itemIsCantRentModify">대여
+                                    불가능</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td for="js-itemIsNeedReturnModify">*반납 필요 여부 : </td>
+                        <td>
+                            <div class="btn-group">
+                                <input type="radio" class="btn-check" id="js-itemIsNeedReturnModify"
+                                    name="itemIsNeedReturnModify" value='true' checked="">
+                                <label class="ht-btn btn-outline-primary" for="js-itemIsNeedReturnModify">반납
+                                    필요</label>
+                                <input type="radio" class="btn-check" id="js-itemIsntNeedReturnModify"
+                                    name="itemIsNeedReturnModify" value='false'>
+                                <label class="ht-btn btn-outline-primary" for="js-itemIsntNeedReturnModify">반납
+                                    불필요</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td for="js-itemIdModify">제품코드 : </td>
+                        <td><input type="text" id="js-itemIdModify" class="item-id" name="itemIdModify"
+                                placeholder="ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))" /></td>
+                    </tr>
+                    <tr>
+                        <td for="js-itemTotalAmountModify">*물품 수량 : </td>
+                        <td>
+                            <input type="number" id="js-itemTotalAmountModify" class="item-total-amount"
+                                name="itemTotalAmountModify" placeholder="최소 1개이상" value="1" required />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+        <footer>
+            <button type="button" class="ht-btn btn-outline-primary btn-white" id="js-itemModifyCancel">취소</button>
+            <button type="button" class="ht-btn btn-outline-primary btn-blue" id="js-itemModifySubmit">편집</button>
+        </footer>
+    </form>
+</section>

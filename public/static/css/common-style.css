@@ -39,6 +39,8 @@ a {
     background-color: white;
     box-sizing: border-box;
 }
+form.roundBox {
+}
 
 .roundBox-yellow {
     padding: 1.5rem;
@@ -53,6 +55,8 @@ a {
 
 /* 베이지색 사각형 */
 .beigeBox {}
+
+
 
 #exportfile {
     width: 35px;

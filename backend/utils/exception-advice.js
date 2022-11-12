@@ -22,6 +22,17 @@ const ExceptionAdvice = {
                 },
                 items: [],
             });
+        } else if (error.message === 'not found user') {
+            res.status(404).json({
+                ok: false,
+                message: error.message,
+                advice: 'search another user',
+                detail: {
+                    key: Object.keys(req.query.itemSearchSelect),
+                    keyAndValue: req.query.itemSearchSelect,
+                },
+                items: [],
+            });
         } else {
             res.status(404).json({
                 ok: false,

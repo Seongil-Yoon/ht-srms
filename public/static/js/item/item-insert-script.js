@@ -64,13 +64,23 @@ const juiGridXtable = () => {
 const itemInsertFormClick = (e) => {
     e.preventDefault();
     // itemDto.itemWriter = $("input[name='_id']").val();
-    if ($("input[name='itemName']").val() === '') {
+    if ($('#js-itemCategoryLarge').val() === '') {
+        swal('대분류를 선택해주십시오', '', 'error');
+    } else if ($('#js-itemCategorySmall').val() === '') {
+        swal('소분류를 선택해주십시오', '', 'error');
+    } else if ($("input[name='itemName']").val() === '') {
         swal('물품 이름을 입력해주십시오', '', 'error');
     } else if (!itemIdReg.test($("input[name='itemId']").val())) {
-        swal('제품코드 규칙을 지켜주십시오', '', 'error');
+        swal(
+            '제품코드 규칙을 지켜주십시오',
+            'ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))',
+            'error'
+        );
+    } else if ($("input[name='itemTotalAmount']").val() < 1) {
+        swal('물품 수량은 최소 1개이상 허용됩니다', '', 'error');
     } else {
-        itemDto.itemCategoryLarge = $('#js-itemCategoryLarge').val();
-        itemDto.itemCategorySmall = $('#js-itemCategorySmall').val();
+        itemDto.itemCategory.large = $('#js-itemCategoryLarge').val();
+        itemDto.itemCategory.small = $('#js-itemCategorySmall').val();
         itemDto.itemName = $("input[name='itemName']").val();
         itemDto.itemIsCanRent = $("input[name='itemIsCanRent']:checked").val();
         itemDto.itemIsNeedReturn = $(
@@ -80,8 +90,8 @@ const itemInsertFormClick = (e) => {
         itemDto.itemTotalAmount = $("input[name='itemTotalAmount']").val();
 
         itemList.unshift({
-            itemCategoryLarge: itemDto.itemCategoryLarge,
-            itemCategorySmall: itemDto.itemCategorySmall,
+            itemCategoryLarge: itemDto.itemCategory.large,
+            itemCategorySmall: itemDto.itemCategory.small,
             itemName: itemDto.itemName,
             itemIsCanRent: itemDto.itemIsCanRent,
             itemIsNeedReturn: itemDto.itemIsNeedReturn,
@@ -172,16 +182,16 @@ const itemInsertSubmitClick = (e) => {
                     },
                 }); //end of ajax
             }
-        });
+        });//end of swal-popup
     } else {
         swal('물품을 하나도 올리지 않으셨습니다', '', 'error');
     }
 };
 
-function main() {
+async function main() {
     juiGridXtable();
     if (localStoreItemList) itemList = localStoreItemList;
-    itemCategoryRender();
+    await itemCategoryRender();
     itemDom.itemInsertFormBtn.addEventListener('click', itemInsertFormClick);
     itemDom.itemListSave.addEventListener('click', itemListSaveClick);
     itemDom.itemListResetBtn.addEventListener('click', itemListResetBtnClick);

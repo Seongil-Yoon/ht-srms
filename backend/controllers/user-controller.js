@@ -14,9 +14,13 @@ const UserController = {
     postLogin: async (req, res) => {
         const userDto = new UserDTO(req.body);
         // const {userId, userPassword} = req.body;
-        const result = await User.findOne({userId: userDto.userId});
+        const result = await User.findOne({userId: userDto.userId})
+            .where({
+                isDelete: false,
+            })
+            .exec();
         if (result) {
-            const chk = bcrypt.compare(
+            const chk = await bcrypt.compare(
                 userDto.userPassword,
                 result.userPassword
             );
@@ -32,7 +36,7 @@ const UserController = {
                             refreshToken: refreshToken,
                         },
                     }
-                );
+                ).exec();
 
                 res.cookie('accessToken', accessToken, {httpOnly: true});
                 res.cookie('refreshToken', refreshToken, {httpOnly: true});
@@ -116,7 +120,11 @@ const UserController = {
     },
     valiUserId: async (req, res) => {
         const {userId} = req.body;
-        const user = await User.findOne({userId});
+        const user = await User.findOne({userId})
+            .where({
+                isDelete: false,
+            })
+            .exec();
         try {
             if (user === null) {
                 res.status(200).send({
