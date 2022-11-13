@@ -20,7 +20,7 @@ const itemfilterAndOrderByMap = {
     itemCategorySmall: '',
     itemSearchSelect: '',
     itemSearchInput: '',
-    itemSortSelect: '',
+    itemSortSelect: 'updatedAt',
     itemOrberBySelect: -1,
 };
 /* ==============================*/
@@ -77,8 +77,7 @@ const juiGridTable = (items) => {
                             break;
                         case 'modifyItem':
                             let result;
-                            await ItemModifyEvent.main(newItemDto, dd, table_9);//addEventListener
-                            result = await ItemModifyEvent.getResult();
+                            result =await ItemModifyEvent.main(newItemDto, dd, table_9);//addEventListener
                             console.log(result);
                             pageNumClickRender(itemfilterAndOrderByMap);
                             break;

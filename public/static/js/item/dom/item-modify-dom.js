@@ -34,5 +34,7 @@ const dom = {
     itemTotalAmountModify: itemModifyForm.querySelector(
         '#js-itemTotalAmountModify'
     ),
+    itemModifyCancel: itemModifyForm.querySelector('#js-itemModifyCancel'),
+    itemModifySubmit: itemModifyForm.querySelector('#js-itemModifySubmit'),
 };
 export {dom};
