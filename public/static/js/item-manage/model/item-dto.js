@@ -1,4 +1,5 @@
 const itemDto = {
+    _id: undefined,
     itemNum: undefined,
     itemId: undefined,
     itemWriter: undefined,
@@ -12,7 +13,7 @@ const itemDto = {
     itemTotalAmount: undefined,
     createdAt: undefined,
     updatedAt: undefined,
-    showUpdateAt : undefined,
+    showUpdateAt: undefined,
     isDelete: undefined,
 };
 

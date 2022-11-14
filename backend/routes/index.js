@@ -6,6 +6,7 @@ import blockGoToInit from '../utils/init-middleware.js';
 
 import UserController from '../controllers/user-controller.js';
 import ItemManageController from '../controllers/item-manage-controller.js';
+import RentController from '../controllers/rent-controller.js';
 import MyrentStatusController from '../controllers/myrent-status-controller.js';
 import AllrentStatusController from '../controllers/allrent-status-controller.js';
 import UserManageController from '../controllers/user-manage-controller.js';
@@ -47,15 +48,15 @@ router.post(
     ItemManageController.insertItem
 );
 router
-    .route('/item/:itemNum')
+    .route('/item/:itemObjectId')
     .get(ItemManageController.getItem)
     .patch(hasRole('edit', 'admin'), ItemManageController.updateItem)
     .put(hasRole('edit', 'admin'), ItemManageController.deleteItem);
 router
-    .route('/item/rent-history/:itemNum')
+    .route('/item/rent-history/:itemObjectId')
     .get(ItemManageController.getHistoryListByItem);
 router
-    .route('/item/renter-list/:itemNum')
+    .route('/item/renter-list/:itemObjectId')
     .get(hasRole('admin'), ItemManageController.getRenterListByItem);
 router.get(
     '/item/export-xlxs',
@@ -63,6 +64,18 @@ router.get(
     ItemManageController.exportByAllItemList
 );
 /* ========== end of 물품 ========== */
+
+/* ========== 대여 by 물품 ========== */
+router
+    .route('/item/:itemObjectId/rent/:rentObjectId')
+    .get(RentController.getRentByItem)
+    .patch(RentController.updateRentByItem)
+    .put(RentController.returnRentByItem);
+
+router
+    .route('/item/:itemObjectId/rent')
+    .post(hasRole('rent', 'admin'), RentController.postRentByItem);
+/* ========== end of 대여 by 물품 ========== */
 
 /* ========== 나의 대여 ========== */
 router.route('/myrent-status-page').get(MyrentStatusController.getMyrentPage);

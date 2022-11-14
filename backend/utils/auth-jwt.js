@@ -11,6 +11,8 @@ const customJwt = {
             id: user.userId,
             role: user.userRole,
             name: user.userName,
+            dept: user.userDept,
+            position: user.userPosition,
         };
         return jwt.sign(payload, process.env.JWT_SECRET, {
             // process.env.JWT_SECRET으로 sign하여 발급하고 return
@@ -29,6 +31,8 @@ const customJwt = {
                 id: decoded.id,
                 role: decoded.role,
                 name: decoded.name,
+                dept: decoded.dept,
+                position: decoded.position,
             };
         } catch (err) {
             return {

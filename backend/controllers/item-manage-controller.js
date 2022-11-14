@@ -141,11 +141,13 @@ const ItemManageController = {
             let result = undefined;
             let newItemDTO = ItemDTO;
             newItemDTO = req.body;
+            if (newItemDTO.itemTotalAmount < newItemDTO.itemRentingAmount)
+                throw Error('wrong amount');
             newItemDTO.itemCanRentAmount =
                 newItemDTO.itemTotalAmount - newItemDTO.itemRentingAmount;
             newItemDTO.updatedAt = new Date().toISOString();
             result = await Item.findOneAndUpdate(
-                {itemNum: newItemDTO.itemNum, isDelete: false},
+                {_id: newItemDTO._id, isDelete: false},
                 newItemDTO
             ).exec();
             result = await ItemService.updateItemCategory(
@@ -162,6 +164,12 @@ const ItemManageController = {
             }
         } catch (error) {
             console.log(error);
+            if (error.message === 'wrong amount') {
+                res.status(400).json({
+                    ok: false,
+                    message: `총 수량은 대여 중 수량보다 작을 수 없습니다`,
+                });
+            }
             res.status(500).json({
                 ok: false,
                 message: `${error.message}`,
@@ -170,9 +178,9 @@ const ItemManageController = {
     },
     deleteItem: async (req, res) => {
         try {
-            const itemNum = req.params.itemNum;
+            const itemObjectId = req.params.itemObjectId;
             let result = await Item.findOneAndUpdate(
-                {itemNum: itemNum},
+                {_id: itemObjectId},
                 {isDelete: true}
             ).exec();
             if (result) {
@@ -194,7 +202,7 @@ const ItemManageController = {
     },
     getHistoryListByItem: (req, res) => {},
     getRenterListByItem: (req, res) => {
-        const itemId = req.params.itemId;
+        const itemObjectId = req.params.itemObjectId;
         res.status(200).send({
             ok: true,
             message: `${itemId}대여자 이력`,

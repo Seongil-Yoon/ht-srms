@@ -14,7 +14,7 @@ const rentSchema = new Schema(
             type: Object,
             require: true,
             default: {
-                _id: undefined,
+                _id: {type: Object},
                 userId: undefined,
                 userName: undefined,
                 userDept: undefined,
@@ -25,7 +25,7 @@ const rentSchema = new Schema(
             type: Object,
             require: true,
             default: {
-                _id: undefined,
+                _id: {type: Object},
                 itemNum: undefined,
                 itemId: undefined,
                 itemName: undefined,
@@ -50,7 +50,6 @@ const rentSchema = new Schema(
         },
         realReturnAt: {
             type: Date,
-            default: Date.now(),
         },
         isExpire: {
             type: Boolean,

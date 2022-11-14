@@ -1,4 +1,5 @@
 const ItemDTO = {
+    _id: undefined,
     itemNum: undefined,
     itemId: undefined,
     itemWriter: undefined,

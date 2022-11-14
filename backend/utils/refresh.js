@@ -47,11 +47,15 @@ const refresh = async (req, res, next) => {
                         userId: decoded.id,
                         userRole: decoded.role,
                         userName: decoded.name,
+                        userDept: decoded.dept,
+                        userPosition: decoded.position,
                     });
                     req._id = decoded._id;
                     req.userId = decoded.id;
                     req.userRole = decoded.role;
                     req.userName = decoded.name;
+                    req.userDept = decoded.dept;
+                    req.userPosition = decoded.position;
 
                     // 새로 발급한 access token과 원래 있던 refresh token 모두 클라이언트에게 반환합니다.
                     res.cookie('accessToken', newAccessToken, {httpOnly: true});

@@ -8,7 +8,7 @@ import {itemDto} from './model/item-dto.js';
 import {DateTime} from '../../libs/luxon.min.js';
 import htSwal from '../custom-swal.js';
 
-let newItemDto = itemDto;
+let newItemDto;
 let newDropdown, newTable;
 const itemIdReg = /^[A-Z]{2}[0-9]{14}$/;
 let submitClickResult = undefined;
@@ -63,6 +63,7 @@ const ItemModifyEvent = {
      * @dom :
      */
     main: async (targetItem, dropdown, table) => {
+        newItemDto = itemDto;
         newItemDto = targetItem;
         newDropdown = dropdown;
         newTable = table;
@@ -81,6 +82,7 @@ const ItemModifyEvent = {
         );
         return new Promise((resolve, reject) => {
             const itemModifySubmitClick = (e) => {
+                console.log(newItemDto);
                 e.preventDefault();
                 newItemDto.itemCategory.large = document.querySelector(
                     '#js-itemCategoryLargeModify'
@@ -118,6 +120,14 @@ const ItemModifyEvent = {
                         '',
                         'error'
                     );
+                } else if (
+                    newItemDto.itemTotalAmount < newItemDto.itemRentingAmount
+                ) {
+                    htSwal.fire({
+                        title: '총 수량은 대여 중 수량보다 작을 수 없습니다',
+                        icon: 'error',
+                        width: 'max-content',
+                    });
                 } else {
                     htSwal
                         .fire({
@@ -135,7 +145,7 @@ const ItemModifyEvent = {
                                     'none'
                                 );
                                 $.ajax({
-                                    url: `/item/${newItemDto.itemNum}`,
+                                    url: `/item/${newItemDto._id}`,
                                     type: 'patch',
                                     data: JSON.stringify(newItemDto),
                                     dataType: 'json',
@@ -180,18 +190,21 @@ const ItemModifyEvent = {
                                                 'error'
                                             );
                                         } else {
-                                            if (error.message != undefined)
-                                                htSwal.fire(
-                                                    `'${error.message}'`,
-                                                    '',
-                                                    'error'
-                                                );
-                                            else
+                                            if (
+                                                error.responseJSON.message ===
+                                                undefined
+                                            )
                                                 htSwal.fire(
                                                     '서버 오류 관리자에게 문의 하세요',
                                                     '',
                                                     'error'
                                                 );
+                                            else
+                                                htSwal.fire({
+                                                    title: `${error.responseJSON.message}`,
+                                                    icon: 'error',
+                                                    width: 'max-content',
+                                                });
                                         }
                                     },
                                 }); //end of ajax

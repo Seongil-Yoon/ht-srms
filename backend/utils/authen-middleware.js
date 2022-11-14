@@ -17,6 +17,8 @@ const authJWT = (req, res, next) => {
                     req.userId = result.id;
                     req.userRole = result.role;
                     req.userName = result.name;
+                    req.userDept = result.dept;
+                    req.userPosition = result.position;
                     next();
                 } else {
                     //엑세스토큰 만료시

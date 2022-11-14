@@ -27,7 +27,7 @@ const ItemDeleteEvent = {
                             'none'
                         );
                         $.ajax({
-                            url: `/item/${targetItem.itemNum}`,
+                            url: `/item/${targetItem._id}`,
                             type: 'put',
                             dataType: 'json',
                             success: function (res, jqxHR) {

@@ -5,8 +5,7 @@ import htSwal from '../custom-swal.js';
 import {DateTime} from '../../libs/luxon.min.js';
 // import flatpickr from '../../libs/flatpickr.min.js';
 
-let newItemDto = itemDto;
-let newRentDto = rentDto;
+let newItemDto, newRentDto;
 let newDropdown, newTable;
 
 const showRentModal = (item) => {
@@ -50,7 +49,9 @@ const itemRentCancelClick = (e) => {
 };
 const ItemRentEvent = {
     main: async (targetItem, dropdown, table) => {
+        newItemDto = itemDto;
         newItemDto = targetItem;
+        newRentDto = rentDto;
         newDropdown = dropdown;
         newTable = table;
         showRentModal(newItemDto);
@@ -61,6 +62,7 @@ const ItemRentEvent = {
         return new Promise((resolve, reject) => {
             const itemRentSubmitClick = (e) => {
                 e.preventDefault();
+                newRentDto.rentedItem._id = newItemDto._id;
                 newRentDto.rentedItem.itemNum = newItemDto.itemNum;
                 newRentDto.rentedItem.itemId = newItemDto.itemId;
                 newRentDto.rentedItem.itemName = newItemDto.itemName;
@@ -71,7 +73,7 @@ const ItemRentEvent = {
 
                 htSwal
                     .fire({
-                        title: `${newRentDto.rentedItem.itemName}을(를) 대여하시겠습니까?`,
+                        title: `${newRentDto.rentedItem.itemName}을(를) </br> 대여하시겠습니까?`,
                         text: '',
                         icon: 'question',
                         showCancelButton: true,
@@ -80,14 +82,14 @@ const ItemRentEvent = {
                     })
                     .then((e) => {
                         if (e.isConfirmed) {
-                            $('section.item-modify-modal-overlay').css(
+                            $('section.item-rent-modal-overlay').css(
                                 'display',
                                 'none'
                             );
                             $.ajax({
-                                url: `/item/${newItemDto.itemNum}`,
-                                type: 'patch',
-                                data: JSON.stringify(newItemDto),
+                                url: `/item/${newRentDto.rentedItem._id}/rent`,
+                                type: 'post',
+                                data: JSON.stringify(newRentDto),
                                 dataType: 'json',
                                 contentType: 'application/json',
                                 success: function (res, jqxHR) {
@@ -130,18 +132,21 @@ const ItemRentEvent = {
                                             'error'
                                         );
                                     } else {
-                                        if (error.message != undefined)
-                                            htSwal.fire(
-                                                `'${error.message}'`,
-                                                '',
-                                                'error'
-                                            );
-                                        else
+                                        if (
+                                            error.responseJSON.message ===
+                                            undefined
+                                        )
                                             htSwal.fire(
                                                 '서버 오류 관리자에게 문의 하세요',
                                                 '',
                                                 'error'
                                             );
+                                        else
+                                            htSwal.fire({
+                                                title: `${error.responseJSON.message}`,
+                                                icon: 'error',
+                                                width: 'max-content',
+                                            });
                                     }
                                 },
                             }); //end of ajax

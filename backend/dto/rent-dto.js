@@ -1,4 +1,4 @@
-const rentDto = {
+const RentDTO = {
     _id: undefined,
     rentNum: undefined,
     renter: {
@@ -27,4 +27,5 @@ const rentDto = {
     createdAt: undefined,
     updatedAt: undefined,
 };
-export {rentDto};
+
+export default RentDTO;

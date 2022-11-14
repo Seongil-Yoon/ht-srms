@@ -7,7 +7,7 @@ import {DateTime} from '../../libs/luxon.min.js';
 import ItemModifyEvent from './item-modify-script.js';
 import ItemDeleteEvent from './item-delete-script.js';
 import ItemRentEvent from './item-rent-script.js';
-import htSwal from "../custom-swal.js";
+import htSwal from '../custom-swal.js';
 
 let table_9, paging_1, dd_3;
 let itemListDate = [];
@@ -34,6 +34,7 @@ $(document).on('mousemove', function (event) {
     position.pageY = event.pageY;
 });
 const juiTableColums = [
+    '_id',
     'itemNum',
     'itemId',
     'itemCategoryLarge',
@@ -55,6 +56,7 @@ const juiGridTable = (items) => {
         const insertItems = (items) => {
             items.forEach((e) => {
                 rows.push({
+                    _id: e._id,
                     itemNum: e.itemNum,
                     itemId: e.itemId,
                     itemCategoryLarge: e.itemCategory.large,
@@ -83,10 +85,13 @@ const juiGridTable = (items) => {
                                 newItemDto.itemIsCanRent == true &&
                                 newItemDto.itemCanRentAmount > 0
                             ) {
-                                await ItemRentEvent.main(
+                                result = await ItemRentEvent.main(
                                     newItemDto,
                                     dd,
                                     table_9
+                                );
+                                await pageNumClickRender(
+                                    itemfilterAndOrderByMap
                                 );
                             } else {
                                 htSwal.fire(
@@ -146,6 +151,7 @@ const juiGridTable = (items) => {
             sort: true,
             event: {
                 rowmenu: function (row, e) {
+                    newItemDto._id = row.data._id;
                     newItemDto.itemNum = row.data.itemNum;
                     newItemDto.itemId = row.data.itemId;
                     newItemDto.itemCategory.large = row.data.itemCategoryLarge;
