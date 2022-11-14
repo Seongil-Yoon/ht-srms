@@ -12,6 +12,7 @@ const itemDto = {
     itemTotalAmount: undefined,
     createdAt: undefined,
     updatedAt: undefined,
+    showUpdateAt : undefined,
     isDelete: undefined,
 };
 

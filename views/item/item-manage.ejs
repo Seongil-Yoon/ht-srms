@@ -56,8 +56,8 @@
                             <option value="1">오름차순 📈</option>
                         </select>
                         <select class="item-search-select" id="js-itemSortSelect" name="itemSortSelect">
-                            <option value="itemNum">등록순번순</option>
-                            <option value="updatedAt" selected>등록날짜순</option>
+                            <option value="itemNum" selected>등록순번순</option>
+                            <option value="updatedAt">수정날짜순</option>
                             <option value="itemName">물품이름순</option>
                             <option value="itemId">물품코드순</option>
                             <option value="itemCanRentAmount">대여 가능 수량순</option>
@@ -124,7 +124,7 @@
                         </ul>
                     </div>
                     <script data-jui="#table_9" data-tpl="row" type="text/template">
-                        <tr>
+                        <tr data-value="<!= itemNum !>">
                             <td><!= itemNum !></td>
                             <td><!= itemId !></td>
                             <td><!= itemCategoryLarge !></td>
@@ -135,7 +135,7 @@
                             <td><!= itemCanRentAmount !></td>
                             <td><!= itemRentingAmount !></td>
                             <td><!= itemTotalAmount !></td>
-                            <td><!= updatedAt !></td>
+                            <td><!= showUpdatedAt !></td>
                         </tr>
                     </script>
                 </div>
@@ -158,12 +158,11 @@
         </section>
     </div>
     <%- include("./item-modify.ejs") %>
-
+    <%- include("./item-rent.ejs") %>
 
     <%- include("../libs/libsScript.ejs") %>
     <%- include("../libs/jui/jui-libsScript.ejs") %>
-    <script type="module" src="/static/js/item/item-manage-script.js"></script>
-    <!-- <script type="module" src="/static/js/item/item-modify-script.js"></script> -->
+    <script type="module" src="/static/js/item-manage/item-manage-script.js"></script>
 </body>
 
 </html>

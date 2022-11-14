@@ -47,15 +47,15 @@ router.post(
     ItemManageController.insertItem
 );
 router
-    .route('/item/:itemId')
+    .route('/item/:itemNum')
     .get(ItemManageController.getItem)
-    .put(hasRole('edit', 'admin'), ItemManageController.updateItem)
-    .delete(hasRole('edit', 'admin'), ItemManageController.deleteItem);
+    .patch(hasRole('edit', 'admin'), ItemManageController.updateItem)
+    .put(hasRole('edit', 'admin'), ItemManageController.deleteItem);
 router
-    .route('/item/rent-history/:itemId')
+    .route('/item/rent-history/:itemNum')
     .get(ItemManageController.getHistoryListByItem);
 router
-    .route('/item/renter-list/:itemId')
+    .route('/item/renter-list/:itemNum')
     .get(hasRole('admin'), ItemManageController.getRenterListByItem);
 router.get(
     '/item/export-xlxs',

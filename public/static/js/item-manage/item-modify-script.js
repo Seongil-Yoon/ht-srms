@@ -33,11 +33,24 @@ const showModifyModal = async (e) => {
     itemModifyDom.itemIdModify.value = newItemDto.itemId;
     itemModifyDom.itemTotalAmountModify.value = newItemDto.itemTotalAmount;
 };
-
+const itemModifyFormResetBtnClick = async (e) => {
+    await itemModifyCategoryRender(newItemDto);
+};
 const itemModifyCancelClick = (e) => {
     e.preventDefault();
-    $('section.item-modify-modal-overlay').css('display', 'none');
-    newTable.unselect();
+    swal({
+        title: `물품 편집을 취소하시겠습니까?`,
+        text: '',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+        buttons: ['닫기', '편집취소'],
+    }).then((e) => {
+        if (e) {
+            $('section.item-modify-modal-overlay').css('display', 'none');
+            newTable.unselect();
+        }
+    });
 };
 
 const ItemModifyEvent = {
@@ -46,20 +59,24 @@ const ItemModifyEvent = {
      * @return :
      * @dom :
      */
-    main: (targetItem, dropdown, table) => {
+    main: async (targetItem, dropdown, table) => {
+        newItemDto = targetItem;
+        newDropdown = dropdown;
+        newTable = table;
+        await showModifyModal();
+        itemModifyDom.itemModifyFormResetBtn.addEventListener(
+            'click',
+            itemModifyFormResetBtnClick
+        );
+        itemModifyDom.itemCategoryLargeModifyAddInsert.addEventListener(
+            'click',
+            itemModifyCategoryLargeAddEvent.itemCategoryLargeAddSelect
+        );
+        itemModifyDom.itemCategorySmallModifyAddInsert.addEventListener(
+            'click',
+            itemModifyCategorySmallAddEvent.itemCategorySmallAddSelect
+        );
         return new Promise((resolve, reject) => {
-            newItemDto = targetItem;
-            newDropdown = dropdown;
-            newTable = table;
-            showModifyModal();
-            itemModifyDom.itemCategoryLargeModifyAddInsert.addEventListener(
-                'click',
-                itemModifyCategoryLargeAddEvent.itemCategoryLargeAddSelect
-            );
-            itemModifyDom.itemCategorySmallModifyAddInsert.addEventListener(
-                'click',
-                itemModifyCategorySmallAddEvent.itemCategorySmallAddSelect
-            );
             const itemModifySubmitClick = (e) => {
                 e.preventDefault();
                 newItemDto.itemCategory.large = document.querySelector(
@@ -78,7 +95,7 @@ const ItemModifyEvent = {
                 newItemDto.itemId = itemModifyDom.itemIdModify.value;
                 newItemDto.itemTotalAmount =
                     itemModifyDom.itemTotalAmountModify.value;
-                newItemDto.updatedAt = DateTime.now();
+                // newItemDto.updatedAt = DateTime.now();
 
                 if (newItemDto.itemCategory.large === '') {
                     swal('대분류를 선택해주십시오', '', 'error');
@@ -108,10 +125,9 @@ const ItemModifyEvent = {
                                 'display',
                                 'none'
                             );
-                            newTable.unselect();
                             $.ajax({
                                 url: `/item/${newItemDto.itemNum}`,
-                                type: 'put',
+                                type: 'patch',
                                 data: JSON.stringify(newItemDto),
                                 dataType: 'json',
                                 contentType: 'application/json',
@@ -176,13 +192,11 @@ const ItemModifyEvent = {
             };
             itemModifyDom.itemModifySubmit.addEventListener(
                 'click',
-                itemModifySubmitClick,
-                {once: true}
+                itemModifySubmitClick
             );
             itemModifyDom.itemModifyCancel.addEventListener(
                 'click',
-                itemModifyCancelClick,
-                {once: true}
+                itemModifyCancelClick
             );
         });
     },

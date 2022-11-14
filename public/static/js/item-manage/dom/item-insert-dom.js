@@ -1,6 +1,7 @@
 const itemInsertMain = document.querySelector('.item-insert-main') || document;
 const dom = {
     itemInsertFormBtn: itemInsertMain.querySelector('#js-itemInsertFormBtn'),
+    itemFormResetBtn: itemInsertMain.querySelector('#js-itemFormResetBtn'),
     itemListResetBtn: itemInsertMain.querySelector('#js-itemListResetBtn'),
     itemListSave: itemInsertMain.querySelector('#js-itemListSave'),
     itemInsertCancel: itemInsertMain.querySelector('#js-itemInsertCancel'),
@@ -26,6 +27,4 @@ const dom = {
     ),
 };
 
-export {
-    dom
-};
+export {dom};

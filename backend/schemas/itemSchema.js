@@ -8,6 +8,7 @@ const itemSchema = new Schema(
         itemNum: {
             type: Number,
             require: true,
+            unique: true,
         },
         itemId: {
             type: String,

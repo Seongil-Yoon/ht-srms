@@ -102,6 +102,9 @@ const itemInsertFormClick = (e) => {
     }
 };
 
+const itemFormResetBtnClick = async (e) => {
+    await itemCategoryRender();
+};
 const itemListSaveClick = (e) => {
     localStorage.setItem('itemList', JSON.stringify(itemList));
     swal({
@@ -182,7 +185,7 @@ const itemInsertSubmitClick = (e) => {
                     },
                 }); //end of ajax
             }
-        });//end of swal-popup
+        }); //end of swal-popup
     } else {
         swal('물품을 하나도 올리지 않으셨습니다', '', 'error');
     }
@@ -193,6 +196,7 @@ async function main() {
     if (localStoreItemList) itemList = localStoreItemList;
     await itemCategoryRender();
     itemDom.itemInsertFormBtn.addEventListener('click', itemInsertFormClick);
+    itemDom.itemFormResetBtn.addEventListener('click', itemFormResetBtnClick);
     itemDom.itemListSave.addEventListener('click', itemListSaveClick);
     itemDom.itemListResetBtn.addEventListener('click', itemListResetBtnClick);
     itemDom.itemInsertCancel.addEventListener('click', itemInsertCancelClick);

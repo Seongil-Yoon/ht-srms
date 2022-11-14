@@ -2,13 +2,13 @@ section.item-modify-modal-overlay {}
 
 section.item-modify-modal-overlay>form {}
 
-article.ht-modal-input-list tbody>tr:nth-child(1)>td:last-child>:first-child,
-article.ht-modal-input-list tbody>tr:nth-child(2)>td:last-child>:first-child {
+section.item-modify-modal-overlay tbody>tr:nth-child(1)>td:last-child>:first-child,
+section.item-modify-modal-overlay tbody>tr:nth-child(2)>td:last-child>:first-child {
     flex: 6;
 }
 
-article.ht-modal-input-list tbody>tr:nth-child(1)>td:last-child>:last-child,
-article.ht-modal-input-list tbody>tr:nth-child(2)>td:last-child>:last-child {
+section.item-modify-modal-overlay tbody>tr:nth-child(1)>td:last-child>:last-child,
+section.item-modify-modal-overlay tbody>tr:nth-child(2)>td:last-child>:last-child {
     flex: 4;
     margin-left: 10px;
 }

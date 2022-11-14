@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 input[readonly] {
+    border-width: 1px;
     background-color: #e9ecef;
     opacity: 1;
 }

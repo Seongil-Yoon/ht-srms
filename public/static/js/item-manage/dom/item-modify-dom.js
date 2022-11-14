@@ -1,6 +1,9 @@
 const itemModifyForm =
     document.querySelector('form#js-itemModifyForm') || document;
 const dom = {
+    itemModifyFormResetBtn: itemModifyForm.querySelector(
+        '#js-itemModifyFormResetBtn'
+    ),
     itemCategoryLargeGroup: itemModifyForm.querySelector(
         '.item-category-large-group'
     ),

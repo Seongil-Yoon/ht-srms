@@ -143,8 +143,9 @@ const ItemManageController = {
             newItemDTO = req.body;
             newItemDTO.itemCanRentAmount =
                 newItemDTO.itemTotalAmount - newItemDTO.itemRentingAmount;
+            newItemDTO.updatedAt = new Date().toISOString();
             result = await Item.findOneAndUpdate(
-                {itemNum: newItemDTO.itemNum},
+                {itemNum: newItemDTO.itemNum, isDelete: false},
                 newItemDTO
             ).exec();
             result = await ItemService.updateItemCategory(
@@ -153,10 +154,35 @@ const ItemManageController = {
             if (result) {
                 res.status(200).json({
                     ok: true,
+                    itemNum: newItemDTO.itemNum,
                     message: `물품 편집 성공`,
                 });
             } else {
                 throw Error('죄송합니다 편집이 실패했습니다');
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                ok: false,
+                message: `${error.message}`,
+            });
+        }
+    },
+    deleteItem: async (req, res) => {
+        try {
+            const itemNum = req.params.itemNum;
+            let result = await Item.findOneAndUpdate(
+                {itemNum: itemNum},
+                {isDelete: true}
+            ).exec();
+            if (result) {
+                res.status(200).json({
+                    ok: true,
+                    itemNum: result.itemNum,
+                    message: `물품 삭제 성공`,
+                });
+            } else {
+                throw Error('죄송합니다 삭제가 실패했습니다');
             }
         } catch (error) {
             console.log(error);
@@ -166,7 +192,6 @@ const ItemManageController = {
             });
         }
     },
-    deleteItem: (req, res) => {},
     getHistoryListByItem: (req, res) => {},
     getRenterListByItem: (req, res) => {
         const itemId = req.params.itemId;

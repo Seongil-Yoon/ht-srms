@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+input[readonly] {
+    text-align: center;
+}
+
 aside>img {
     width: 105px;
     position: fixed;
@@ -76,6 +80,7 @@ section>article.roundBox {
     min-height: max-content
 }
 
-section>article.roundBox>footer ,.tablebody {
+section>article.roundBox>footer,
+.tablebody {
     margin-top: 20px;
 }

@@ -1,0 +1,67 @@
+<section class="item-rent-modal-overlay ht-modal-overlay">
+    <form class="item-rent-modal-form ht-modal roundBox" id="js-itemRentForm">
+        <header>
+            <span>🛒 물품 대여</span>
+            <button type="reset" class="ht-btn btn-outline-primary btn-white">양식 초기화</button>
+        </header>
+        <article class="ht-modal-input-list">
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr class="item-category-large-group">
+                        <td for="js-itemCategoryLargeRent">대분류 : </td>
+                        <td>
+                            <input type="text" name="itemCategoryLargeRent" id="js-itemCategoryLargeRent" readonly
+                                value="">
+                        </td>
+                    </tr>
+                    <tr class="item-category-small-group">
+                        <td for="js-itemCategorySmallRent">소분류 : </td>
+                        <td>
+                            <input type="text" name="itemCategorySmallRent" id="js-itemCategorySmallRent" readonly
+                                value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td for="js-itemNameRent">물품 이름 : </td>
+                        <td>
+                            <input type="text" id="js-itemNameRent" class="item-name" name="itemNameRent"
+                                placeholder="물품의 이름을 입력해주세요" required readonly />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td for="js-itemIdRent">제품코드 : </td>
+                        <td>
+                            <input type="text" id="js-itemIdRent" class="item-id" name="itemIdRent"
+                                placeholder="ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))" readonly />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td for="js-rentPurpose">*대여 목적 : </td>
+                        <td>
+                            <input type="text" id="js-rentPurpose" class="item-id" name="rentPurpose"
+                                placeholder="대여 목적을 입력해주세요" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td for="js-rentPeriod">*대여 기간 : </td>
+                        <td>
+                           <span id="js-expectReturnWarn">반납일시는 2022-10-28 17:00입니다</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="datetime-local" name="rentAt" id="js-rentAt">
+                            <span> ~ </span>
+                            <input type="datetime-local" name="expectReturnAt" id="js-expectReturnAt">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+        <footer>
+            <button type="button" class="ht-btn btn-outline-primary btn-white" id="js-itemRentCancel">취소</button>
+            <button type="button" class="ht-btn btn-outline-primary btn-blue" id="js-itemRentSubmit">편집</button>
+        </footer>
+    </form>
+</section>

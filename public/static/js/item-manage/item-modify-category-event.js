@@ -22,7 +22,7 @@ const smallRender = () => {
     $('#js-itemCategorySmallModify').append(html);
 };
 const itemModifyCategoryRender = async (item) => {
-    targetItem = item || '';
+    targetItem = targetItem || item;
     const ajax = () => {
         return new Promise((resolve, reject) => {
             $.ajax({

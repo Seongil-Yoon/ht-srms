@@ -1,0 +1,23 @@
+section.item-rent-modal-overlay {}
+
+
+section.item-rent-modal-overlay tbody>tr:nth-child(6) {
+    margin-top: 3px;
+}
+
+section.item-rent-modal-overlay tbody>tr:nth-child(6)>td:last-child {
+    justify-content: flex-start;
+    align-self: flex-end;
+    color: red;
+}
+
+section.item-rent-modal-overlay tbody>tr:last-child {
+    margin-top: 0px;
+}
+
+section.item-rent-modal-overlay tbody>tr:last-child>td>span {
+    margin-left: 15px;
+    margin-right: 15px;
+    font-size: larger;
+    font-weight: bolder;
+}

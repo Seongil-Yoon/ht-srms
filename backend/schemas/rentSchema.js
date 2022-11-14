@@ -8,6 +8,7 @@ const rentSchema = new Schema(
         rentNum: {
             type: Number,
             require: true,
+            unique: true,
         },
         renter: {
             type: Object,
@@ -25,6 +26,7 @@ const rentSchema = new Schema(
             require: true,
             default: {
                 _id: undefined,
+                itemNum: undefined,
                 itemId: undefined,
                 itemName: undefined,
                 itemCategory: {
@@ -60,7 +62,6 @@ const rentSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now(),
         },
         updatedAt: {
             type: Date,

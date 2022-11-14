@@ -5,6 +5,8 @@ import getItemList from './ajax/item-list-ajax.js';
 import PagingFooterBar from '../paging-util.js';
 import {DateTime} from '../../libs/luxon.min.js';
 import ItemModifyEvent from './item-modify-script.js';
+import ItemDeleteEvent from './item-delete-script.js';
+import ItemRentEvent from './item-rent-script.js';
 
 let table_9, paging_1, dd_3;
 let itemListDate = [];
@@ -20,7 +22,7 @@ const itemfilterAndOrderByMap = {
     itemCategorySmall: '',
     itemSearchSelect: '',
     itemSearchInput: '',
-    itemSortSelect: 'updatedAt',
+    itemSortSelect: '',
     itemOrberBySelect: -1,
 };
 /* ==============================*/
@@ -41,10 +43,12 @@ const juiTableColums = [
     'itemCanRentAmount',
     'itemRentingAmount',
     'itemTotalAmount',
+    'showUpdatedAt',
     'updatedAt',
 ];
 const juiGridTable = (items) => {
     const newItemDto = itemDto;
+    let selectRowIndex = 0;
     jui.ready(['ui.dropdown', 'grid.table'], function (dropdown, table) {
         let rows = [];
         const insertItems = (items) => {
@@ -60,9 +64,10 @@ const juiGridTable = (items) => {
                     itemCanRentAmount: e.itemCanRentAmount,
                     itemRentingAmount: e.itemRentingAmount,
                     itemTotalAmount: e.itemTotalAmount,
-                    updatedAt: DateTime.fromISO(e.updatedAt)
+                    showUpdatedAt: DateTime.fromISO(e.updatedAt)
                         .setZone('Asia/Seoul')
                         .toLocaleString(DateTime.DATETIME_SHORT),
+                    updatedAt: e.updatedAt,
                 });
             });
             return rows;
@@ -70,18 +75,52 @@ const juiGridTable = (items) => {
         let dd = dropdown('#table_9_dd', {
             event: {
                 change: async function (data, e) {
+                    let result;
                     switch (data.value) {
                         case 'rent':
+                            if (
+                                newItemDto.itemIsCanRent == true &&
+                                newItemDto.itemCanRentAmount > 0
+                            ) {
+                                await ItemRentEvent.main(
+                                    newItemDto,
+                                    dd,
+                                    table_9
+                                );
+                            } else {
+                                swal(
+                                    '해당 물품은 현재 대여불가능 합니다',
+                                    '',
+                                    'error'
+                                );
+                            }
                             break;
                         case 'rentHistory':
                             break;
                         case 'modifyItem':
-                            let result;
-                            result =await ItemModifyEvent.main(newItemDto, dd, table_9);//addEventListener
-                            console.log(result);
-                            pageNumClickRender(itemfilterAndOrderByMap);
+                            let child = document.querySelector('tr.selected');
+                            let parent = child.parentNode;
+                            result = await ItemModifyEvent.main(
+                                newItemDto,
+                                dd,
+                                table_9
+                            );
+                            await pageNumClickRender(itemfilterAndOrderByMap);
+                            let changedIndex = Array.prototype.findIndex.call(
+                                parent.children,
+                                (c) =>
+                                    c.getAttribute('data-value') ===
+                                    child.getAttribute('data-value')
+                            );
+                            table_9.select(changedIndex);
                             break;
                         case 'deleteItem':
+                            result = await ItemDeleteEvent.main(
+                                newItemDto,
+                                dd,
+                                table_9
+                            );
+                            await pageNumClickRender(itemfilterAndOrderByMap);
                             break;
                         case 'renterList':
                             break;
@@ -100,6 +139,7 @@ const juiGridTable = (items) => {
             csvNames: juiTableColums,
             data: insertItems(items),
             editRow: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            colshow: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             editEvent: false,
             resize: true,
             sort: true,
@@ -115,9 +155,10 @@ const juiGridTable = (items) => {
                     newItemDto.itemCanRentAmount = row.data.itemCanRentAmount;
                     newItemDto.itemRentingAmount = row.data.itemRentingAmount;
                     newItemDto.itemTotalAmount = row.data.itemTotalAmount;
-                    newItemDto.updatedAt = row.data.updatedAt;
+                    // newItemDto.updatedAt = row.data.updatedAt; => 백엔드에서 수정
 
-                    this.select(row.index);
+                    selectRowIndex = row.index;
+                    this.select(selectRowIndex);
                     dd.move(position.pageX, position.pageY);
                     dd.show();
                 },
