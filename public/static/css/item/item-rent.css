@@ -21,3 +21,11 @@ section.item-rent-modal-overlay tbody>tr:last-child>td>span {
     font-size: larger;
     font-weight: bolder;
 }
+section.item-rent-modal-overlay #js-itemNeedNotReturnAlarm{
+    display: none;
+    width: 100%;
+    color: red;
+    font-size: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+}

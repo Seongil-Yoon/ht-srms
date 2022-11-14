@@ -2,7 +2,8 @@
     <form class="item-rent-modal-form ht-modal roundBox" id="js-itemRentForm">
         <header>
             <span>🛒 물품 대여</span>
-            <button type="reset" class="ht-btn btn-outline-primary btn-white">양식 초기화</button>
+            <button type="button" class="ht-btn btn-outline-primary btn-white" id="js-itemRentFormResetBtn">양식
+                초기화</button>
         </header>
         <article class="ht-modal-input-list">
             <table>
@@ -46,7 +47,7 @@
                     <tr>
                         <td for="js-rentPeriod">*대여 기간 : </td>
                         <td>
-                           <span id="js-expectReturnWarn">반납일시는 2022-10-28 17:00입니다</span>
+                            <span id="js-expectReturnWarn">반납일시는 2022-10-28 17:00입니다</span>
                         </td>
                     </tr>
                     <tr>
@@ -54,6 +55,7 @@
                             <input type="datetime-local" name="rentAt" id="js-rentAt">
                             <span> ~ </span>
                             <input type="datetime-local" name="expectReturnAt" id="js-expectReturnAt">
+                            <span id="js-itemNeedNotReturnAlarm">반납할 필요가 없습니다</span>
                         </td>
                     </tr>
                 </tbody>
