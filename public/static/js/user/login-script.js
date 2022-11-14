@@ -1,6 +1,8 @@
 // import httpHeaders from '../httpHeaders.js';
 // const token = localStorage.getItem('accessToken');
 import {userDto} from './model/user-dto.js';
+import htSwal from "../custom-swal.js";
+
 const loginForm = document.querySelector('#js-loginForm');
 const notifyTarget = document.querySelector('#notify_target');
 const valiAlert = loginForm.querySelector('span');
@@ -30,7 +32,7 @@ async function loginSubmit(e) {
                     console.log(result);
                     if (result.ok == true) {
                         //로그인 성공후 메인 화면 이동
-                        swal('로그인 되었습니다', '', 'success');
+                        htSwal.fire('로그인 되었습니다', '', 'success');
                         setTimeout(() => {
                             location.href = '/item-manage-page';
                         }, 1.1 * 1000);
@@ -41,19 +43,19 @@ async function loginSubmit(e) {
                 error: function (error) {
                     //서버오류 500  찾는 자료없음 404  권한없음  401
                     if (error.status == 404) {
-                        swal('찾는 자료가 없습니다', '', 'error');
+                        htSwal.fire('찾는 자료가 없습니다', '', 'error');
                     } else if (error.status == 401) {
                         valiAlert.innerText = error.responseJSON.message;
                         valiAlert.style.visibility = 'unset';
                     } else if (error.status == 403) {
-                        swal('접근 권한이 없습니다', '', 'error');
+                        htSwal.fire('접근 권한이 없습니다', '', 'error');
                     } else if (error.status == 500) {
-                        swal('서버 오류 관리자에게 문의 하세요', '', 'error');
+                        htSwal.fire('서버 오류 관리자에게 문의 하세요', '', 'error');
                     }
                 },
             });
         } else {
-            swal('입력되지 않은 항목이 있습니다', '', 'error');
+            htSwal.fire('입력되지 않은 항목이 있습니다', '', 'error');
         }
     } catch (error) {
         console.log(error);

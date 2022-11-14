@@ -7,6 +7,7 @@ import {DateTime} from '../../libs/luxon.min.js';
 import ItemModifyEvent from './item-modify-script.js';
 import ItemDeleteEvent from './item-delete-script.js';
 import ItemRentEvent from './item-rent-script.js';
+import htSwal from "../custom-swal.js";
 
 let table_9, paging_1, dd_3;
 let itemListDate = [];
@@ -88,7 +89,7 @@ const juiGridTable = (items) => {
                                     table_9
                                 );
                             } else {
-                                swal(
+                                htSwal.fire(
                                     '해당 물품은 현재 대여불가능 합니다',
                                     '',
                                     'error'

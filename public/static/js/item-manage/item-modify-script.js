@@ -6,6 +6,7 @@ import {
 } from './item-modify-category-event.js';
 import {itemDto} from './model/item-dto.js';
 import {DateTime} from '../../libs/luxon.min.js';
+import htSwal from '../custom-swal.js';
 
 let newItemDto = itemDto;
 let newDropdown, newTable;
@@ -38,19 +39,21 @@ const itemModifyFormResetBtnClick = async (e) => {
 };
 const itemModifyCancelClick = (e) => {
     e.preventDefault();
-    swal({
-        title: `물품 편집을 취소하시겠습니까?`,
-        text: '',
-        icon: 'warning',
-        buttons: true,
-        dangerMode: true,
-        buttons: ['닫기', '편집취소'],
-    }).then((e) => {
-        if (e) {
-            $('section.item-modify-modal-overlay').css('display', 'none');
-            newTable.unselect();
-        }
-    });
+    htSwal
+        .fire({
+            title: `물품 편집을 취소하시겠습니까?`,
+            text: '',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '네, 편집 취소',
+            cancelButtonText: '아니오, 계속 편집',
+        })
+        .then((e) => {
+            if (e.isConfirmed) {
+                $('section.item-modify-modal-overlay').css('display', 'none');
+                newTable.unselect();
+            }
+        });
 };
 
 const ItemModifyEvent = {
@@ -98,96 +101,102 @@ const ItemModifyEvent = {
                 // newItemDto.updatedAt = DateTime.now();
 
                 if (newItemDto.itemCategory.large === '') {
-                    swal('대분류를 선택해주십시오', '', 'error');
+                    htSwal.fire('대분류를 선택해주십시오', '', 'error');
                 } else if (newItemDto.itemCategory.small === '') {
-                    swal('소분류를 선택해주십시오', '', 'error');
+                    htSwal.fire('소분류를 선택해주십시오', '', 'error');
                 } else if (newItemDto.itemName === '') {
-                    swal('물품 이름을 입력해주십시오', '', 'error');
+                    htSwal.fire('물품 이름을 입력해주십시오', '', 'error');
                 } else if (!itemIdReg.test(newItemDto.itemId)) {
-                    swal(
+                    htSwal.fire(
                         '제품코드 규칙을 지켜주십시오',
                         'ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))',
                         'error'
                     );
                 } else if (newItemDto.itemTotalAmount < 1) {
-                    swal('물품 수량은 최소 1개이상 허용됩니다', '', 'error');
+                    htSwal.fire(
+                        '물품 수량은 최소 1개이상 허용됩니다',
+                        '',
+                        'error'
+                    );
                 } else {
-                    swal({
-                        title: `물품을 편집하시겠습니까?`,
-                        text: '',
-                        icon: 'warning',
-                        buttons: true,
-                        dangerMode: true,
-                        buttons: ['닫기', '편집'],
-                    }).then((e) => {
-                        if (e) {
-                            $('section.item-modify-modal-overlay').css(
-                                'display',
-                                'none'
-                            );
-                            $.ajax({
-                                url: `/item/${newItemDto.itemNum}`,
-                                type: 'patch',
-                                data: JSON.stringify(newItemDto),
-                                dataType: 'json',
-                                contentType: 'application/json',
-                                success: function (res, jqxHR) {
-                                    if (res.ok === true) {
-                                        // swal('물품을 등록했습니다🎉', 'success');
-                                        resolve(res);
-                                    } else {
-                                        swal(
-                                            '서버 오류 관리자에게 문의 하세요',
-                                            '',
-                                            'error'
-                                        );
-                                    }
-                                },
-                                error: function (error) {
-                                    reject(error);
-                                    //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
-                                    if (error.status == 404) {
-                                        swal(
-                                            '찾는 자료가 없습니다',
-                                            '',
-                                            'error'
-                                        );
-                                    } else if (error.status == 401) {
-                                        swal(
-                                            '유효하지 않은 인증입니다',
-                                            '',
-                                            'error'
-                                        );
-                                    } else if (error.status == 403) {
-                                        swal(
-                                            '접근 권한이 없습니다',
-                                            '',
-                                            'error'
-                                        );
-                                    } else if (error.status == 500) {
-                                        swal(
-                                            '서버 오류 관리자에게 문의 하세요',
-                                            '',
-                                            'error'
-                                        );
-                                    } else {
-                                        if (error.message != undefined)
-                                            swal(
-                                                `'${error.message}'`,
-                                                '',
-                                                'error'
-                                            );
-                                        else
-                                            swal(
+                    htSwal
+                        .fire({
+                            title: `물품을 편집하시겠습니까?`,
+                            text: '',
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: '네, 물품 편집',
+                            cancelButtonText: '아니오, 계속 편집',
+                        })
+                        .then((e) => {
+                            if (e.isConfirmed) {
+                                $('section.item-modify-modal-overlay').css(
+                                    'display',
+                                    'none'
+                                );
+                                $.ajax({
+                                    url: `/item/${newItemDto.itemNum}`,
+                                    type: 'patch',
+                                    data: JSON.stringify(newItemDto),
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    success: function (res, jqxHR) {
+                                        if (res.ok === true) {
+                                            // htSwal.fire('물품을 등록했습니다🎉', 'success');
+                                            resolve(res);
+                                        } else {
+                                            htSwal.fire(
                                                 '서버 오류 관리자에게 문의 하세요',
                                                 '',
                                                 'error'
                                             );
-                                    }
-                                },
-                            }); //end of ajax
-                        }
-                    }); //end of swal-popup
+                                        }
+                                    },
+                                    error: function (error) {
+                                        reject(error);
+                                        //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
+                                        if (error.status == 404) {
+                                            htSwal.fire(
+                                                '찾는 자료가 없습니다',
+                                                '',
+                                                'error'
+                                            );
+                                        } else if (error.status == 401) {
+                                            htSwal.fire(
+                                                '유효하지 않은 인증입니다',
+                                                '',
+                                                'error'
+                                            );
+                                        } else if (error.status == 403) {
+                                            htSwal.fire(
+                                                '접근 권한이 없습니다',
+                                                '',
+                                                'error'
+                                            );
+                                        } else if (error.status == 500) {
+                                            htSwal.fire(
+                                                '서버 오류 관리자에게 문의 하세요',
+                                                '',
+                                                'error'
+                                            );
+                                        } else {
+                                            if (error.message != undefined)
+                                                htSwal.fire(
+                                                    `'${error.message}'`,
+                                                    '',
+                                                    'error'
+                                                );
+                                            else
+                                                htSwal.fire(
+                                                    '서버 오류 관리자에게 문의 하세요',
+                                                    '',
+                                                    'error'
+                                                );
+                                        }
+                                    },
+                                }); //end of ajax
+                            }
+                        }); //end of htSwal.fire-popup
                 }
             };
             itemModifyDom.itemModifySubmit.addEventListener(

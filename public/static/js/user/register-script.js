@@ -2,6 +2,7 @@ import {registerForm, formDom} from './dom/register-form-dom.js';
 import {userDto} from './model/user-dto.js';
 import {formIsChecked, userUtill, reg} from './utill/validation.js';
 import customUtill from '../custom-utill.js';
+import htSwal from "../custom-swal.js";
 
 // const userDTO = new userDto('dbs267', 'ddf');
 
@@ -20,14 +21,15 @@ async function registerSubmit(e) {
 
     if (formIsTrueValue) {
         //폼 검증 통과
-        swal({
+        htSwal.fire({
             title: `회원가입 하시겠습니까?`,
             text: '',
-            icon: 'info',
-            buttons: true,
-            dangerMode: true,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '네, 가입하기',
+            cancelButtonText: '아니오, 닫기',
         }).then((e) => {
-            if (e) {
+            if (e.isConfirmed) {
                 $.ajax({
                     url: '/register',
                     type: 'post',
@@ -35,38 +37,39 @@ async function registerSubmit(e) {
                     contentType: 'application/json',
                     success: function (res, jqxHR) {
                         if (res.ok === true) {
-                            swal(
-                                '가입을 축하합니다🎉',
-                                'success'
-                            );
+                            htSwal.fire('가입을 축하합니다🎉', 'success');
                             setTimeout(() => (location.href = '/'), 2000);
                         } else {
-                            swal('', '항목을 다시 확인해주세요', 'error');
+                            htSwal.fire('', '항목을 다시 확인해주세요', 'error');
                         }
                     },
                     error: function (error) {
                         //서버오류 500  찾는 자료없음 404  권한없음  401
                         if (error.status == 404) {
-                            swal('찾는 자료가 없습니다', '', 'error');
+                            htSwal.fire('찾는 자료가 없습니다', '', 'error');
                         } else if (error.status == 401) {
-                            swal('유효하지 않은 인증입니다', '', 'error');
+                            htSwal.fire('유효하지 않은 인증입니다', '', 'error');
                         } else if (error.status == 403) {
-                            swal('접근 권한이 없습니다', '', 'error');
+                            htSwal.fire('접근 권한이 없습니다', '', 'error');
                         } else if (error.status == 500) {
-                            swal(
+                            htSwal.fire(
                                 '서버 오류 관리자에게 문의 하세요',
                                 '',
                                 'error'
                             );
                         } else if (error.status == 409) {
-                            swal('입력 안 된 항목이 있습니다', '', 'error');
+                            htSwal.fire(
+                                '입력 안 된 항목이 있습니다',
+                                '',
+                                'error'
+                            );
                         }
                     },
-                });//end of ajax
+                }); //end of ajax
             }
-        });//end of .then
+        }); //end of .then
     } else {
-        swal('', '항목을 다시 확인해주세요', 'error');
+        htSwal.fire('', '항목을 다시 확인해주세요', 'error');
     }
 }
 

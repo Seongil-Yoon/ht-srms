@@ -5,6 +5,7 @@ import {
     itemCategoryRender,
 } from './item-category-event.js';
 import {itemDto} from './model/item-dto.js';
+import htSwal from '../custom-swal.js';
 
 let table_16, xtable;
 /* 등록리스트 csv파싱 데이터 */
@@ -65,19 +66,19 @@ const itemInsertFormClick = (e) => {
     e.preventDefault();
     // itemDto.itemWriter = $("input[name='_id']").val();
     if ($('#js-itemCategoryLarge').val() === '') {
-        swal('대분류를 선택해주십시오', '', 'error');
+        htSwal.fire('대분류를 선택해주십시오', '', 'error');
     } else if ($('#js-itemCategorySmall').val() === '') {
-        swal('소분류를 선택해주십시오', '', 'error');
+        htSwal.fire('소분류를 선택해주십시오', '', 'error');
     } else if ($("input[name='itemName']").val() === '') {
-        swal('물품 이름을 입력해주십시오', '', 'error');
+        htSwal.fire('물품 이름을 입력해주십시오', '', 'error');
     } else if (!itemIdReg.test($("input[name='itemId']").val())) {
-        swal(
+        htSwal.fire(
             '제품코드 규칙을 지켜주십시오',
             'ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))',
             'error'
         );
     } else if ($("input[name='itemTotalAmount']").val() < 1) {
-        swal('물품 수량은 최소 1개이상 허용됩니다', '', 'error');
+        htSwal.fire('물품 수량은 최소 1개이상 허용됩니다', '', 'error');
     } else {
         itemDto.itemCategory.large = $('#js-itemCategoryLarge').val();
         itemDto.itemCategory.small = $('#js-itemCategorySmall').val();
@@ -107,11 +108,10 @@ const itemFormResetBtnClick = async (e) => {
 };
 const itemListSaveClick = (e) => {
     localStorage.setItem('itemList', JSON.stringify(itemList));
-    swal({
+    htSwal.fire({
         title: '물품 리스트를 임시저장했습니다',
         text: '',
         icon: 'info',
-        closeOnClickOutside: true,
     });
 };
 const itemListResetBtnClick = (e) => {
@@ -122,72 +122,89 @@ const itemListResetBtnClick = (e) => {
 };
 
 const itemInsertCancelClick = (e) => {
-    swal({
-        title: `임시저장 버튼을 눌렀는지 확인바랍니다`,
-        text: '저장하지 않은 물품은 다시 등록해야됩니다',
-        icon: 'warning',
-        buttons: true,
-        dangerMode: true,
-        buttons: ['닫기', '등록 취소'],
-    }).then((e) => {
-        if (e) {
-            location.href = `/item-manage-page`;
-        }
-    });
+    htSwal
+        .fire({
+            title: `물품 등록을 취소하시겠습니까?`,
+            html: `임시저장 버튼을 눌렀는지 확인바랍니다 </br> 저장하지 않은 물품은 다시 등록해야됩니다`,
+            icon: 'question',
+            width: 'max-content',
+            showCancelButton: true,
+            confirmButtonText: '네, 등록 취소',
+            cancelButtonText: '아니오, 계속 등록',
+        })
+        .then((e) => {
+            if (e.isConfirmed) {
+                location.href = `/item-manage-page`;
+            }
+        });
 };
 const itemInsertSubmitClick = (e) => {
     if (itemList.length > 0) {
-        swal({
-            title: `등록리스트의 물품을 확인해주십시오`,
-            text: '오른쪽 리스트에 있는 물품이 등록됩니다',
-            icon: 'warning',
-            buttons: true,
-            dangerMode: true,
-            buttons: ['닫기', '등록 하기'],
-        }).then((e) => {
-            console.log(itemList);
-            if (e) {
-                $.ajax({
-                    url: '/item',
-                    type: 'post', //데이터 전달방식
-                    data: JSON.stringify(itemList),
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (result, jqxHR) {
-                        if (result.ok === true) {
-                            swal('물품을 등록했습니다🎉', 'success');
-                            setTimeout(() => (location.href = '/'), 1400);
-                        } else {
-                            swal(
-                                '서버 오류 관리자에게 문의 하세요',
-                                '',
-                                'error'
-                            );
-                        }
-                    },
-                    error: function (error) {
-                        //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
-                        if (error.status == 404) {
-                            swal('찾는 자료가 없습니다', '', 'error');
-                        } else if (error.status == 401) {
-                            swal('유효하지 않은 인증입니다', '', 'error');
-                        } else if (error.status == 403) {
-                            swal('접근 권한이 없습니다', '', 'error');
-                        } else if (error.status == 500) {
-                            swal(
-                                '서버 오류 관리자에게 문의 하세요',
-                                '',
-                                'error'
-                            );
-                        } else {
-                            swal(`'${error.message}'`, '', 'error');
-                        }
-                    },
-                }); //end of ajax
-            }
-        }); //end of swal-popup
+        htSwal
+            .fire({
+                title: `물품을 최종등록 하시겠습니까?`,
+                html: '등록리스트의 물품을 확인해주십시오 </br> 오른쪽 리스트에 있는 물품이 등록됩니다',
+                icon: 'question',
+                width: 'max-content',
+                showCancelButton: true,
+                confirmButtonText: '네, 최종 등록',
+                cancelButtonText: '아니오, 계속 등록',
+            })
+            .then((e) => {
+                if (e.isConfirmed) {
+                    $.ajax({
+                        url: '/item',
+                        type: 'post', //데이터 전달방식
+                        data: JSON.stringify(itemList),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (result, jqxHR) {
+                            if (result.ok === true) {
+                                htSwal.fire('물품을 등록했습니다🎉', 'success');
+                                setTimeout(() => (location.href = '/'), 1400);
+                            } else {
+                                htSwal.fire(
+                                    '서버 오류 관리자에게 문의 하세요',
+                                    '',
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function (error) {
+                            //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
+                            if (error.status == 404) {
+                                htSwal.fire(
+                                    '찾는 자료가 없습니다',
+                                    '',
+                                    'error'
+                                );
+                            } else if (error.status == 401) {
+                                htSwal.fire(
+                                    '유효하지 않은 인증입니다',
+                                    '',
+                                    'error'
+                                );
+                            } else if (error.status == 403) {
+                                htSwal.fire(
+                                    '접근 권한이 없습니다',
+                                    '',
+                                    'error'
+                                );
+                            } else if (error.status == 500) {
+                                htSwal.fire(
+                                    '서버 오류 관리자에게 문의 하세요',
+                                    '',
+                                    'error'
+                                );
+                            } else {
+                                htSwal.fire(`'${error.message}'`, '', 'error');
+                            }
+                        },
+                    }); //end of ajax
+                }
+            }); //end of htSwal.fire-popup
     } else {
-        swal('물품을 하나도 올리지 않으셨습니다', '', 'error');
+        htSwal.fire('물품을 하나도 올리지 않으셨습니다', '', 'error');
     }
 };
 

@@ -39,8 +39,8 @@ a {
     background-color: white;
     box-sizing: border-box;
 }
-form.roundBox {
-}
+
+form.roundBox {}
 
 .roundBox-yellow {
     padding: 1.5rem;
@@ -61,6 +61,11 @@ form.roundBox {
 #exportfile {
     width: 35px;
     height: 35px;
+}
+
+.swal2-container.swal2-center>.swal2-popup {
+    min-width: 512px;
+    max-width: max-content;
 }
 
 /* JUI스타일 */
