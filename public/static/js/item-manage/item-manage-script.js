@@ -6,7 +6,7 @@ import PagingFooterBar from '../paging-util.js';
 import {DateTime} from '../../libs/luxon.min.js';
 import ItemModifyEvent from './item-modify-script.js';
 import ItemDeleteEvent from './item-delete-script.js';
-import ItemRentEvent from './item-rent-script.js';
+import {ItemRentEvent, ItemIsCanRentChkEvent} from './item-rent-script.js';
 import htSwal from '../custom-swal.js';
 
 let table_9, paging_1, dd_3;
@@ -85,14 +85,26 @@ const juiGridTable = (items) => {
                                 newItemDto.itemIsCanRent == true &&
                                 newItemDto.itemCanRentAmount > 0
                             ) {
-                                result = await ItemRentEvent.main(
-                                    newItemDto,
-                                    dd,
-                                    table_9
+                                result = await ItemIsCanRentChkEvent.main(
+                                    newItemDto
                                 );
-                                await pageNumClickRender(
-                                    itemfilterAndOrderByMap
-                                );
+                                console.log(result);
+                                if (result.ok === true) {
+                                    result = await ItemRentEvent.main(
+                                        newItemDto,
+                                        dd,
+                                        table_9
+                                    );
+                                    await pageNumClickRender(
+                                        itemfilterAndOrderByMap
+                                    );
+                                } else {
+                                    htSwal.fire(
+                                        '이미 대여하신 물품입니다',
+                                        '',
+                                        'error'
+                                    );
+                                }
                             } else {
                                 htSwal.fire(
                                     '해당 물품은 현재 대여불가능 합니다',

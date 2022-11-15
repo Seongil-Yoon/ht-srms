@@ -4,6 +4,7 @@ import {Item} from '../schemas/itemSchema.js';
 import {Rent} from '../schemas/rentSchema.js';
 import {Counter} from '../schemas/counterSchema.js';
 import RentDTO from '../dto/rent-dto.js';
+import paging from '../utils/paging-util.js';
 
 const RentService = {
     /**
@@ -69,17 +70,64 @@ const RentService = {
             return result;
         }
     },
-    selectRentByUser: async (req, userDto) => {
-        let result = false;
+    selectRentListByUser: async (userObjectId, pageNum) => {
+        let userDoc = undefined,
+            rents = undefined;
+        let totalPost = 0;
         try {
-            result = await User.findOne({_id: ObjectId(req._id)}).populate(
+            if (pageNum === undefined) throw Error('wrong query name');
+            pageNum = Number(pageNum);
+            if (isNaN(pageNum)) throw Error('wrong value type');
+            /* ===== end of pageNum 파라미터 검증 ===== */
+            userDoc = await User.findOne({_id: userObjectId}).populate(
                 'rentedItem'
             );
 
-            return result;
+            if (userDoc.rentedItem !== undefined) {
+                rents = userDoc.rentedItem.filter((e) => {
+                    return e.isReturned === false;
+                });
+            }
+
+            totalPost = rents.length;
+            if (!totalPost) throw Error();
+
+            let {
+                startPage,
+                endPage,
+                hidePost,
+                maxPost,
+                totalPage,
+                currentPage,
+            } = paging(pageNum, totalPost);
+
+            rents = rents.splice(hidePost, maxPost);
+            return {
+                pageInfo: {
+                    startPage,
+                    endPage,
+                    maxPost,
+                    hidePost,
+                    totalPage,
+                    currentPage,
+                },
+                rents,
+            };
         } catch (error) {
-            console.log(error);
-            return result;
+            throw Error(error);
+        }
+    },
+    /**
+     * 1건의 물품에 인증사용자가 대여했는지 체크. 이미 대여 했다면 예외던짐
+     * @params : req, itemDoc
+     * @throw : Error('dup renter')
+     */
+    renterDupliChk: (req, itemDoc) => {
+        if (itemDoc.itemRentId !== undefined) {
+            itemDoc.itemRentId.filter((e) => {
+                if (e.renter._id.toString() === req._id)
+                    throw Error('dup renter');
+            });
         }
     },
 };

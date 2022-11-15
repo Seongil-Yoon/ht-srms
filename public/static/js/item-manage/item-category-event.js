@@ -1,6 +1,6 @@
 import {dom as itemDom} from './dom/item-insert-dom.js';
 import {itemDto} from './model/item-dto.js';
-import htSwal from "../custom-swal.js";
+import htSwal from '../custom-swal.js';
 
 let itemCategoryList = [];
 
@@ -31,10 +31,16 @@ const itemCategoryRender = async () => {
                     if (result.length > 0) {
                         itemCategoryList = result;
                         resolve(itemCategoryList);
+                    } else {
+                        itemCategoryList = {
+                            itemCategory: {
+                                large: '대분류',
+                                small: ['소분류'],
+                            },
+                        };
                     }
                 },
                 error: function (error) {
-                    reject(error);
                     //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
                     if (error.status == 404) {
                         htSwal.fire('찾는 자료가 없습니다', '', 'error');
@@ -43,7 +49,11 @@ const itemCategoryRender = async () => {
                     } else if (error.status == 403) {
                         htSwal.fire('접근 권한이 없습니다', '', 'error');
                     } else if (error.status == 500) {
-                        htSwal.fire('서버 오류 관리자에게 문의 하세요', '', 'error');
+                        htSwal.fire(
+                            '서버 오류 관리자에게 문의 하세요',
+                            '',
+                            'error'
+                        );
                     } else {
                         htSwal.fire(`${error.message}`, '', 'error');
                     }

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ht-srms :: 나의 대여 현황</title>
     <%- include("../libs/libsStyles.ejs") %>
+    <%- include("../libs/jui/jui-libsStyles.ejs") %>
     <link rel="stylesheet" href="/static/css/myrent/myrent-status.css">
 </head>
 
@@ -14,7 +15,7 @@
     <%- include("../header.ejs") %>
     <div class="main">
         <%- include("../aside.ejs") %>
-        <section class="container">
+        <section class="container myrent-status">
             <article>
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"
                     data-svg-content="true" fill="#000000">
@@ -24,11 +25,66 @@
                 </svg>
                 <span>나의 대여 현황</span>
             </article>
-            <article class="roundBox"></article>
+            <article class="jui roundBox">
+                <div class="table-header">
+                    <div>
+                        <button type="button" class="ht-btn btn-outline-primary btn-white item-retrun-btn">♻ 반납</button>
+                    </div>
+                    <div>
+                        <span class="myrent-welcome">
+                            윤성일님 환영합니다. </br>
+                            현재 총 1건의 대여를 하였으며, 반납기한 초과는 <span class="myrent-expireCnt">0건</span>입니다
+                        </span>
+                    </div>
+                </div>
+                <div class="tablebody">
+                    <table id="table_9" class="table simple headline">
+                        <thead>
+                            <tr>
+                                <th width="80px">대여번호</th>
+                                <th width="135px">물품코드</th>
+                                <th>대분류</th>
+                                <th>소분류</th>
+                                <th>이름</th>
+                                <th>대여사유</th>
+                                <th width="160px">대여기일</th>
+                                <th width="160px">반납기한</th>
+                                <th width="125px">반납기한 초과여부</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- JS 영역 -->
+                        </tbody>
+                    </table>
+                    <script data-jui="#table_9" data-tpl="row" type="text/template">
+                        <tr data-value="<!= rentNum !>">
+                            <td><!= rentNum !></td>
+                            <td><!= itemId !></td>
+                            <td><!= itemCategoryLarge !></td>
+                            <td><!= itemCategorySmall !></td>
+                            <td><!= itemName !></td>
+                            <td><!= rentPurpose !></td>
+                            <td><!= showRentAt !></td>
+                            <td><!= showrExpectReturnAt !></td>
+                        </tr>
+                    </script>
+                </div>
+                <footer>
+                    <div></div>
+                    <div class="paging table-footer" id="js-pagingTableFooter">
+                        <a class="prev" id="prevBtn" data-value="">이전</a>
+                        <div class="list" id="pageNumList">
+                            <!-- JS영역 -->
+                        </div>
+                        <a class="next" id="nextBtn" data-value="">다음</a>
+                    </div>
+                </footer>
+            </article>
         </section>
     </div>
 
     <%- include("../libs/libsScript.ejs") %>
+    <%- include("../libs/jui/jui-libsScript.ejs") %>
     <script type="module" src="/static/js/myrent/myrent-status-script.js"></script>
 </body>
 

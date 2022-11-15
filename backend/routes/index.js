@@ -75,18 +75,18 @@ router
 router
     .route('/item/:itemObjectId/rent')
     .post(hasRole('rent', 'admin'), RentController.postRentByItem);
+router.get(
+    '/item/:itemObjectId/iscanrent',
+    hasRole('rent', 'admin'),
+    RentController.renterDupliChk
+);
 /* ========== end of 대여 by 물품 ========== */
 
 /* ========== 나의 대여 ========== */
 router.route('/myrent-status-page').get(MyrentStatusController.getMyrentPage);
 router
-    .route('/rent')
-    .get(MyrentStatusController.getMyrentList)
-    .post(hasRole('rent', 'admin'), MyrentStatusController.insertRent);
-router
-    .route('/rent/:rentId')
-    .get(MyrentStatusController.getMyrent)
-    .put(MyrentStatusController.returnMyrent);
+    .route('/user/rentlist')
+    .get(MyrentStatusController.getRentListByUser)
 /* ========== end of 나의 대여 ========== */
 
 /* ========== 전체 대여 현황 ========== */

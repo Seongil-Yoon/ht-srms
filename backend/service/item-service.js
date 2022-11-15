@@ -20,9 +20,11 @@ const ItemService = {
             if (pageNum === undefined) throw Error('wrong query name');
             pageNum = Number(pageNum);
             if (isNaN(pageNum)) throw Error('wrong value type');
-            const totalPost = await Item.countDocuments({});
-            if (!totalPost) throw Error();
             /* ===== end of pageNum 파라미터 검증 ===== */
+            const totalPost = await Item.countDocuments({
+                isDelete: false,
+            }).exec();
+            if (!totalPost) throw Error();
 
             let {
                 startPage,

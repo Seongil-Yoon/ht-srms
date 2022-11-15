@@ -46,7 +46,6 @@ const rentSchema = new Schema(
         },
         expectReturnAt: {
             type: Date,
-            default: Date.now() + 300000, //5분
         },
         realReturnAt: {
             type: Date,

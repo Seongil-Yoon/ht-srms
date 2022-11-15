@@ -78,3 +78,8 @@ td {
 .jui .paging {
     cursor: pointer;
 }
+
+.jui .paging .list>.active {
+    background-color: rgb(64, 123, 168) !important;
+    color: white !important;
+}
