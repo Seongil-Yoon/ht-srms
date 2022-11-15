@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import {ObjectId} from 'mongodb';
 import {Item} from '../schemas/itemSchema.js';
 import ItemDTO from '../dto/item-dto.js';
@@ -84,10 +85,30 @@ const ItemManageController = {
         try {
             let result, counted;
             const itemList = req.body;
+
+            //컬렉션 없을때
+            let collectionExists = await mongoose.connection.db
+                .listCollections({
+                    name: 'itemcategory',
+                })
+                .toArray();
+            if (collectionExists.length <= 0) {
+                await ItemCategory.create({
+                    itemCategory: {
+                        large: '대분류',
+                        small: ['소분류'],
+                    },
+                });
+            }
+
             const itemListForEach = async () => {
                 let insertResult = undefined;
+                let itemDoc = undefined;
+                let itemCategoryDoc = undefined;
 
                 itemList.forEach(async (element) => {
+                    itemDoc = undefined;
+                    itemCategoryDoc = undefined;
                     let itemDto = ItemDTO;
                     counted = await Counter.findOneAndUpdate(
                         {name: 'counter'},
@@ -112,12 +133,12 @@ const ItemManageController = {
                     itemDto.itemTotalAmount = Number(element.itemTotalAmount);
                     itemDto.createdAt = Date.now();
 
-                    insertResult = await Item.create(itemDto);
-                    insertResult = await ItemService.updateItemCategory(
-                        insertResult.itemCategory
+                    itemDoc = await Item.create(itemDto);
+                    itemCategoryDoc = ItemService.updateItemCategory(
+                        itemDoc.itemCategory
                     );
                 }); //end of for-each
-                return await insertResult;
+                return itemCategoryDoc;
             };
 
             await itemListForEach().then((e) => {

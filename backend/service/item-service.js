@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import {ObjectId} from 'mongodb';
 import {Item} from '../schemas/itemSchema.js';
 import {User} from '../schemas/userSchema.js';
@@ -77,55 +78,37 @@ const ItemService = {
      * @params : itemCategory : {large, small}
      * @return : result of itemCategory document
      */
-    updateItemCategory: async (itemCategory) => {
-        try {
+    updateItemCategory: (itemCategory) => {
+        (async () => {
             let result = await ItemCategory.findOne({
                 'itemCategory.large': itemCategory.large,
             }).exec();
-            if (result) {
-                try {
-                    result = await ItemCategory.findOne({
-                        'itemCategory.small': itemCategory.small,
-                    }).exec();
-                    if (!result) {
-                        result = await ItemCategory.findOneAndUpdate(
-                            {
-                                'itemCategory.large': itemCategory.large,
+            console.log('result : ', result);
+            if (result != null) {
+                result = await ItemCategory.findOne({
+                    'itemCategory.small': itemCategory.small,
+                }).exec();
+                if (result == null) {
+                    result = await ItemCategory.findOneAndUpdate(
+                        {
+                            'itemCategory.large': itemCategory.large,
+                        },
+                        {
+                            $push: {
+                                'itemCategory.small': itemCategory.small,
                             },
-                            {
-                                $push: {
-                                    'itemCategory.small': itemCategory.small,
-                                },
-                            }
-                        ).exec();
-                    }
-                } catch (error) {
-                    console.log(error);
-                    res.status(500).send({
-                        ok: false,
-                        message: '물품 항목을 확인해주세요',
-                    });
+                        }
+                    ).exec();
                 }
             } else {
-                try {
-                    result = await ItemCategory.create({
-                        itemCategory: {
-                            large: itemCategory.large,
-                            small: [itemCategory.small],
-                        },
-                    });
-                } catch (error) {
-                    console.log(error);
-                    res.status(500).send({
-                        ok: false,
-                        message: '물품 항목을 확인해주세요',
-                    });
-                }
+                result = await ItemCategory.create({
+                    itemCategory: {
+                        large: itemCategory.large,
+                        small: [itemCategory.small],
+                    },
+                });
             }
-            return result;
-        } catch (error) {
-            console.log(error);
-        }
+        })();
     },
 };
 

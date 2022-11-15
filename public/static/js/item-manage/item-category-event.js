@@ -32,12 +32,15 @@ const itemCategoryRender = async () => {
                         itemCategoryList = result;
                         resolve(itemCategoryList);
                     } else {
-                        itemCategoryList = {
-                            itemCategory: {
-                                large: '대분류',
-                                small: ['소분류'],
+                        itemCategoryList = [
+                            {
+                                itemCategory: {
+                                    large: '대분류',
+                                    small: ['소분류'],
+                                },
                             },
-                        };
+                        ];
+                        resolve(itemCategoryList);
                     }
                 },
                 error: function (error) {
