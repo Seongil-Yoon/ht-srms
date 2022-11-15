@@ -158,6 +158,21 @@ const itemInsertSubmitClick = (e) => {
                         data: JSON.stringify(itemList),
                         dataType: 'json',
                         contentType: 'application/json',
+                        xhr: () => {
+                            let xhr = new XMLHttpRequest();
+                            xhr.upload.addEventListener('progress', (e) => {
+                                let percent = (e.loaded * 100) / e.total;
+                                htSwal.fire({
+                                    title: `물품을 등록 중입니다`,
+                                    html: `잠시만 기다려 주십시오`,
+                                    imageUrl: '/static/images/loader_Bagic.gif',
+                                    imageWidth: 320,
+                                    imageHeight: 320,
+                                    imageAlt: 'Custom image',
+                                });
+                            });
+                            return xhr;
+                        },
                         success: function (result, jqxHR) {
                             if (result.ok === true) {
                                 htSwal.fire('물품을 등록했습니다🎉', 'success');
@@ -197,6 +212,7 @@ const itemInsertSubmitClick = (e) => {
                                     'error'
                                 );
                             } else {
+                                console.log(error);
                                 htSwal.fire(`'${error.message}'`, '', 'error');
                             }
                         },

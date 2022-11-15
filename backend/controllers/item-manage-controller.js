@@ -8,6 +8,7 @@ import {ItemCategory} from '../schemas/itemCategorySchema.js';
 import ItemService from '../service/item-service.js';
 import ExceptionAdvice from '../utils/exception-advice.js';
 import paging from '../utils/paging-util.js';
+import customUtill from '../utils/custom-utill.js';
 
 const router = express();
 
@@ -100,15 +101,15 @@ const ItemManageController = {
                     },
                 });
             }
-
-            const itemListForEach = async () => {
-                let insertResult = undefined;
-                let itemDoc = undefined;
-                let itemCategoryDoc = undefined;
-
-                itemList.forEach(async (element) => {
-                    itemDoc = undefined;
-                    itemCategoryDoc = undefined;
+            
+            /**
+             * 비동기 작업 순차처리(for)
+             */
+            const itemListForEach = async (itemList) => {
+                await customUtill.asyncForEach(itemList, async (element) => {
+                    let insertResult = undefined;
+                    let itemDoc = undefined;
+                    let itemCategoryDoc = undefined;
                     let itemDto = ItemDTO;
                     counted = await Counter.findOneAndUpdate(
                         {name: 'counter'},
@@ -134,14 +135,14 @@ const ItemManageController = {
                     itemDto.createdAt = Date.now();
 
                     itemDoc = await Item.create(itemDto);
-                    itemCategoryDoc = ItemService.updateItemCategory(
+                    itemCategoryDoc = await ItemService.updateItemCategory(
                         itemDoc.itemCategory
                     );
-                }); //end of for-each
-                return itemCategoryDoc;
+                    return itemCategoryDoc;
+                });
             };
 
-            await itemListForEach().then((e) => {
+            itemListForEach(itemList).then((e) => {
                 console.log('itemListForEach:', e); // 해결필요
                 res.status(200).send({
                     ok: true,

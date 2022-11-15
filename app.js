@@ -19,9 +19,9 @@ dbConnect();
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public/')));
-app.use(express.json()); //json요청 파싱모듈
-app.use(cors())
-app.use(express.urlencoded({extended: false})); //url쿼리요청 파싱
+app.use(express.json({limit: '1024kb'})); //json요청 파싱모듈
+app.use(cors());
+app.use(express.urlencoded({limit: '1024kb', extended: false})); //url쿼리요청 파싱
 
 app.use('/', indexRouter);
 

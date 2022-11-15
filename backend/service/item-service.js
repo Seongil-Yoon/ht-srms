@@ -79,36 +79,47 @@ const ItemService = {
      * @return : result of itemCategory document
      */
     updateItemCategory: (itemCategory) => {
-        (async () => {
-            let result = await ItemCategory.findOne({
+        return new Promise((resolve, reject) => {
+            ItemCategory.findOne({
                 'itemCategory.large': itemCategory.large,
-            }).exec();
-            console.log('result : ', result);
-            if (result != null) {
-                result = await ItemCategory.findOne({
-                    'itemCategory.small': itemCategory.small,
-                }).exec();
-                if (result == null) {
-                    result = await ItemCategory.findOneAndUpdate(
-                        {
-                            'itemCategory.large': itemCategory.large,
-                        },
-                        {
-                            $push: {
-                                'itemCategory.small': itemCategory.small,
+            })
+                .exec()
+                .then((e) => {
+                    if (e != null) {
+                        ItemCategory.findOne({
+                            'itemCategory.small': itemCategory.small,
+                        })
+                            .exec()
+                            .then((e) => {
+                                if (e == null) {
+                                    ItemCategory.findOneAndUpdate(
+                                        {
+                                            'itemCategory.large':
+                                                itemCategory.large,
+                                        },
+                                        {
+                                            $push: {
+                                                'itemCategory.small':
+                                                    itemCategory.small,
+                                            },
+                                        }
+                                    )
+                                        .exec()
+                                        .then((e) => resolve(e));
+                                } else {
+                                    resolve(e);
+                                }
+                            });
+                    } else {
+                        ItemCategory.create({
+                            itemCategory: {
+                                large: itemCategory.large,
+                                small: [itemCategory.small],
                             },
-                        }
-                    ).exec();
-                }
-            } else {
-                result = await ItemCategory.create({
-                    itemCategory: {
-                        large: itemCategory.large,
-                        small: [itemCategory.small],
-                    },
+                        }).then((e) => resolve(e));
+                    }
                 });
-            }
-        })();
+        });
     },
 };
 
