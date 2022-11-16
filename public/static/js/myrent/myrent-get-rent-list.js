@@ -19,7 +19,7 @@ const getRentListByUser = (pageNum) => {
                 error: function (error) {
                     //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
                     if (error.status == 404) {
-                        htSwal.fire('찾는 자료가 없습니다', '', 'error');
+                        // htSwal.fire('찾는 자료가 없습니다', '', 'error');
                     } else if (error.status == 401) {
                         htSwal.fire('유효하지 않은 인증입니다', '', 'error');
                     } else if (error.status == 403) {

@@ -16,3 +16,9 @@ section.myrent-status button.item-retrun-btn {
     font-size: larger;
     font-weight: bolder;
 }
+
+section.myrent-status article.jui>footer{
+    display: flex;
+    width: 100%;
+    align-items: center;
+}

@@ -84,3 +84,7 @@ article.jui>footer>:last-child a {
 article.jui>footer>:last-child a>img {
     width: 35px;
 }
+span.check-alarm1{
+    display: none;
+    color: red;
+}

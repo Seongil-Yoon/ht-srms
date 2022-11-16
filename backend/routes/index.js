@@ -47,6 +47,11 @@ router.post(
     hasRole('write', 'edit', 'admin'),
     ItemManageController.insertItem
 );
+router.post(
+    '/item/vali-itemid',
+    hasRole('write', 'edit', 'admin'),
+    ItemManageController.valiItemId
+);
 router
     .route('/item/:itemObjectId')
     .get(ItemManageController.getItem)
@@ -84,9 +89,7 @@ router.get(
 
 /* ========== 나의 대여 ========== */
 router.route('/myrent-status-page').get(MyrentStatusController.getMyrentPage);
-router
-    .route('/user/rentlist')
-    .get(MyrentStatusController.getRentListByUser)
+router.route('/user/rentlist').get(MyrentStatusController.getRentListByUser);
 /* ========== end of 나의 대여 ========== */
 
 /* ========== 전체 대여 현황 ========== */

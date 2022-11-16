@@ -119,13 +119,13 @@ const UserController = {
         }
     },
     valiUserId: async (req, res) => {
-        const {userId} = req.body;
-        const user = await User.findOne({userId})
-            .where({
-                isDelete: false,
-            })
-            .exec();
         try {
+            const {userId} = req.body;
+            const user = await User.findOne({userId})
+                .where({
+                    isDelete: false,
+                })
+                .exec();
             if (user === null) {
                 res.status(200).send({
                     ok: true,

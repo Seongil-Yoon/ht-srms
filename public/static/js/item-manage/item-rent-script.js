@@ -34,7 +34,6 @@ const itemRentFormResetBtnClick = (e) => {
     rentDom.rentPurpose.value = '';
     rentDom.rentAt.value = DateTime.now().toISO().substring(0, 16);
     rentDom.expectReturnAt.value = '';
-
 };
 const itemRentCancelClick = (e) => {
     e.preventDefault();

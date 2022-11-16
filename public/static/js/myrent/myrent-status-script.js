@@ -32,6 +32,7 @@ const juiTableColums = [
     'rentPurpose',
     'showRentAt',
     'showrExpectReturnAt',
+    'isExpire',
     'rentAt',
     'expectReturnAt',
 ];
@@ -50,14 +51,24 @@ const juiGridTable = (rents) => {
                     itemCategorySmall: e.rentedItem.itemCategory.small,
                     itemName: e.rentedItem.itemName,
                     rentPurpose: e.rentPurpose,
-                    showRentAt: DateTime.fromISO(e.rentAt)
-                        .setZone('Asia/Seoul')
-                        .toLocaleString(DateTime.DATETIME_SHORT),
-                    showrExpectReturnAt: DateTime.fromISO(e.expectReturnAt)
-                        .setZone('Asia/Seoul')
-                        .toLocaleString(DateTime.DATETIME_SHORT),
+                    showRentAt: ((rentAt) => {
+                        if (rentAt === null) return '반납할 필요가 없습니다';
+                        else
+                            return DateTime.fromISO(rentAt)
+                                .setZone('Asia/Seoul')
+                                .toLocaleString(DateTime.DATETIME_SHORT);
+                    })(e.rentAt),
+                    showrExpectReturnAt: ((expectReturnAt) => {
+                        if (expectReturnAt === null)
+                            return '반납할 필요가 없습니다';
+                        else
+                            return DateTime.fromISO(expectReturnAt)
+                                .setZone('Asia/Seoul')
+                                .toLocaleString(DateTime.DATETIME_SHORT);
+                    })(e.expectReturnAt),
                     rentAt: e.rentAt,
                     expectReturnAt: e.expectReturnAt,
+                    isExpire: e.isExpire,
                 });
             });
             return rows;
@@ -74,7 +85,7 @@ const juiGridTable = (rents) => {
             csv: juiTableColums,
             csvNames: juiTableColums,
             data: insertRents(rents),
-            colshow: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            colshow: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
             editEvent: false,
             resize: true,
             sort: true,
@@ -88,7 +99,17 @@ const juiGridTable = (rents) => {
                 click: (e) => {
                     table_9.unselect();
                 },
-                sort: function (column, e) {},
+                sort: function (column, e) {
+                    let className = {
+                        desc: 'icon-arrow1',
+                        asc: 'icon-arrow3',
+                    }[column.order];
+
+                    $(column.element).children('i').remove();
+                    $(column.element).append(
+                        "<i class='" + className + "'></i>"
+                    );
+                },
             },
         });
         table_9.update(rows);
@@ -111,5 +132,17 @@ async function main() {
         }
     };
     pageNumClickRender(pageNum);
+    pagingFooterBar1.prevBtn.addEventListener('click', (e) => {
+        pageNum = e.target.getAttribute('data-value');
+        pageNumClickRender(pageNum);
+    });
+    pagingFooterBar1.pageNumList.addEventListener('click', (e) => {
+        pageNum = e.target.getAttribute('data-value');
+        pageNumClickRender(pageNum);
+    });
+    pagingFooterBar1.nextBtn.addEventListener('click', (e) => {
+        pageNum = e.target.getAttribute('data-value');
+        pageNumClickRender(pageNum);
+    });
 }
 main();

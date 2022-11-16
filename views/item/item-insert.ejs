@@ -86,8 +86,12 @@
                                     </li>
                                     <li>
                                         <label for="js-itemId">제품 코드 : </label>
-                                        <input type="text" id="js-itemId" class="item-id" name="itemId"
-                                            placeholder="ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))" />
+                                        <div class="item-id-group">
+                                            <input type="text" id="js-itemId" class="item-id" name="itemId"
+                                                placeholder="ex)CO20220600040001(문자2자리 + 숫자)" />
+                                            <span class="check-alarm1" id="js-itemIdCheckAlarm">💡영문자2자리 + 숫자 조합으로
+                                                입력해주십시오</span>
+                                        </div>
                                     </li>
                                     <li>
                                         <label for="js-itemTotalAmount">물품 수량 : </label>
@@ -113,7 +117,7 @@
                             </header>
                             <article id="itemListTableWrap">
                                 <div class="jui">
-                                    <input type="file" id="table_16_btn" />
+                                    <input type="file" id="table_16_btn" accept=".csv, .xlsx" />
                                     <div id="xtable_3" class="xtable" style="margin-top: 7px;">
                                         <table class="table simple headline">
                                             <thead>

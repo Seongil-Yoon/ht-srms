@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+span.check-alarm1{
+    display: inline;
+    color: slategrey;
+}
+
 aside {}
 
 aside>a>.item-manage {
@@ -119,6 +124,12 @@ section>article>.item-form-group>section:first-child ul>li>:last-child {
     display: flex;
 }
 
+section>article>.item-form-group>section:first-child ul>li>:last-child.item-id-group {
+    display: flex;
+    flex-direction: column;
+    min-height: 70px;
+}
+
 /* ===== 대분류, 소분류 ===== */
 section>article>.item-form-group>section:first-child ul>li>:last-child>:first-child {
     flex: 6;
@@ -128,7 +139,8 @@ section>article>.item-form-group>section:first-child ul>li>:last-child>button {
     flex: 4;
     margin-left: 10px;
 }
-section>article>.item-form-group>section:first-child ul>li>.other{
+
+section>article>.item-form-group>section:first-child ul>li>.other {
     display: none;
 }
 
@@ -138,7 +150,7 @@ section>article>.item-form-group>section:first-child ul>li>.btn-group>label {
     width: 100%;
 }
 
-section>article>.item-form-group>section:first-child ul>li> input {
+section>article>.item-form-group>section:first-child ul>li>input {
     min-height: 2.2rem;
 }
 

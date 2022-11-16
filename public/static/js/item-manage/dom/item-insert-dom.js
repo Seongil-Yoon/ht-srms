@@ -1,5 +1,7 @@
 const itemInsertMain = document.querySelector('.item-insert-main') || document;
 const dom = {
+    itemIdInput: itemInsertMain.querySelector('#js-itemId'),
+    itemIdCheckAlarm: itemInsertMain.querySelector('#js-itemIdCheckAlarm'),
     itemInsertFormBtn: itemInsertMain.querySelector('#js-itemInsertFormBtn'),
     itemFormResetBtn: itemInsertMain.querySelector('#js-itemFormResetBtn'),
     itemListResetBtn: itemInsertMain.querySelector('#js-itemListResetBtn'),

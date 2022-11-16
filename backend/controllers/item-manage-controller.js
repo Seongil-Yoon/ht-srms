@@ -82,6 +82,33 @@ const ItemManageController = {
         }
     },
     getItem: (req, res) => {},
+    valiItemId: async (req, res) => {
+        try {
+            const {itemId} = req.body;
+            const item = await Item.findOne({itemId})
+                .where({
+                    isDelete: false,
+                })
+                .exec();
+            if (item === null) {
+                res.status(200).send({
+                    ok: true,
+                    message: '등록 가능한 물품입니다',
+                });
+            } else {
+                res.status(200).send({
+                    ok: false,
+                    message: '이미 등록된 물품입니다',
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({
+                ok: false,
+                message: '',
+            });
+        }
+    },
     insertItem: async (req, res) => {
         try {
             let result, counted;
@@ -101,7 +128,7 @@ const ItemManageController = {
                     },
                 });
             }
-            
+
             /**
              * 비동기 작업 순차처리(for)
              */

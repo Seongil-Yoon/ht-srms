@@ -83,6 +83,7 @@ const RentService = {
                 'rentedItem'
             );
 
+            //개선 필요
             if (userDoc.rentedItem !== undefined) {
                 rents = userDoc.rentedItem.filter((e) => {
                     return e.isReturned === false;

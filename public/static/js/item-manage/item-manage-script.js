@@ -79,6 +79,8 @@ const juiGridTable = (items) => {
             event: {
                 change: async function (data, e) {
                     let result;
+                    let child = document.querySelector('tr.selected');
+                    let parent = child.parentNode;
                     switch (data.value) {
                         case 'rent':
                             if (
@@ -98,6 +100,14 @@ const juiGridTable = (items) => {
                                     await pageNumClickRender(
                                         itemfilterAndOrderByMap
                                     );
+                                    let changedIndex =
+                                        Array.prototype.findIndex.call(
+                                            parent.children,
+                                            (c) =>
+                                                c.getAttribute('data-value') ===
+                                                child.getAttribute('data-value')
+                                        );
+                                    table_9.select(changedIndex);
                                 } else {
                                     htSwal.fire(
                                         '이미 대여하신 물품입니다',
@@ -116,8 +126,6 @@ const juiGridTable = (items) => {
                         case 'rentHistory':
                             break;
                         case 'modifyItem':
-                            let child = document.querySelector('tr.selected');
-                            let parent = child.parentNode;
                             result = await ItemModifyEvent.main(
                                 newItemDto,
                                 dd,
@@ -160,7 +168,7 @@ const juiGridTable = (items) => {
             colshow: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             editEvent: false,
             resize: true,
-            sort: true,
+            // sort: true,
             event: {
                 rowmenu: function (row, e) {
                     newItemDto._id = row.data._id;
@@ -195,6 +203,7 @@ const juiGridTable = (items) => {
                         "<i class='" + className + "'></i>"
                     );
                     $('#exportfile').attr('href', this.getCsvBase64());
+                    console.log(column);
                     itemfilterAndOrderByMap[column.name] = column.order;
                     console.log(itemfilterAndOrderByMap);
                 },
