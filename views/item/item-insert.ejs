@@ -117,7 +117,11 @@
                             </header>
                             <article id="itemListTableWrap">
                                 <div class="jui">
-                                    <input type="file" id="table_16_btn" accept=".csv, .xlsx" />
+                                    <div class="item-insert-list-header">
+                                        <input type="file" id="table_16_btn" accept=".csv, .xlsx" />
+                                        <button type="button" class="ht-btn btn-outline-primary btn-white"
+                                            id="js-getXlsxForm">엑셀서식 다운로드</button>
+                                    </div>
                                     <div id="xtable_3" class="xtable" style="margin-top: 7px;">
                                         <table class="table simple headline">
                                             <thead>
@@ -135,9 +139,15 @@
                                             <tbody></tbody>
                                         </table>
                                     </div>
-
+                                    <div id="xtable_3_dd" class="dropdown large">
+                                        <ul style="width: 150px;">
+                                            <li value="delete">삭제</li>
+                                            <li class="divider"></li>
+                                            <li value="close">닫기</li>
+                                        </ul>
+                                    </div>
                                     <script data-jui="#xtable_3" data-tpl="row" type="text/template">
-                                        <tr>
+                                        <tr data-value="<!= row.index !>">
                                             <td><!= row.index !></td>
                                             <td><!= itemCategoryLarge !></td>
                                             <td><!= itemCategorySmall !></td>

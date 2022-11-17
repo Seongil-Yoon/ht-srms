@@ -7,35 +7,44 @@ import {
 import {itemDto} from './model/item-dto.js';
 import {DateTime} from '../../libs/luxon.min.js';
 import htSwal from '../custom-swal.js';
+import customUtill from '../custom-utill.js';
+import {itemVali, itemIdChkMap} from './utill/item-form-vali.js';
 
-let newItemDto;
+let newItemDto, initItemDto;
 let newDropdown, newTable;
 const itemIdReg = /^[A-Z]{2}[0-9]{14}$/;
 let submitClickResult = undefined;
 
-const showModifyModal = async (e) => {
+const showModifyModal = async (item) => {
     $('section.item-modify-modal-overlay').css('display', 'unset');
-    await itemModifyCategoryRender(newItemDto);
-    itemModifyDom.itemNameModify.value = newItemDto.itemName;
-    if (newItemDto.itemIsCanRent === true) {
+    await itemModifyCategoryRender(item);
+    itemModifyDom.itemNameModify.value = item.itemName;
+    if (item.itemIsCanRent === true) {
         itemModifyDom.itemIsCanRentModify[0].checked = true;
         itemModifyDom.itemIsCanRentModify[1].checked = false;
     } else {
         itemModifyDom.itemIsCanRentModify[0].checked = false;
         itemModifyDom.itemIsCanRentModify[1].checked = true;
     }
-    if (newItemDto.itemIsNeedReturn === true) {
+    if (item.itemIsNeedReturn === true) {
         itemModifyDom.itemIsNeedReturnModify[0].checked = true;
         itemModifyDom.itemIsNeedReturnModify[1].checked = false;
     } else {
         itemModifyDom.itemIsNeedReturnModify[0].checked = false;
         itemModifyDom.itemIsNeedReturnModify[1].checked = true;
     }
-    itemModifyDom.itemIdModify.value = newItemDto.itemId;
-    itemModifyDom.itemTotalAmountModify.value = newItemDto.itemTotalAmount;
+    itemModifyDom.itemIdModify.value = item.itemId;
+    itemModifyDom.itemTotalAmountModify.value = item.itemTotalAmount;
 };
 const itemModifyFormResetBtnClick = async (e) => {
-    await itemModifyCategoryRender(newItemDto);
+    e.preventDefault();
+    await showModifyModal(initItemDto);
+    let dupChk = await itemVali.itemIdRegChk(
+        undefined,
+        itemModifyDom.itemIdInput.value,
+        'modify',
+        initItemDto.itemId
+    );
 };
 const itemModifyCancelClick = (e) => {
     e.preventDefault();
@@ -64,10 +73,32 @@ const ItemModifyEvent = {
      */
     main: async (targetItem, dropdown, table) => {
         newItemDto = itemDto;
+
+        //주소값 참조X
+        initItemDto = {
+            _id: targetItem._id,
+            itemNum: targetItem.itemNum,
+            itemId: targetItem.itemId,
+            itemRentId: targetItem.itemRentId,
+            itemCategory: targetItem.itemCategory,
+            itemName: targetItem.itemName,
+            itemIsCanRent: targetItem.itemIsCanRent,
+            itemIsNeedReturn: targetItem.itemIsNeedReturn,
+            itemCanRentAmount: targetItem.itemCanRentAmount,
+            itemRentingAmount: targetItem.itemRentingAmount,
+            itemTotalAmount: targetItem.itemTotalAmount,
+        };
         newItemDto = targetItem;
         newDropdown = dropdown;
         newTable = table;
-        await showModifyModal();
+
+        await showModifyModal(initItemDto);
+        await itemVali.itemIdRegChk(
+            undefined,
+            initItemDto.itemId,
+            'modify',
+            initItemDto.itemId
+        );
         itemModifyDom.itemModifyFormResetBtn.addEventListener(
             'click',
             itemModifyFormResetBtnClick
@@ -80,9 +111,17 @@ const ItemModifyEvent = {
             'click',
             itemModifyCategorySmallAddEvent.itemCategorySmallAddSelect
         );
+        itemModifyDom.itemIdInput.addEventListener('focusout', (e) => {
+            itemVali.itemIdRegChk(
+                e,
+                e.target.value,
+                'modify',
+                initItemDto.itemId
+            );
+        });
+
         return new Promise((resolve, reject) => {
-            const itemModifySubmitClick = (e) => {
-                console.log(newItemDto);
+            const itemModifySubmitClick = async (e) => {
                 e.preventDefault();
                 newItemDto.itemCategory.large = document.querySelector(
                     '#js-itemCategoryLargeModify'
@@ -102,18 +141,26 @@ const ItemModifyEvent = {
                     itemModifyDom.itemTotalAmountModify.value;
                 // newItemDto.updatedAt = DateTime.now();
 
+                await itemVali.itemIdRegChk(
+                    undefined,
+                    itemModifyDom.itemIdInput.value,
+                    'modify',
+                    initItemDto.itemId
+                );
                 if (newItemDto.itemCategory.large === '') {
                     htSwal.fire('대분류를 선택해주십시오', '', 'error');
                 } else if (newItemDto.itemCategory.small === '') {
                     htSwal.fire('소분류를 선택해주십시오', '', 'error');
                 } else if (newItemDto.itemName === '') {
                     htSwal.fire('물품 이름을 입력해주십시오', '', 'error');
-                } else if (!itemIdReg.test(newItemDto.itemId)) {
-                    htSwal.fire(
-                        '제품코드 규칙을 지켜주십시오',
-                        'ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))',
-                        'error'
-                    );
+                } else if (!itemIdChkMap.result.ok) {
+                    htSwal.fire({
+                        title:
+                            `${itemIdChkMap.result.message}` ||
+                            `제품 코드를 입력해주십시오`,
+                        icon: 'error',
+                        width: 'max-content',
+                    });
                 } else if (newItemDto.itemTotalAmount < 1) {
                     htSwal.fire(
                         '물품 수량은 최소 1개이상 허용됩니다',
@@ -151,16 +198,7 @@ const ItemModifyEvent = {
                                     dataType: 'json',
                                     contentType: 'application/json',
                                     success: function (res, jqxHR) {
-                                        if (res.ok === true) {
-                                            // htSwal.fire('물품을 등록했습니다🎉', 'success');
-                                            resolve(res);
-                                        } else {
-                                            htSwal.fire(
-                                                '서버 오류 관리자에게 문의 하세요',
-                                                '',
-                                                'error'
-                                            );
-                                        }
+                                        resolve(res);
                                     },
                                     error: function (error) {
                                         reject(error);

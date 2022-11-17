@@ -121,6 +121,26 @@ const ItemService = {
                 });
         });
     },
+    valiItemId: async ({itemId}) => {
+        const item = await Item.findOne({itemId})
+            .where({
+                isDelete: false,
+            })
+            .exec();
+        if (item === null) {
+            return {
+                ok: true,
+                message: '등록 가능한 물품입니다',
+                itemId: undefined,
+            };
+        } else {
+            return {
+                ok: false,
+                message: '이미 등록된 물품입니다',
+                itemId: item.itemId,
+            };
+        }
+    },
 };
 
 export default ItemService;

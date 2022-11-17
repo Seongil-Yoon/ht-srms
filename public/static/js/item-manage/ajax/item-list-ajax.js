@@ -30,7 +30,7 @@ const getItemList = ({
                     } else if (error.status == 500) {
                         htSwal.fire('서버 오류 관리자에게 문의 하세요', '', 'error');
                     } else {
-                        // htSwal.fire(`${error.message}`, '', 'error');
+                        // htSwal.fire(`${error.responseJSON.message}`, '', 'error');
                     }
                     reject(error);
                 },

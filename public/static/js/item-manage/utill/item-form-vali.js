@@ -3,7 +3,7 @@ import {itemDto} from '../model/item-dto.js';
 import htSwal from '../../custom-swal.js';
 import customUtill from '../../custom-utill.js';
 
-const itemIdReg = /^[a-zA-Z]{2}[0-9]*$/;
+const itemIdReg = /^([a-zA-Z]{2}[0-9]+)$/;
 
 const itemIdChkMap = {
     isPassReg: false,
@@ -11,10 +11,11 @@ const itemIdChkMap = {
     result: {
         ok: false,
         message: '제품 코드를 입력해주십시오',
+        itemId: '',
     },
 };
 const itemVali = {
-    itemIdRegChk: async (e, itemId) => {
+    itemIdRegChk: async (e, itemId, formType, thisItemId) => {
         if (e === undefined && itemId === '') {
             itemIdChkMap.result.ok = false;
             itemIdChkMap.result.message =
@@ -30,9 +31,20 @@ const itemVali = {
         if (itemIdChkMap.isPassReg) {
             itemIdChkMap.result = await itemVali.itemIdDupChk(_itemId);
             if (itemIdChkMap.result.ok === false) {
-                itemDom.itemIdCheckAlarm.style.display = 'inline';
-                itemDom.itemIdCheckAlarm.style.color = 'red';
-                itemDom.itemIdCheckAlarm.innerText = `❌${itemIdChkMap.result.message}`;
+                if (
+                    formType === 'modify' &&
+                    itemIdChkMap.result.itemId === thisItemId
+                ) {
+                    //현재 선택한 물품을 편집할때
+                    itemIdChkMap.result.ok = true;
+                    itemDom.itemIdCheckAlarm.style.display = 'inline';
+                    itemDom.itemIdCheckAlarm.style.color = 'black';
+                    itemDom.itemIdCheckAlarm.innerText = `✅현재 물품의 물품코드입니다`;
+                } else {
+                    itemDom.itemIdCheckAlarm.style.display = 'inline';
+                    itemDom.itemIdCheckAlarm.style.color = 'red';
+                    itemDom.itemIdCheckAlarm.innerText = `❌${itemIdChkMap.result.message}`;
+                }
             } else {
                 itemDom.itemIdCheckAlarm.style.display = 'inline';
                 itemDom.itemIdCheckAlarm.style.color = 'black';

@@ -14,52 +14,60 @@ const UserController = {
     postLogin: async (req, res) => {
         const userDto = new UserDTO(req.body);
         // const {userId, userPassword} = req.body;
-        const result = await User.findOne({userId: userDto.userId})
-            .where({
-                isDelete: false,
-            })
-            .exec();
-        if (result) {
-            const chk = await bcrypt.compare(
-                userDto.userPassword,
-                result.userPassword
-            );
-            if (chk) {
-                result.userPassword = undefined;
-                const accessToken = customJwt.sign(result);
-                const refreshToken = customJwt.refresh();
+        try {
+            const result = await User.findOne({userId: userDto.userId})
+                .where({
+                    isDelete: false,
+                })
+                .exec();
+            if (result) {
+                const chk = await bcrypt.compare(
+                    userDto.userPassword,
+                    result.userPassword
+                );
+                if (chk) {
+                    result.userPassword = undefined;
+                    const accessToken = customJwt.sign(result);
+                    const refreshToken = customJwt.refresh();
 
-                await User.findOneAndUpdate(
-                    {userId: result.userId},
-                    {
-                        $set: {
-                            refreshToken: refreshToken,
+                    await User.findOneAndUpdate(
+                        {userId: result.userId},
+                        {
+                            $set: {
+                                refreshToken: refreshToken,
+                            },
+                        }
+                    ).exec();
+
+                    res.cookie('accessToken', accessToken, {httpOnly: true});
+                    res.cookie('refreshToken', refreshToken, {httpOnly: true});
+                    res.status(200).send({
+                        ok: true,
+                        data: {
+                            accessToken,
+                            refreshToken,
                         },
-                    }
-                ).exec();
-
-                res.cookie('accessToken', accessToken, {httpOnly: true});
-                res.cookie('refreshToken', refreshToken, {httpOnly: true});
-                res.status(200).send({
-                    ok: true,
-                    data: {
-                        accessToken,
-                        refreshToken,
-                    },
-                });
-                return;
-            } else {
-                res.status(401).send({
-                    ok: false,
-                    message: '사번 혹은 비밀번호가 틀립니다',
-                });
-                return;
+                    });
+                    return;
+                } else {
+                    res.status(401).send({
+                        ok: false,
+                        message: '사번 혹은 비밀번호가 틀립니다',
+                    });
+                    return;
+                }
             }
+            res.status(401).send({
+                ok: false,
+                message: '등록되지 않은 사용자입니다',
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({
+                ok: false,
+                message: '죄송합니다',
+            });
         }
-        res.status(401).send({
-            ok: false,
-            message: '등록되지 않은 사용자입니다',
-        });
     },
     userLogout: (req, res) => {
         res.clearCookie('accessToken');

@@ -1,6 +1,8 @@
 const itemModifyForm =
     document.querySelector('form#js-itemModifyForm') || document;
 const dom = {
+    itemIdInput: itemModifyForm.querySelector('#js-itemIdModify'),
+    itemIdCheckAlarm: itemModifyForm.querySelector('#js-itemIdCheckAlarm'),
     itemModifyFormResetBtn: itemModifyForm.querySelector(
         '#js-itemModifyFormResetBtn'
     ),

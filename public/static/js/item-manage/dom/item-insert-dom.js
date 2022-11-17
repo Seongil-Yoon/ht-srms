@@ -6,6 +6,7 @@ const dom = {
     itemFormResetBtn: itemInsertMain.querySelector('#js-itemFormResetBtn'),
     itemListResetBtn: itemInsertMain.querySelector('#js-itemListResetBtn'),
     itemListSave: itemInsertMain.querySelector('#js-itemListSave'),
+    getXlsxForm: itemInsertMain.querySelector('#js-getXlsxForm'),
     itemInsertCancel: itemInsertMain.querySelector('#js-itemInsertCancel'),
     itemInsertSubmit: itemInsertMain.querySelector('#js-itemInsertSubmit'),
     table_16_btn: itemInsertMain.querySelector('#table_16_btn'),

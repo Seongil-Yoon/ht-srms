@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-span.check-alarm1{
+span.check-alarm1 {
     display: inline;
     color: slategrey;
 }
@@ -155,3 +155,10 @@ section>article>.item-form-group>section:first-child ul>li>input {
 }
 
 section>article>.item-form-group>section:last-child {}
+
+.item-insert-list-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 30px;
+}

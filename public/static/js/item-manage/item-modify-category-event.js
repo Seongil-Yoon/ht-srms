@@ -62,7 +62,7 @@ const itemModifyCategoryRender = async (item) => {
                             'error'
                         );
                     } else {
-                        htSwal.fire(`${error.message}`, '', 'error');
+                        htSwal.fire(`${error.responseJSON.message}`, '', 'error');
                     }
                 },
             }); //end of ajax

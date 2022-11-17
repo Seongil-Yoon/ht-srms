@@ -12,3 +12,19 @@ section.item-modify-modal-overlay tbody>tr:nth-child(2)>td:last-child>:last-chil
     flex: 4;
     margin-left: 10px;
 }
+
+section.item-modify-modal-overlay tbody>tr:nth-child(6)>td:last-child {
+    display: flex;
+    flex-direction: column;
+    min-height: 37px;
+}
+
+section.item-modify-modal-overlay tbody>tr:nth-child(6)>td:last-child>input.item-id {
+    min-height: inherit;
+}
+
+section.item-modify-modal-overlay tbody span.check-alarm1 {
+    display: inline;
+    color: slategrey;
+    font-size: 13px;
+}

@@ -76,9 +76,9 @@ const ItemDeleteEvent = {
                                         'error'
                                     );
                                 } else {
-                                    if (error.message != undefined)
+                                    if (error.responseJSON.message != undefined)
                                         htSwal.fire(
-                                            `'${error.message}'`,
+                                            `'${error.responseJSON.message}'`,
                                             '',
                                             'error'
                                         );

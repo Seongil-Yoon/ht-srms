@@ -2,7 +2,8 @@
     <form class="item-modify-modal-form ht-modal roundBox" id="js-itemModifyForm">
         <header>
             <span>✏️ 물품 편집</span>
-            <button type="reset" class="ht-btn btn-outline-primary btn-white" id="js-itemModifyFormResetBtn">양식 초기화</button>
+            <button type="reset" class="ht-btn btn-outline-primary btn-white" id="js-itemModifyFormResetBtn">양식
+                초기화</button>
         </header>
         <article class="ht-modal-input-list">
             <table>
@@ -68,8 +69,12 @@
                     </tr>
                     <tr>
                         <td for="js-itemIdModify">제품코드 : </td>
-                        <td><input type="text" id="js-itemIdModify" class="item-id" name="itemIdModify"
-                                placeholder="ex)CO20220600040001(분류(2:A)+도입일(4:N)+수량(4:N)+순번(4:N))" /></td>
+                        <td>
+                            <input type="text" id="js-itemIdModify" class="item-id" name="itemIdModify"
+                                placeholder="ex)CO20220600040001(문자2자리 + 숫자)" />
+                            <span class="check-alarm1" id="js-itemIdCheckAlarm">💡영문자2자리 + 숫자 조합으로
+                                입력해주십시오</span>
+                        </td>
                     </tr>
                     <tr>
                         <td for="js-itemTotalAmountModify">*물품 수량 : </td>

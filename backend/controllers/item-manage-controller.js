@@ -9,6 +9,8 @@ import ItemService from '../service/item-service.js';
 import ExceptionAdvice from '../utils/exception-advice.js';
 import paging from '../utils/paging-util.js';
 import customUtill from '../utils/custom-utill.js';
+import {types, matchType} from '../utils/type-checker.js';
+import {ItemIds} from '../schemas/itemIdsSchema.js';
 
 const router = express();
 
@@ -85,22 +87,27 @@ const ItemManageController = {
     valiItemId: async (req, res) => {
         try {
             const {itemId} = req.body;
-            const item = await Item.findOne({itemId})
-                .where({
-                    isDelete: false,
-                })
-                .exec();
-            if (item === null) {
-                res.status(200).send({
-                    ok: true,
-                    message: '등록 가능한 물품입니다',
-                });
-            } else {
-                res.status(200).send({
-                    ok: false,
-                    message: '이미 등록된 물품입니다',
-                });
-            }
+            let result = await ItemService.valiItemId({itemId});
+
+            res.status(200).send(result);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({
+                ok: false,
+                message: '',
+            });
+        }
+    },
+    valiFastItemId: async (req, res) => {
+        try {
+            let itemIds = await ItemIds.findOneAndUpdate(
+                {name: 'item-ids'},
+                {
+                    $push: {
+                        itemIdList: 1,
+                    },
+                }
+            ).exec();
         } catch (error) {
             console.log(error);
             res.status(500).send({
@@ -126,12 +133,39 @@ const ItemManageController = {
                         large: '대분류',
                         small: ['소분류'],
                     },
+                }).catch((e) => {
+                    res.status(400).send({
+                        ok: false,
+                        message: '물품 항목을 확인해주세요',
+                    });
                 });
             }
 
             /**
              * 비동기 작업 순차처리(for)
              */
+            let duplicateList = [];
+            let unDuplicateList = [];
+            const itemListValiForEach = async (itemList) => {
+                let result;
+                await customUtill.asyncForEach(itemList, async (element) => {
+                    try {
+                        result = await ItemService.valiItemId({
+                            itemId: element.itemId,
+                        });
+
+                        if (!result.ok) {
+                            duplicateList.push(element);
+                        } else {
+                            unDuplicateList.push(element);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                });
+                return duplicateList;
+            };
+
             const itemListForEach = async (itemList) => {
                 await customUtill.asyncForEach(itemList, async (element) => {
                     let insertResult = undefined;
@@ -154,13 +188,21 @@ const ItemManageController = {
                         small: element.itemCategorySmall,
                     };
                     itemDto.itemName = element.itemName;
-                    itemDto.itemIsCanRent = element.itemIsCanRent.toLowerCase();
-                    itemDto.itemIsNeedReturn =
-                        element.itemIsNeedReturn.toLowerCase();
-                    itemDto.itemCanRentAmount = Number(element.itemTotalAmount);
+                    itemDto.itemIsCanRent = JSON.parse(
+                        matchType(
+                            element.itemIsCanRent,
+                            types.STRING
+                        ).toLowerCase()
+                    );
+                    itemDto.itemIsNeedReturn = JSON.parse(
+                        matchType(
+                            element.itemIsNeedReturn,
+                            types.STRING
+                        ).toLowerCase()
+                    );
                     itemDto.itemTotalAmount = Number(element.itemTotalAmount);
                     itemDto.createdAt = Date.now();
-
+                    console.log(itemDto);
                     itemDoc = await Item.create(itemDto);
                     itemCategoryDoc = await ItemService.updateItemCategory(
                         itemDoc.itemCategory
@@ -169,20 +211,33 @@ const ItemManageController = {
                 });
             };
 
-            itemListForEach(itemList).then((e) => {
-                console.log('itemListForEach:', e); // 해결필요
-                res.status(200).send({
-                    ok: true,
-                    message: '물품 등록 결과',
-                    result: e,
+            let idlist = await itemListValiForEach(itemList);
+            if (idlist.length > 0) {
+                res.status(200).json({
+                    ok: false,
+                    message: '이미 등록된 물품입니다',
+                    duplicateList: idlist,
+                    unDuplicateList: unDuplicateList,
                 });
-            });
+            } else {
+                itemListForEach(itemList)
+                    .then((e) => {
+                        res.status(200).json({
+                            ok: true,
+                            message: '물품 등록 결과',
+                            result: e,
+                        });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        res.status(400).json({
+                            ok: false,
+                            message: '잘못된 입력값입니다',
+                        });
+                    });
+            }
         } catch (error) {
             console.log(error);
-            res.status(400).send({
-                ok: false,
-                message: '물품 항목을 확인해주세요',
-            });
         }
     },
     updateItem: async (req, res) => {
@@ -195,21 +250,34 @@ const ItemManageController = {
             newItemDTO.itemCanRentAmount =
                 newItemDTO.itemTotalAmount - newItemDTO.itemRentingAmount;
             newItemDTO.updatedAt = new Date().toISOString();
-            result = await Item.findOneAndUpdate(
-                {_id: newItemDTO._id, isDelete: false},
-                newItemDTO
-            ).exec();
-            result = await ItemService.updateItemCategory(
-                newItemDTO.itemCategory
-            );
-            if (result) {
+
+            let thisItem = await Item.findById(ObjectId(newItemDTO._id)).exec();
+            let dupChk = await ItemService.valiItemId({
+                itemId: newItemDTO.itemId,
+            });
+            if (dupChk.ok === false && dupChk.itemId === thisItem.itemId) {
                 res.status(200).json({
-                    ok: true,
-                    itemNum: newItemDTO.itemNum,
-                    message: `물품 편집 성공`,
+                    ok: false,
+                    message: '현재 편집중인 물품코드입니다',
+                    duplicateedId: dupChk.itemId,
                 });
             } else {
-                throw Error('죄송합니다 편집이 실패했습니다');
+                result = await Item.findOneAndUpdate(
+                    {_id: newItemDTO._id, isDelete: false},
+                    newItemDTO
+                ).exec();
+                result = await ItemService.updateItemCategory(
+                    newItemDTO.itemCategory
+                );
+                if (result) {
+                    res.status(200).json({
+                        ok: true,
+                        itemNum: newItemDTO.itemNum,
+                        message: `물품 편집 성공`,
+                    });
+                } else {
+                    throw Error('죄송합니다 편집이 실패했습니다');
+                }
             }
         } catch (error) {
             console.log(error);
