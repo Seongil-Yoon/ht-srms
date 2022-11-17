@@ -69,8 +69,8 @@ const juiGridXtable = () => {
                     'itemId',
                     'itemTotalAmount',
                 ],
-                colshow: [0, 1, 2, 3, 4, 5, 6],
-                csvNumber: [0, 1, 2, 3, 4, 5, 6],
+                colshow: [0, 1, 2, 3, 4, 5, 6, 7],
+                csvNumber: [0, 1, 2, 3, 4, 5, 6, 7],
                 resize: true,
                 bufferCount: 40,
                 scrollHeight: 350,
@@ -318,51 +318,82 @@ const itemInsertSubmitClick = (e) => {
                                 htSwal.fire('물품을 등록했습니다🎉', 'success');
                                 setTimeout(() => (location.href = '/'), 1400);
                             } else if (res.duplicateList !== undefined) {
+                                res.checkType || undefined;
                                 const workbook = utils.book_new();
-                                let worksheet1 = undefined;
-                                if (res.unDuplicateList.length < 1) {
-                                    worksheet1 = utils.aoa_to_sheet([
-                                        [
-                                            '대분류',
-                                            '소분류',
-                                            '물품이름',
-                                            '대여가능여부',
-                                            '반환필요여부',
-                                            '제품코드',
-                                            '수량',
-                                        ],
+                                if (res.checkType === 'self') {
+                                    //요청란 리스트안에서 물품이 중복될떄
+                                    let worksheet1 = utils.aoa_to_sheet([
+                                        ['물품코드', '중복갯수'],
                                     ]);
-                                } else {
                                     worksheet1 = utils.json_to_sheet(
-                                        res.unDuplicateList
+                                        res.duplicateList
                                     );
+                                    utils.book_append_sheet(
+                                        workbook,
+                                        worksheet1,
+                                        '거부물품(중복)'
+                                    );
+                                    writeFileXLSX(
+                                        workbook,
+                                        '파일내 중복목록.xlsx'
+                                    );
+                                    // 동일한 물품코드는 1개만
+                                    htSwal.fire({
+                                        title: res.message,
+                                        html: '<span style="color:red;">해당 물품코드를 수정하거나 제거해주십시오</span></br>',
+                                        width: 'max-content',
+                                        icon: 'error',
+                                    });
+                                } else {
+                                    let worksheet1 = undefined;
+                                    if (
+                                        res.unDuplicateList === undefined ||
+                                        res.unDuplicateList.length < 1
+                                    ) {
+                                        worksheet1 = utils.aoa_to_sheet([
+                                            [
+                                                '대분류',
+                                                '소분류',
+                                                '물품이름',
+                                                '대여가능여부',
+                                                '반환필요여부',
+                                                '제품코드',
+                                                '수량',
+                                            ],
+                                        ]);
+                                    } else {
+                                        worksheet1 = utils.json_to_sheet(
+                                            res.unDuplicateList
+                                        );
+                                    }
+                                    const worksheet2 = utils.json_to_sheet(
+                                        res.duplicateList
+                                    );
+                                    utils.book_append_sheet(
+                                        workbook,
+                                        worksheet1,
+                                        '허용물품'
+                                    );
+                                    utils.book_append_sheet(
+                                        workbook,
+                                        worksheet2,
+                                        '거부물품(중복)'
+                                    );
+                                    writeFileXLSX(
+                                        workbook,
+                                        '물품등록_수정요청.xlsx'
+                                    );
+                                    htSwal.fire({
+                                        title: res.message,
+                                        html:
+                                            '중복이 발생한 물품코드 목록 엑셀파일이 다운로드됩니다</br>' +
+                                            '<span style="color:red;">엑셀을 확인하고 중복된 물품의 코드를 수정하여 등록해주십시오</span></br>' +
+                                            '"허용물품"시트를 수정하여 다시 파일을 올리거나 왼쪽 물품 등록 양식에서 물품을 올려주십시오',
+                                        width: 'max-content',
+                                        icon: 'error',
+                                    });
+                                    //end of DB와 물품이 중복될때
                                 }
-                                const worksheet2 = utils.json_to_sheet(
-                                    res.duplicateList
-                                );
-                                utils.book_append_sheet(
-                                    workbook,
-                                    worksheet1,
-                                    '허용물품'
-                                );
-                                utils.book_append_sheet(
-                                    workbook,
-                                    worksheet2,
-                                    '거부물품(중복)'
-                                );
-                                writeFileXLSX(
-                                    workbook,
-                                    '물품등록_수정요청.xlsx'
-                                );
-                                htSwal.fire({
-                                    title: res.message,
-                                    html:
-                                        '중복이 발생한 물품코드 목록 엑셀파일이 다운로드됩니다</br>' +
-                                        '<span style="color:red;">엑셀을 확인하고 중복된 물품을 제거하여 등록해주십시오</span></br>' +
-                                        '"허용물품"시트를 수정하여 다시 파일을 올리거나 왼쪽 물품 등록 양식에서 물품을 올려주십시오',
-                                    width: 'max-content',
-                                    icon: 'error',
-                                });
                             }
                         },
                         error: function (error) {

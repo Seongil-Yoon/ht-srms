@@ -202,7 +202,6 @@ const ItemManageController = {
                     );
                     itemDto.itemTotalAmount = Number(element.itemTotalAmount);
                     itemDto.createdAt = Date.now();
-                    console.log(itemDto);
                     itemDoc = await Item.create(itemDto);
                     itemCategoryDoc = await ItemService.updateItemCategory(
                         itemDoc.itemCategory
@@ -211,30 +210,42 @@ const ItemManageController = {
                 });
             };
 
-            let idlist = await itemListValiForEach(itemList);
-            if (idlist.length > 0) {
+            let groupByArr = customUtill.groupByCount(itemList, 'itemId');
+            let isDupli = groupByArr.filter((el) => el.count > 1);
+
+            if (isDupli.length > 0) {
                 res.status(200).json({
                     ok: false,
-                    message: '이미 등록된 물품입니다',
-                    duplicateList: idlist,
-                    unDuplicateList: unDuplicateList,
+                    message: '엑셀파일내 동일한 물품이 1개이상 입니다',
+                    checkType: 'self',
+                    duplicateList: isDupli,
                 });
             } else {
-                itemListForEach(itemList)
-                    .then((e) => {
-                        res.status(200).json({
-                            ok: true,
-                            message: '물품 등록 결과',
-                            result: e,
-                        });
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        res.status(400).json({
-                            ok: false,
-                            message: '잘못된 입력값입니다',
-                        });
+                let idlist = await itemListValiForEach(itemList);
+                if (idlist.length > 0) {
+                    res.status(200).json({
+                        ok: false,
+                        message: '이미 등록된 물품입니다',
+                        duplicateList: idlist,
+                        unDuplicateList: unDuplicateList,
                     });
+                } else {
+                    itemListForEach(itemList)
+                        .then((e) => {
+                            res.status(200).json({
+                                ok: true,
+                                message: '물품 등록 결과',
+                                result: e,
+                            });
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            res.status(400).json({
+                                ok: false,
+                                message: '잘못된 입력값입니다',
+                            });
+                        });
+                }
             }
         } catch (error) {
             console.log(error);
@@ -255,10 +266,10 @@ const ItemManageController = {
             let dupChk = await ItemService.valiItemId({
                 itemId: newItemDTO.itemId,
             });
-            if (dupChk.ok === false && dupChk.itemId === thisItem.itemId) {
+            if (dupChk.ok === false && dupChk.itemId !== thisItem.itemId) {
                 res.status(200).json({
                     ok: false,
-                    message: '현재 편집중인 물품코드입니다',
+                    message: dupChk.message,
                     duplicateedId: dupChk.itemId,
                 });
             } else {

@@ -79,9 +79,12 @@ const RentService = {
             pageNum = Number(pageNum);
             if (isNaN(pageNum)) throw Error('wrong value type');
             /* ===== end of pageNum 파라미터 검증 ===== */
-            userDoc = await User.findOne({_id: userObjectId}).populate(
-                'rentedItem'
-            );
+
+            userDoc = await User.findOne({_id: userObjectId})
+                .populate('rentedItem')
+                .where({
+                    isReturned: false,
+                });
 
             //개선 필요
             if (userDoc.rentedItem !== undefined) {

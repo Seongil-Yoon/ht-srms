@@ -30,6 +30,13 @@ section>article.roundBox>.table-header {
     height: 100% !important;
 }
 
+.table-header>span:nth-child(1) {
+    flex: 1;
+    color: slategrey;
+    font-size: 19px;
+    font-weight: bolder;
+}
+
 .table-header>div:nth-child(1) {}
 
 .table-header>div:nth-child(2)>select {
@@ -84,7 +91,8 @@ article.jui>footer>:last-child a {
 article.jui>footer>:last-child a>img {
     width: 35px;
 }
-span.check-alarm1{
+
+span.check-alarm1 {
     display: none;
     color: red;
 }

@@ -38,5 +38,57 @@ const customUtill = {
             const result = await callback(array[index], index, array);
         }
     },
+    groupBy: function (xs, key) {
+        return xs.reduce(function (rv, x) {
+            (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    },
+    groupByCount: (data, key) => {
+        let counts = data.reduce((carry, el) => {
+            var value = el[key];
+            if (!carry.hasOwnProperty(value)) {
+                carry[value] = 0;
+            }
+            carry[value]++;
+            return carry;
+        }, {});
+        let countsExtended = Object.keys(counts).map((k) => {
+            return {item: k, count: counts[k]};
+        });
+        return countsExtended;
+    },
+    groupByDupliAndUnique: (data, key) => {
+        let isOneMore = {ok: false, duplicateList: [], uniqueList: []};
+        let prevItem;
+        let countReduce = () => {
+            return data.reduce((carry, el) => {
+                let group = el[key];
+                console.log(carry[el]);
+                carry[el] = (el[key] || 0) + 1;
+                return carry;
+            }, {});
+        };
+        let reduceR = () => {
+            return data.reduce((carry, el) => {
+                let group = el[key];
+
+                if (carry[group] === undefined) {
+                    carry[group] = [];
+                }
+                if (carry[group].length > 0) {
+                    isOneMore.ok = true;
+                    isOneMore.duplicateList.push(el);
+                } else {
+                    isOneMore.uniqueList.push(el);
+                }
+                carry[group].push(el);
+                return carry;
+            }, {});
+        };
+        // console.log(countReduce());
+        reduceR();
+        return isOneMore;
+    },
 };
 export default customUtill;

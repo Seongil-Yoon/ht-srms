@@ -17,7 +17,32 @@ section.myrent-status button.item-retrun-btn {
     font-weight: bolder;
 }
 
-section.myrent-status article.jui>footer{
+section.myrent-status article.jui>.table-header {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+section.myrent-status article.jui>.table-header>:nth-child(1) {
+    flex: 1;
+}
+
+section.myrent-status article.jui>.table-header>:nth-child(2) {
+    flex: 8;
+}
+
+section.myrent-status article.jui>.table-header>:nth-child(2)>span {
+    display: block;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+section.myrent-status article.jui>.table-header>:nth-child(3) {
+    flex: 1;
+}
+
+section.myrent-status article.jui>footer {
     display: flex;
     width: 100%;
     align-items: center;

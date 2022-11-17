@@ -13,6 +13,7 @@ const itemSchema = new Schema(
         itemId: {
             type: String,
             require: false,
+            unique: true,
         },
         itemWriter: {
             type: mongoose.Schema.Types.ObjectId,
