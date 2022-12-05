@@ -266,7 +266,7 @@ async function main() {
     await itemCategoryRender();
     itemfilterAndSortSelect();
 
-    const pagingFooterBar1 = new PagingFooterBar();
+    const pagingFooterBar1 = new PagingFooterBar('#js-pagingTableFooter');
     pageNumClickRender = async ({
         pageNum,
         itemIsCanRent,

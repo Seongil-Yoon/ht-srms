@@ -206,7 +206,7 @@ const itemRetrunBtnClick = (e) => {
 };
 
 async function main() {
-    const pagingFooterBar1 = new PagingFooterBar();
+    const pagingFooterBar1 = new PagingFooterBar('#js-pagingTableFooter');
     pageNumClickRender = async (pageNum) => {
         rentListByUser = [];
         if (pageNum !== null) {

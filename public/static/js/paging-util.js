@@ -5,9 +5,13 @@ class PagingFooterBar {
     nextBtn;
     fragment;
 
-    constructor() {
+   /**
+    * 
+    * @param pagingTableFooterId : 선택한 페이징바
+    */
+    constructor(pagingTableFooterId) {
         this.pagingTableFooter = document.querySelector(
-            '#js-pagingTableFooter'
+            pagingTableFooterId
         );
         this.prevBtn = this.pagingTableFooter.querySelector('#prevBtn');
         this.pageNumList = this.pagingTableFooter.querySelector('#pageNumList');

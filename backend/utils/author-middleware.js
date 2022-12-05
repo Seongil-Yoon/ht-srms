@@ -17,13 +17,10 @@ const hasRole = (...roles) => {
         if (userRoles['admin']) {
             next();
         } else {
-            for (let i in roles) {
-                if (userRoles[roles[i]] === true) {
-                    checkedRole.push(true);
-                } else {
-                    checkedRole.push(false);
-                }
-            }
+            roles.forEach((el) => {
+                if (el === true) checkedRole.push(true);
+                else checkedRole.push(false);
+            });
             if (checkedRole.includes(true)) {
                 next();
             } else {
@@ -32,8 +29,8 @@ const hasRole = (...roles) => {
                     message: '금지된 접근입니다',
                 });
             }
-        }//end of if
-    };//end of return
+        } //end of if
+    }; //end of return
 };
 
 export {hasRole};
