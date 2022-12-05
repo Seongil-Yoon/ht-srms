@@ -4,6 +4,7 @@ import {Item} from '../schemas/itemSchema.js';
 import {Rent} from '../schemas/rentSchema.js';
 import {Counter} from '../schemas/counterSchema.js';
 import RentDTO from '../dto/rent-dto.js';
+import UserDTO from '../dto/user-dto.js';
 import paging from '../utils/paging-util.js';
 
 const RentService = {
@@ -28,19 +29,21 @@ const RentService = {
                 }
             ).exec();
             newRentDto.rentNum = Number(counted.rentNum);
+            newRentDto.rentedItem.itemRentingAmount += 1;
+            newRentDto.rentedItem.itemCanRentAmount =
+                newRentDto.rentedItem.itemTotalAmount -
+                newRentDto.rentedItem.itemRentingAmount;
+
             rentDoc = await Rent.create(newRentDto);
             itemDoc = await Item.findOne({_id: req.params.itemObjectId}).exec();
-            itemDoc.itemRentingAmount += 1;
-            itemDoc.itemCanRentAmount =
-                itemDoc.itemTotalAmount - itemDoc.itemRentingAmount;
-            result = await Item.findOneAndUpdate(
+            itemDoc.result = await Item.findOneAndUpdate(
                 {_id: req.params.itemObjectId},
                 {
                     $push: {
                         itemRentId: rentDoc._id,
                     },
-                    itemRentingAmount: itemDoc.itemRentingAmount,
-                    itemCanRentAmount: itemDoc.itemCanRentAmount,
+                    itemRentingAmount: newRentDto.rentedItem.itemRentingAmount,
+                    itemCanRentAmount: newRentDto.rentedItem.itemCanRentAmount,
                 }
             ).exec();
             result = await User.findOneAndUpdate(
@@ -70,6 +73,50 @@ const RentService = {
             return result;
         }
     },
+    updateRentedItemByItem: async (itemDto) => {
+        let result = false;
+        try {
+            result = await Rent.updateMany(
+                {'rentedItem._id': ObjectId(itemDto._id)},
+                {
+                    rentedItem: {
+                        itemNum: itemDto.itemNum,
+                        itemId: itemDto.itemId,
+                        itemName: itemDto.itemName,
+                        itemCategory: {
+                            large: itemDto.itemCategory.large,
+                            small: itemDto.itemCategory.small,
+                        },
+                        itemIsCanRent: itemDto.itemIsCanRent,
+                        itemIsNeedReturn: itemDto.itemIsNeedReturn,
+                        itemCanRentAmount: itemDto.itemCanRentAmount,
+                        itemRentingAmount: itemDto.itemRentingAmount,
+                        itemTotalAmount: itemDto.itemTotalAmount,
+                    },
+                }
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    /**
+     * 물품이 삭제될때 Rent스키마 Update
+     */
+    setDeleteRentedItemByItem: async (itemObjectId) => {
+        let result = false;
+        try {
+            result = await Rent.updateMany(
+                {'rentedItem._id': ObjectId(itemObjectId)},
+                {
+                    isDelete: true,
+                }
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    },
     selectRentListByUser: async (userObjectId, pageNum) => {
         let userDoc = undefined,
             rents = undefined;
@@ -80,21 +127,23 @@ const RentService = {
             if (isNaN(pageNum)) throw Error('wrong value type');
             /* ===== end of pageNum 파라미터 검증 ===== */
 
-            userDoc = await User.findOne({_id: userObjectId})
-                .populate('rentedItem')
-                .where({
-                    isReturned: false,
-                });
+            userDoc = await User.findOne({_id: userObjectId}).populate({
+                path: 'rentedItem',
+                match: {
+                    $and: [{isReturned: false}, {isDelete: false}],
+                },
+                options: {sort: {expectReturnAt: 1}},
+            });
 
-            //개선 필요
+            //개선 필요(총 대여건)
             if (userDoc.rentedItem !== undefined) {
                 rents = userDoc.rentedItem.filter((e) => {
-                    return e.isReturned === false;
+                    return e.isReturned === false && e.isDelete === false;
                 });
             }
 
             totalPost = rents.length;
-            if (!totalPost) throw Error();
+            if (!totalPost) throw Error('찾는 자료 없음');
 
             let {
                 startPage,
@@ -119,6 +168,13 @@ const RentService = {
             };
         } catch (error) {
             throw Error(error);
+        }
+    },
+    deleteRenterByUser: async (req, userDto) => {
+        let result = false;
+        try {
+        } catch (error) {
+            console.log(error);
         }
     },
     /**

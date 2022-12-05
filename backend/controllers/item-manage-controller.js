@@ -11,6 +11,8 @@ import paging from '../utils/paging-util.js';
 import customUtill from '../utils/custom-utill.js';
 import {types, matchType} from '../utils/type-checker.js';
 import {ItemIds} from '../schemas/itemIdsSchema.js';
+import RentService from '../service/rent-service.js';
+import {User} from '../schemas/userSchema.js';
 
 const router = express();
 
@@ -206,6 +208,15 @@ const ItemManageController = {
                     itemCategoryDoc = await ItemService.updateItemCategory(
                         itemDoc.itemCategory
                     );
+                    // 배열이 너무 커짐
+                    // await User.findOneAndUpdate(
+                    //     {_id: req._id},
+                    //     {
+                    //         $push: {
+                    //             writedItem: itemDoc._id,
+                    //         },
+                    //     }
+                    // ).exec();
                     return itemCategoryDoc;
                 });
             };
@@ -280,6 +291,7 @@ const ItemManageController = {
                 result = await ItemService.updateItemCategory(
                     newItemDTO.itemCategory
                 );
+                result = await RentService.updateRentedItemByItem(newItemDTO);
                 if (result) {
                     res.status(200).json({
                         ok: true,
@@ -305,12 +317,14 @@ const ItemManageController = {
         }
     },
     deleteItem: async (req, res) => {
+        let result = false;
         try {
             const itemObjectId = req.params.itemObjectId;
             let result = await Item.findOneAndUpdate(
                 {_id: itemObjectId},
                 {isDelete: true}
             ).exec();
+            result = await RentService.setDeleteRentedItemByItem(itemObjectId);
             if (result) {
                 res.status(200).json({
                     ok: true,

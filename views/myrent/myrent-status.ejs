@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ht-srms :: 나의 대여 현황</title>
+    <title>srms :: 나의 대여 현황</title>
     <%- include("../libs/libsStyles.ejs") %>
     <%- include("../libs/jui/jui-libsStyles.ejs") %>
     <link rel="stylesheet" href="/static/css/myrent/myrent-status.css">
@@ -36,7 +36,10 @@
                             현재 총 1건의 대여를 하였으며, 반납기한 초과는 <span class="myrent-expireCnt">0건</span>입니다
                         </span>
                     </div>
-                    <div></div>
+                    <div>
+                        <button type="button" class="ht-btn btn-outline-primary btn-white item-uncheck-btn">전체
+                            해제</button>
+                    </div>
                 </div>
                 <div class="tablebody">
                     <table id="table_9" class="table simple headline">

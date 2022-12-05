@@ -37,6 +37,13 @@ const MyrentStatusController = {
             ExceptionAdvice.item(req, res, error);
         }
     },
+    returnItemByUesr: async (req, res) => {
+        try {
+            
+        } catch (error) {
+            console.log(error);
+        }
+    },
 };
 
 export default MyrentStatusController;

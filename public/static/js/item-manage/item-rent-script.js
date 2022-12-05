@@ -74,6 +74,16 @@ const ItemRentEvent = {
                 newRentDto.rentedItem.itemId = newItemDto.itemId;
                 newRentDto.rentedItem.itemName = newItemDto.itemName;
                 newRentDto.rentedItem.itemCategory = newItemDto.itemCategory;
+                newRentDto.rentedItem.itemIsCanRent = newItemDto.itemIsCanRent;
+                newRentDto.rentedItem.itemIsNeedReturn =
+                    newItemDto.itemIsNeedReturn;
+                newRentDto.rentedItem.itemCanRentAmount =
+                    newItemDto.itemCanRentAmount;
+                newRentDto.rentedItem.itemRentingAmount =
+                    newItemDto.itemRentingAmount;
+                newRentDto.rentedItem.itemTotalAmount =
+                    newItemDto.itemTotalAmount;
+
                 newRentDto.rentPurpose = rentDom.rentPurpose.value;
                 newRentDto.rentAt = rentDom.rentAt.value;
                 newRentDto.expectReturnAt = rentDom.expectReturnAt.value;

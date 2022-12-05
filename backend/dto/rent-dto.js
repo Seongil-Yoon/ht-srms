@@ -17,6 +17,11 @@ const RentDTO = {
             large: undefined,
             small: undefined,
         },
+        itemIsCanRent: undefined,
+        itemIsNeedReturn: undefined,
+        itemCanRentAmount: undefined,
+        itemRentingAmount: undefined,
+        itemTotalAmount: undefined,
     },
     rentPurpose: undefined,
     rentAt: undefined,
@@ -26,6 +31,7 @@ const RentDTO = {
     isReturned: undefined,
     createdAt: undefined,
     updatedAt: undefined,
+    isDelete: undefined,
 };
 
 export default RentDTO;

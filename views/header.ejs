@@ -2,13 +2,14 @@
     <nav class="srms-header">
         <div class="header-left">
             <a href="/item-manage-page">
-                <img src="/static/images/ht-SRMS width.png" alt="">
+                <!-- <img src="/static/images/ht-SRMS width.png" alt=""> -->
+                <img src="/static/images/SRMS-width.png" alt="">
             </a>
         </div>
         <div class="header-center">
             <% if(userInfo) {%>
                 <span class="header-text"><%= userInfo.userName%>님 환영합니다</span>
-                <span class="header-text">사번 : <%= userInfo.userId%></span>
+                <span class="header-text">아이디 : <%= userInfo.userId%></span>
                 <input type="hidden" name="_id" value=<%= userInfo._id %>>
             <% } %>
         </div>

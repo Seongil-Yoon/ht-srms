@@ -4,10 +4,12 @@ import customUtill from '../custom-utill.js';
 import {itemDto} from '../item-manage/model/item-dto.js';
 import {rentDto} from '../item-manage/model/rent-dto.js';
 import PagingFooterBar from '../paging-util.js';
+import {dom as myrentDom} from './dom/myrent-status-dom.js';
 import getRentListByUser from './myrent-get-rent-list.js';
 
 let table_9, paging_1, dd_3;
 let rentListByUser = [];
+let selectedRentList = [];
 let pageNumClickRender = undefined;
 let pageNum = 1;
 const position = {
@@ -51,6 +53,7 @@ const juiGridTable = (rents) => {
                     itemCategorySmall: e.rentedItem.itemCategory.small,
                     itemName: e.rentedItem.itemName,
                     rentPurpose: e.rentPurpose,
+                    expectReturnAt: e.expectReturnAt,
                     showRentAt: ((rentAt) => {
                         if (rentAt === null) return '반납할 필요가 없습니다';
                         else
@@ -59,7 +62,11 @@ const juiGridTable = (rents) => {
                                 .toLocaleString(DateTime.DATETIME_SHORT);
                     })(e.rentAt),
                     showrExpectReturnAt: ((expectReturnAt) => {
-                        if (expectReturnAt === null)
+                        if (
+                            expectReturnAt === null ||
+                            DateTime.fromISO(expectReturnAt) >
+                                DateTime.fromISO('2100-01-01T00:00:00.000Z')
+                        )
                             return '반납할 필요가 없습니다';
                         else
                             return DateTime.fromISO(expectReturnAt)
@@ -67,7 +74,6 @@ const juiGridTable = (rents) => {
                                 .toLocaleString(DateTime.DATETIME_SHORT);
                     })(e.expectReturnAt),
                     rentAt: e.rentAt,
-                    expectReturnAt: e.expectReturnAt,
                     isExpire: e.isExpire,
                 });
             });
@@ -90,14 +96,12 @@ const juiGridTable = (rents) => {
             resize: true,
             sort: true,
             event: {
-                rowmenu: function (row, e) {
-                    selectRowIndex = row.index;
-                    this.select(selectRowIndex);
-                    dd.move(position.pageX, position.pageY);
-                    dd.show();
-                },
-                click: (e) => {
-                    table_9.unselect();
+                click: (row, e) => {
+                    if ($(row.element).hasClass('checked')) {
+                        table_9.uncheck(row.index);
+                    } else {
+                        table_9.check(row.index);
+                    }
                 },
                 sort: function (column, e) {
                     let className = {
@@ -118,6 +122,88 @@ const juiGridTable = (rents) => {
 /* ==============================*/
 /* ======  end of JUI 실행 ======*/
 /* ==============================*/
+
+const itemRetrunBtnClick = (e) => {
+    selectedRentList = [];
+    table_9.listChecked().forEach((e) => {
+        selectedRentList.push(e.data);
+    });
+    if (selectedRentList.length < 1) {
+        htSwal.fire({
+            title: `반납하실 물건을 선택하지 않았습니다`,
+            text: '물건을 1개이상 선택해주십시오',
+            icon: 'error',
+            width: 'max-content',
+            confirmButtonText: '확인',
+        });
+    } else {
+        htSwal
+            .fire({
+                title: `총 ${selectedRentList.length}개의 물건을 반납합니다`,
+                text: '반납하시겠습니까?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: '반납',
+                cancelButtonText: '취소',
+            })
+            .then((e) => {
+                if (e.isConfirmed) {
+                    $.ajax({
+                        url: `/user/rent-return/${newItemDto._id}`,
+                        type: 'patch',
+                        data: JSON.stringify(selectedRentList),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (res, jqxHR) {
+                            resolve(res);
+                        },
+                        error: function (error) {
+                            reject(error);
+                            //서버오류 500, 찾는 자료없음 404, 권한없음 403, 인증실패 401
+                            if (error.status == 404) {
+                                htSwal.fire(
+                                    '찾는 자료가 없습니다',
+                                    '',
+                                    'error'
+                                );
+                            } else if (error.status == 401) {
+                                htSwal.fire(
+                                    '유효하지 않은 인증입니다',
+                                    '',
+                                    'error'
+                                );
+                            } else if (error.status == 403) {
+                                htSwal.fire(
+                                    '접근 권한이 없습니다',
+                                    '',
+                                    'error'
+                                );
+                            } else if (error.status == 500) {
+                                htSwal.fire(
+                                    '서버 오류 관리자에게 문의 하세요',
+                                    '',
+                                    'error'
+                                );
+                            } else {
+                                if (error.responseJSON.message === undefined)
+                                    htSwal.fire(
+                                        '서버 오류 관리자에게 문의 하세요',
+                                        '',
+                                        'error'
+                                    );
+                                else
+                                    htSwal.fire({
+                                        title: `${error.responseJSON.message}`,
+                                        icon: 'error',
+                                        width: 'max-content',
+                                    });
+                            }
+                        },
+                    }); //end of ajax
+                }
+            }); //end of htSwal.fire-popup
+    }
+};
 
 async function main() {
     const pagingFooterBar1 = new PagingFooterBar();
@@ -144,5 +230,10 @@ async function main() {
         pageNum = e.target.getAttribute('data-value');
         pageNumClickRender(pageNum);
     });
+
+    myrentDom.itemRetrunBtn.addEventListener('click', itemRetrunBtnClick);
+    myrentDom.itemUncheckBtn.addEventListener('click', (e) =>
+        table_9.uncheckAll()
+    );
 }
 main();

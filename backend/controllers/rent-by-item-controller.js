@@ -5,7 +5,7 @@ import RentService from '../service/rent-service.js';
 
 const router = express();
 
-const RentController = {
+const RentByItemController = {
     /**
      * 각 물품당 대여정보 조회
      */
@@ -34,6 +34,13 @@ const RentController = {
             newRentDto.renter.userDept = req.userDept;
             newRentDto.renter.userPosition = req.userPosition;
             newRentDto.rentedItem._id = ObjectId(newRentDto.rentedItem._id);
+            newRentDto.expectReturnAt =
+                newRentDto.expectReturnAt ||
+                (() => {
+                    let dt = new Date();
+                    dt.setFullYear(dt.getFullYear() + 100);
+                    return dt;
+                })();
             newRentDto.isExpire = false;
             newRentDto.isReturned = false;
             newRentDto.createdAt = Date.now();
@@ -105,4 +112,4 @@ const RentController = {
     returnRentByItem: async (req, res) => {},
 };
 
-export default RentController;
+export default RentByItemController;

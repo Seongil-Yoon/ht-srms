@@ -40,6 +40,8 @@ section.myrent-status article.jui>.table-header>:nth-child(2)>span {
 
 section.myrent-status article.jui>.table-header>:nth-child(3) {
     flex: 1;
+    display: flex;
+    justify-content: flex-end;
 }
 
 section.myrent-status article.jui>footer {

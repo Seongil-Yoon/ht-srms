@@ -6,7 +6,7 @@ import blockGoToInit from '../utils/init-middleware.js';
 
 import UserController from '../controllers/user-controller.js';
 import ItemManageController from '../controllers/item-manage-controller.js';
-import RentController from '../controllers/rent-controller.js';
+import RentByItemController from '../controllers/rent-by-item-controller.js';
 import MyrentStatusController from '../controllers/myrent-status-controller.js';
 import AllrentStatusController from '../controllers/allrent-status-controller.js';
 import UserManageController from '../controllers/user-manage-controller.js';
@@ -73,23 +73,26 @@ router.get(
 /* ========== 대여 by 물품 ========== */
 router
     .route('/item/:itemObjectId/rent/:rentObjectId')
-    .get(RentController.getRentByItem)
-    .patch(RentController.updateRentByItem)
-    .put(RentController.returnRentByItem);
+    .get(RentByItemController.getRentByItem)
+    .patch(RentByItemController.updateRentByItem)
+    .put(RentByItemController.returnRentByItem);
 
 router
     .route('/item/:itemObjectId/rent')
-    .post(hasRole('rent', 'admin'), RentController.postRentByItem);
+    .post(hasRole('rent', 'admin'), RentByItemController.postRentByItem);
 router.get(
     '/item/:itemObjectId/iscanrent',
     hasRole('rent', 'admin'),
-    RentController.renterDupliChk
+    RentByItemController.renterDupliChk
 );
 /* ========== end of 대여 by 물품 ========== */
 
 /* ========== 나의 대여 ========== */
 router.route('/myrent-status-page').get(MyrentStatusController.getMyrentPage);
 router.route('/user/rentlist').get(MyrentStatusController.getRentListByUser);
+router
+    .route('/user/rent-return/:rentObjectId')
+    .patch(MyrentStatusController.returnItemByUesr);
 /* ========== end of 나의 대여 ========== */
 
 /* ========== 전체 대여 현황 ========== */

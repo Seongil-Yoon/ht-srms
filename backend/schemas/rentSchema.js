@@ -33,6 +33,11 @@ const rentSchema = new Schema(
                     large: undefined,
                     small: undefined,
                 },
+                itemIsCanRent: undefined,
+                itemIsNeedReturn: undefined,
+                itemCanRentAmount: undefined,
+                itemRentingAmount: undefined,
+                itemTotalAmount: undefined,
             },
         },
         rentPurpose: {
@@ -64,6 +69,10 @@ const rentSchema = new Schema(
         updatedAt: {
             type: Date,
             default: Date.now(),
+        },
+        isDelete: {
+            type: Boolean,
+            default: false,
         },
     },
     {
